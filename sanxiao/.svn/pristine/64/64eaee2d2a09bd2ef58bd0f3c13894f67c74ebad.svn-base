@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="game_titleUI" width="1080" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<w:Config id="1651c9e6cda"/>
+	<e:Group top="0" horizontalCenter="0" height="587">
+		<e:Image source="ui_battle_upbg_left_png" fillMode="clip" anchorOffsetX="0" anchorOffsetY="0" width="1080" height="120" x="0" y="0"/>
+		<e:Image source="ui_battle_upbg_right_png" y="0" width="404" right="0"/>
+	</e:Group>
+	<e:Group y="0" horizontalCenter="0" width="1080">
+		<e:Image x="362" y="0" source="ui_battle_score_bg_1_png"/>
+		<e:Image id="scoreBgBtn" x="373" y="0" source="ui_battle_score_bg_png"/>
+		<e:Group id="maskGroup" top="0" horizontalCenter="0"/>
+		<e:Group x="414" y="0" anchorOffsetY="0" height="221.67">
+			<e:Image id="star0" x="-20.33" y="124.17" source="scoreStar12_png"/>
+			<e:Image id="star1" x="150.02" y="161.67" source="scoreStar12_png"/>
+			<e:Image id="star2" x="280.91" y="0" source="scoreStar12_png"/>
+		</e:Group>
+		<e:Group id="stepGroup" top="0" width="237" height="97" horizontalCenter="0">
+			<e:BitmapLabel id="step_text" y="30.33" anchorOffsetX="0.05" anchorOffsetY="0" font="num_btm_fnt" text="12:6" horizontalCenter="0"/>
+		</e:Group>
+		<e:Group id="roleGroup" y="586.24" left="0"/>
+		<e:Group id="fail_group2" x="118.34" y="0">
+			<e:Image x="0" y="0" source="ui_battle_shibaixianzhi_png"/>
+			<e:Image id="fail_img2" x="17.51" y="38.16" source="item_2_1_h_png" anchorOffsetX="0" width="60" anchorOffsetY="0" height="60"/>
+			<e:Image id="fail_complete_img2" x="19.17" y="52.67" source="duihao_png"/>
+			<e:Label id="fail_tex2" text="654" x="18.52" y="66.17" size="34" anchorOffsetY="0" height="24" textColor="0xe56464" anchorOffsetX="0" width="63.33" stroke="2" textAlign="center"/>
+		</e:Group>
+		<e:Group id="fail_group1" y="0" anchorOffsetX="0" anchorOffsetY="0" x="244">
+			<e:Image x="0" y="0" source="ui_battle_shibaixianzhi_png"/>
+			<e:Image id="fail_img1" x="17.51" y="38.16" source="item_2_1_h_png" anchorOffsetX="0" width="60" anchorOffsetY="0" height="60"/>
+			<e:Image id="fail_complete_img1" x="20.17" y="46.67" source="duihao_png"/>
+			<e:Label id="fail_tex1" text="654" x="18.52" y="66.17" size="34" anchorOffsetY="0" height="24" textColor="0xE56464" anchorOffsetX="0" width="63.33" stroke="2" textAlign="center"/>
+		</e:Group>
+		<e:Image id="ruleImg" y="105.65" source="ui_battle_word_bushu_png" x="504"/>
+		<e:Image y="210.35" source="ui_battle_scorenum_bg_1_png" horizontalCenter="0" width="191"/>
+		<e:Label id="score_tex" text="12346" y="227.35" anchorOffsetX="0" width="400.67" textAlign="center" horizontalCenter="0.5"/>
+		<e:Group x="744.92" y="20">
+			<e:Image source="ui_battle_button_dakaidanmu_png" top="0" horizontalCenter="0"/>
+			<e:Label text="打开弹幕" size="21" y="58.3" horizontalCenter="0"/>
+		</e:Group>
+		<e:Group x="860.97" y="20">
+			<e:Image top="0" horizontalCenter="0" source="ui_battle_button_paihangbang_png"/>
+			<e:Label text="排行榜" size="21" horizontalCenter="0" y="58.3"/>
+		</e:Group>
+		<e:Group id="winGroup" right="98" top="166">
+			<e:Group id="shenglimubiao" horizontalCenter="0" width="175"/>
+			<e:Image y="10" anchorOffsetX="0" anchorOffsetY="0" source="ui_battle_goal_bg_png" width="210" height="270" scale9Grid="44,40,0,8" horizontalCenter="0"/>
+			<e:Label text="胜利目标" y="0" anchorOffsetX="0" width="210" size="30" textAlign="center" horizontalCenter="0" anchorOffsetY="0" height="31"/>
+		</e:Group>
+	</e:Group>
+	<e:Image id="backBtn" source="ui_battle_button_back_press_png" x="20" y="20"/>
+</e:Skin>

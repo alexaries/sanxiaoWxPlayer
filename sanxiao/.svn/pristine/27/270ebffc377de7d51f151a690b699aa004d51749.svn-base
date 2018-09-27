@@ -1,0 +1,286 @@
+/**
+ * Created by HuDe Zheng on 2018/7/30.
+ */
+class DetailView extends BaseEuiView
+{
+
+    //游戏规则 0:消除 1:收集
+    public ruleType:number = 0;
+    //是否生成风车
+    public canCreateFish:boolean;
+    //风车的数量
+    public fishNum:number;
+
+    public taskList1:eui.List;//玩家1消除目标list
+    public taskList2:eui.List;//玩家2消除目标list
+
+    public propList:eui.List;//可用道具list
+
+    public failList1:eui.List;//玩家1失败条件list
+    public failList2:eui.List;//玩家2失败条件list
+
+    // public ruleTex:eui.Label;//显示消除模式的标签
+
+    public ruleTex1:eui.Label;//生成风车数量
+    public ruleTex2:eui.Label;//是否可以生成风车
+    public ruleTex3:eui.Label;//道具是否收费
+    public ruleTex4:eui.Label;//是否有失败限制
+
+    public failTex1:eui.Label;//玩家1失败限制文本显示框
+    public failTex2:eui.Label;//玩家2失败限制文本显示框
+
+    public decTex:eui.Label;//关卡介绍
+
+    public constructor(controller: BaseController, parent: eui.Group)
+    {
+        super(controller, parent);
+        this.skinName = "begin_detailUi";
+
+        this.taskList1.itemRenderer = DetailItem_itemView;
+        this.taskList2.itemRenderer = DetailItem_itemView;
+
+        this.propList.itemRenderer = DetailItem_itemView;
+        this.failList1.itemRenderer = DetailItem_itemView;
+        this.failList2.itemRenderer = DetailItem_itemView;
+
+    }
+    public init()
+    {
+        //获取消除模式
+        this.ruleType = TG_Stage.RuleType;
+        //是否可以生成风车
+        this.canCreateFish = TG_Stage.CanCreateFish;
+        this.fishNum = TG_Stage.FishNum;
+        let model:string = this.ruleType==0?"消除目标":"收集目标" //游戏模式
+        // this.ruleTex.text = model;
+
+        this.ruleTex1.text = this.fishNum.toString();
+        this.ruleTex2.text = this.canCreateFish?"是":"否";
+        this.ruleTex3.text = "否";
+        this.ruleTex4.text = TG_Stage.IsConditionLimit?"是":"否";
+        this.decTex.text = TG_Stage.Dec;
+        if(this.decTex.text.length == 0)
+        {
+            this.decTex.text = "作者很懒，什么都没有留下！";
+        }
+        /////////////////////////////////////设置失败限制数据//////////////////////////////////////////////////////////
+        let listData1:eui.ArrayCollection = new eui.ArrayCollection();
+        let arr = [];
+        this.failTex1.text = "";
+        this.failTex2.text = "";
+        this.failList1.dataProvider = listData1;
+        listData1.source = [];
+        listData1.refresh();
+        let listData2:eui.ArrayCollection = new eui.ArrayCollection();
+        this.failList2.dataProvider = listData2;
+        listData2.source = [];
+        listData2.refresh();
+        if(TG_Stage.IsConditionLimit)//是否有条件限制
+        {
+            if(TG_Stage.IsTimeLimit)//是否有时间限制
+            {
+                let time:string = Tool.getInstance().getTimeForTime( TG_Stage.TimeLimitLength);
+                //限时
+                this.failTex1.text = "时间:" + time;
+                this.failTex2.text = "时间:" + time;
+            }
+            else if(TG_Stage.IsStepLimit)//是否有回合限制
+            {
+                //步数
+                this.failTex1.text = "步数:" + TG_Stage.Step
+                this.failTex2.text = "步数:" + TG_Stage.Step
+            }
+            let fail = this.getAllFail();//获取失败条件
+            if(fail.length == 1) {
+                //刷新失败条件列表
+                arr = fail[0];
+                this.failList1.dataProvider = listData1;
+                listData1.source = arr;
+                listData1.refresh();
+            }
+            else if(fail.length == 2)
+            {
+
+                //刷新失败条件列表
+                arr = fail[0];
+                this.failList1.dataProvider = listData1;
+                listData1.source = arr;
+                listData1.refresh();
+
+                arr = fail[1];
+                this.failList2.dataProvider = listData2;
+                listData2.source = arr;
+                listData2.refresh();
+            }
+        }
+
+        /******************************************初始化可用道具开始******************************************************************/
+        let prop = TG_Stage.Items;//获得可用道具
+        let img:object  = ConfigGameData.getInstance().PropImage;
+        let prop_data = [];
+
+        for (let i =0;i < prop.length;i++)
+        {
+            let obj:any = prop[i];
+            let url:any = img[obj.id.toString()];
+            let num = parseInt(obj.num);
+            prop_data.push({"url":url,"num":num});
+        }
+        let listData_prop:eui.ArrayCollection = new eui.ArrayCollection();
+        this.propList.dataProvider = listData_prop;
+        listData_prop.source = prop_data;
+        listData_prop.refresh();
+        /******************************************初始化消除目标******************************************************************/
+        arr = [];
+        let listData3:eui.ArrayCollection = new eui.ArrayCollection();
+        this.taskList1.dataProvider = listData3;
+        listData3.source = arr;
+        listData3.refresh();
+        let listData4:eui.ArrayCollection = new eui.ArrayCollection();
+        this.taskList1.dataProvider = listData4;
+        listData4.source = arr;
+        listData4.refresh();
+
+        let task  = this.getAllWork();//获取玩家消除目标
+        if(task.length == 1)
+        {
+            arr = task[0];
+            this.taskList1.dataProvider = listData3;
+            listData3.source = arr;
+            listData3.refresh();
+        }
+        else {
+
+
+            arr = task[0];
+            this.taskList1.dataProvider = listData3;
+            listData3.source = arr;
+            listData3.refresh();
+
+            arr = task[1];
+            this.taskList2.dataProvider = listData4;
+            listData4.source = arr;
+            listData4.refresh();
+        }
+    }
+
+    //获取两边总任务
+    public getAllWork()
+    {
+        let arr = [];
+
+        let singelModel:boolean = TG_Stage.SingelModel;
+        // this.ruleType
+        if(singelModel)//是否是单人模式
+        {
+            let targets1 = TG_Stage.Targets1;
+            let listData1 = this.getListSp(targets1,0);
+            arr.push(listData1)
+        }
+        else
+        {
+            let targets1 = TG_Stage.Targets1;
+            let listData1 = this.getListSp(targets1,0);
+            arr.push(listData1)
+            let targets2 = TG_Stage.Targets2;
+            let listData2 = this.getListSp(targets2,0);
+            arr.push(listData2)
+        }
+        return arr;
+    }
+    //获取玩家失败条件item
+    public getAllFail()
+    {
+        let arr = [];
+
+        let arr1 = [];
+        let arr2 = [];
+
+        let singelModel:boolean = TG_Stage.SingelModel;
+        // this.ruleType
+        if(TG_Stage.IsElementLimit1)//是否限制1
+        {
+            let targets1 = TG_Stage.ALimitTargets1;
+            let listData1 = this.getListSp(targets1);
+            if(listData1.length > 0)
+            {
+                for(let i = 0;i < listData1.length;i++)
+                {
+                    arr1.push(listData1[i]);
+                }
+            }
+
+            let targets2 = TG_Stage.BLimitTargets1;
+            let listData2 = this.getListSp(targets2);
+            if(listData2.length > 0)
+            {
+                for(let i = 0;i < listData2.length;i++)
+                {
+                    arr2.push(listData2[i]);
+                }
+            }
+        }
+
+        if(TG_Stage.IsElementLimit2)//是否限制2
+        {
+            let targets1 = TG_Stage.ALimitTargets2;
+            let listData1 = this.getListSp(targets1);
+            if(listData1.length > 0)
+            {
+                for(let i = 0;i < listData1.length;i++)
+                {
+                    arr1.push(listData1[i]);
+                }
+            }
+            let targets2 = TG_Stage.ALimitTargets2;
+            let listData2 = this.getListSp(targets2);
+            if(listData2.length > 0)
+            {
+                for(let i = 0;i < listData2.length;i++)
+                {
+                    arr2.push(listData2[i]);
+                }
+            }
+        }
+        if(arr1.length > 0)
+        {
+            arr.push(arr1);
+        }
+        if(arr2.length > 0)
+        {
+            arr.push(arr2);
+        }
+        return arr;
+    }
+    //获取一条任务目标
+    public getListSp(itemArr:Array<any>,type = 1):any
+    {
+        let arr = [];
+        for(let i = 0;i < itemArr.length;i++)
+        {
+            let obj11=TG_MapData.getInstance().mapConfigData[itemArr[i]["Target"]];
+            let url = LoadNetworkImageUtils.getResNameByLayerId(obj11.layerid);
+
+            let num = 0;
+            if(type == 1)
+            {
+                num = itemArr[i]["Cur"];
+            }
+            else{
+                num = itemArr[i]["Num"];
+            }
+            arr.push({"url":url,"num":num});
+        }
+        return arr;
+    }
+    public getBitmap(texName:string):egret.Bitmap
+    {
+        let bit:egret.Bitmap = new egret.Bitmap();
+        RES.getResAsync(texName,function(data,url)
+            {
+                this.texture = data;
+            },bit
+        );
+        return bit;
+    }
+}

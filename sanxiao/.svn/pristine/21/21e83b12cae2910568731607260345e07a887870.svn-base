@@ -1,0 +1,14 @@
+class WxUser {
+    private static wxUser:WxUser;
+    public static getInstance(){
+        if(!this.wxUser){
+            this.wxUser=new WxUser();
+        }
+        return this.wxUser;
+    }
+    public status:number;
+    public msg:string;
+    public wxLogin:object;
+    public openid:string;
+    public wxUserId:string;
+}

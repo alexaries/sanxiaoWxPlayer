@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="exitUI" width="1080" height="1920" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Rect id="bg" anchorOffsetX="0" anchorOffsetY="0" left="0" right="0" top="0" bottom="0" fillAlpha="0.5"/>
+	<e:Group verticalCenter="0" horizontalCenter="0">
+		<e:Image width="911.27" height="376.6" x="0" y="0" anchorOffsetX="0" anchorOffsetY="0" source="ui_tongyong_tankuangmianban_1_png" scale9Grid="35,36,15,11"/>
+		<e:Image width="878.19" height="245.7" x="16.08" y="19.61" source="ui_tongyong_tankuangmianban_2_png" anchorOffsetX="0" anchorOffsetY="0" scale9Grid="27,27,11,13"/>
+		<e:Group y="283.3" x="180.63">
+			<e:Button id="continueBtn" label="继续游戏" x="0" y="0" anchorOffsetX="0" width="241.67" anchorOffsetY="0" height="72.66">
+			<e:skinName>
+				<e:Skin states="up,down,disabled">
+				<e:Image width="100%" height="100%" source="ui_button_2_1_png" source.down="ui_button_2_1_press_png"/>
+				<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0"/>
+				</e:Skin>
+			</e:skinName>
+			</e:Button>
+			<e:Button id="replayBtn" label="重玩本关" x="308.49" y="0" anchorOffsetX="0" width="241.67" anchorOffsetY="0" height="72.66">
+			<e:skinName>
+				<e:Skin states="up,down,disabled">
+				<e:Image width="100%" height="100%" source="ui_button_2_3_png" source.down="ui_button_2_3_press_png"/>
+				<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0"/>
+				</e:Skin>
+			</e:skinName>
+			</e:Button>
+		</e:Group>
+		<e:Group id="gameDetailBtn" x="182.65" y="76.46">
+			<e:Image width="90" height="90" x="5.98" y="0" anchorOffsetX="0" anchorOffsetY="0" source="ui_battle_pause_button_point_press_png"/>
+			<e:Label text="本关详情" y="103.36" fontFamily="SimHei" textColor="0x5274a4" size="27" anchorOffsetX="0" width="110.67" anchorOffsetY="0" height="28.33" x="-5.36"/>
+			<e:Image width="50" height="50" y="21.34" source="ui_battle_pause_button_xiangqing_png" anchorOffsetX="0" anchorOffsetY="0" x="23.64"/>
+		</e:Group>
+		<e:Group id="musicGroup1" x="400.65" y="80.46">
+			<e:Image width="90" height="90" x="5.98" y="0" anchorOffsetX="0" anchorOffsetY="0" source="ui_battle_pause_button_point_press_png"/>
+			<e:Label text="背景音乐" y="103.36" fontFamily="SimHei" textColor="0x5274A4" size="27" anchorOffsetX="0" width="110.67" anchorOffsetY="0" height="28.33" x="-5.36"/>
+			<e:Image id="musicIcon1" width="50" height="50" y="21.34" anchorOffsetX="0" anchorOffsetY="0" x="23.64" source="ui_battle_pause_button_music_png"/>
+		</e:Group>
+		<e:Group id="musicGroup2" x="620.65" y="80.46">
+			<e:Image width="90" height="90" x="5.98" y="0" anchorOffsetX="0" anchorOffsetY="0" source="ui_battle_pause_button_point_press_png"/>
+			<e:Label text="游戏音效" y="103.36" fontFamily="SimHei" textColor="0x5274A4" size="27" anchorOffsetX="0" width="110.67" anchorOffsetY="0" height="28.33" x="-5.36"/>
+			<e:Image id="musicIcon2" width="50" height="50" y="21.34" anchorOffsetX="0" anchorOffsetY="0" x="23.64" source="ui_battle_pause_button_volume_png"/>
+		</e:Group>
+	</e:Group>
+	<w:Config id="16541746258"/>
+</e:Skin>

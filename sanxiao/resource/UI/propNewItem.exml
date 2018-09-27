@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="propNewItem" width="176" height="176" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image y="28.5" source="ui_battle_daoju_bg_pao_png" horizontalCenter="0"/>
+	<e:Group id="title" y="0" horizontalCenter="0">
+		<e:Image x="0" y="0" source="ui_battle_daoju_num_bg_png" scale9Grid="29,21,7,1" anchorOffsetX="0" width="123"/>
+		<e:Label id="numTex" text="免费999" x="7.5" y="6.5" textColor="0x246607" bold="true" fontFamily="SimHei"/>
+	</e:Group>
+	<e:Image id="propImg" width="70" height="70" y="65.5" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="0"/>
+</e:Skin>

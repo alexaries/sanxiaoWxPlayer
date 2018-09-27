@@ -1,0 +1,139 @@
+/**
+ * Created by Administrator on 2018/6/28.
+ *
+ * 记录相同的方块重复出现次数实体，便于方块去重复
+ */
+class TG_Blocks {
+    // 方块id
+    private layerId;
+    // layerId 所属于的层 默认是2层块
+    private layer = 2;
+    // 方块行号 0-8
+    private row;
+    // 方块列号 0-8
+    private col;
+    // 方块的序号
+    private cellNum = 0;
+    // 方块行相同数
+    private rowSameNum = 0;
+    // 方块列相同数
+    private colSameNum = 0;
+    // 是否是随机 (0 不是随机块 1 是随机块)
+    private isRandom = 0 ;
+
+    // 函数体
+    public setLayerId(layerId) {
+        this.layerId = layerId;
+    }
+    public getLayerId() {
+        return this.layerId;
+    }
+    public setLayer(layer) {
+        this.layer = layer;
+    }
+    public getLayer(){
+        return this.layer;
+    }
+    public setRow(row) {
+        this.row = row;
+    }
+    public getRow() {
+        return this.row;
+    }
+    public setCol(col) {
+        this.col = col;
+    }
+    public getCol() {
+        return this.col;
+    }
+    public setCellNum(cellNum) {
+        this.cellNum = cellNum;
+    }
+    public getCellNum() {
+        return this.cellNum;
+    }
+    public setRowSameNum(rowSameNum) {
+        this.rowSameNum = rowSameNum;
+    }
+    public getRowSameNum() {
+        return this.rowSameNum;
+    }
+    public setColSameNum(colSameNum) {
+        this.colSameNum = colSameNum;
+    }
+    public getColSameNum() {
+        return this.colSameNum;
+    }
+    public setIsRandom(isRandom) {
+        this.isRandom = isRandom;
+    }
+    public getIsRandom() {
+        return this.isRandom;
+    }
+// 2001-2006 普通块 2011-2016 横消  2021-2026 竖消 2098 黑洞块 2031-2036 炸弹块 2041-2046 风车快/鸟/fish
+    public static GetBlockIdByEffectTypeAndColor(EffectType,color){
+        let layerid=-1;
+        if(EffectType==Msg.EffectType.ET_Hor){
+            layerid=2010+color;
+        }else if(EffectType==Msg.EffectType.ET_Vel){
+            layerid=2020+color;
+        }else if(EffectType==Msg.EffectType.ET_Gold){
+            layerid=2030+color;
+        }else if(EffectType==Msg.EffectType.ET_Bird){
+            layerid=2040+color;
+        }
+        return layerid;
+    }
+    public static GetEffectByLayerid(layerid){
+        let EffectType=Msg.EffectType.ET_none;
+        if(layerid>=2011&&layerid<=2016){
+            //横消块 2011-2016
+            EffectType=Msg.EffectType.ET_Hor;
+        }else if(layerid==2098){
+            //黑洞块   2098
+            EffectType=Msg.EffectType.ET_Black;
+        }else if(layerid>=2031&&layerid<=2036){
+            //炸弹块 2031-2036
+            EffectType=Msg.EffectType.ET_Gold;
+        }else if(layerid>=2041&&layerid<=2046){
+            //风车 2041-2046
+            EffectType=Msg.EffectType.ET_Bird;
+        }else if(layerid>=2021&&layerid<=2026){
+            //纵消块 2021-2026
+            EffectType=Msg.EffectType.ET_Vel;
+        }
+        // else if (layerid>=2600 && layerid <= 2606) {
+        //     // 变色块 2600 - 2606
+        //     EffectType=Msg.EffectType.ET_ChangeColor;
+        // }
+        return EffectType;
+    }
+
+}
+/*元素块的类型*/
+enum ItemType{
+    TG_ITEM_TYPE_NONE = 0,//爆炸后的填充块
+    TG_ITEM_TYPE_NULL = 1,//空块
+    TG_ITEM_TYPE_BLANK = 2,//正常格
+    TG_ITEM_TYPE_CROSS = 3,//可以穿过的空块
+    TG_ITEM_TYPE_INFECT = 4,//传染块
+    TG_ITEM_TYPE_PEAPIT = 5,//月饼坑
+    TG_ITEM_TYPE_NORMAL = 10,//普通块
+    TG_ITEM_TYPE_EFFECT = 11,//特效块
+    TG_ITEM_TYPE_GIFT = 12,//礼品盒 雪块
+    TG_ITEM_TYPE_TOOLBOX = 13,//道具宝箱
+    TG_ITEM_TYPE_NUST = 14,//榛子(银币)
+    TG_ITEM_TYPE_MAGICSTONE = 15,//魔法石
+    TG_ITEM_TYPE_EGG = 16,//鸡蛋
+    TG_ITEM_TYPE_PEA = 17,//月饼
+    TG_ITEM_TYPE_GEM = 18,//宝石块(钻石)
+    TG_ITEM_TYPE_VENOM = 19,//毒液
+    TG_ITEM_TYPE_CHANGECOLOUR = 20,//变色块
+    TG_ITEM_TYPE_ICE = 30,//冰层
+    TG_ITEM_TYPE_FLOWICE = 31,//流沙
+    TG_ITEM_TYPE_MESH = 41,//铁丝网
+    TG_ITEM_TYPE_CLOUD = 51,//云层
+    TG_ITEM_TYPE_RAILING = 61,//栏杆
+    TG_ITEM_TYPE_VENONAT = 71,//毛球
+    TG_ITEM_TYPE_CATERPILLAR = 81//虫子
+}

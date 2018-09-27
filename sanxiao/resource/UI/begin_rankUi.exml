@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="begin_rankUi" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:ns1="*">
+	<w:Config id="165d5e6836c"/>
+	<e:Group id="rank_info_group_id" width="1024.21" anchorOffsetX="0" anchorOffsetY="0" visible="true">
+		<e:Group id="first_win_player_group_id" width="1010.26" height="193" x="14.020000000000007" y="43.61" anchorOffsetY="0" anchorOffsetX="0" scaleX="1" scaleY="1">
+			<e:Label text="最先通关玩家" x="13.63" y="0.67" anchorOffsetX="0" width="191.34" anchorOffsetY="0" height="31.34" fontFamily="SimHei" textColor="0x38559a" scaleX="1"/>
+			<e:Group width="962" height="128" x="17.59" y="39.11" anchorOffsetX="0" anchorOffsetY="0">
+				<e:Scroller x="0" y="2" anchorOffsetY="0" anchorOffsetX="0" enabled="true">
+					<e:Group anchorOffsetX="0">
+						<e:layout>
+							<e:HorizontalLayout/>
+						</e:layout>
+						<ns1:RankPlayerFirstWinView id="rank_player_first_win_view" x="57" y="34" enabled="true" skinName="rank_player_first_winUi" scaleX="1" scaleY="1" anchorOffsetX="0"/>
+					</e:Group>
+				</e:Scroller>
+			</e:Group>
+		</e:Group>
+		<e:Group id="my_bank_group_id" width="1010.66" height="193" x="13.820000000000004" y="236.11" anchorOffsetY="0" anchorOffsetX="0" scaleX="1" scaleY="1">
+			<e:Label text="我的排名" x="14.03" y="3.6" anchorOffsetX="0" width="127.6" anchorOffsetY="0" height="32.8" fontFamily="SimHei" textColor="0x38559a" size="30"/>
+			<e:Group width="960.08" height="129.2" x="14.59" y="41.4" anchorOffsetY="0" anchorOffsetX="0">
+				<e:Scroller>
+					<e:Group>
+						<ns1:RankPlayerWinView id="rank_player_win_my_view" enabled="true" skinName="rank_player_winUi" anchorOffsetX="0" width="959.86" anchorOffsetY="0" height="123.02"/>
+					</e:Group>
+				</e:Scroller>
+			</e:Group>
+		</e:Group>
+		<e:Group id="all_bank_list_group_id" width="1010.46" x="13.89" y="429.24" anchorOffsetY="0" anchorOffsetX="0" scaleX="1" scaleY="1">
+			<e:Label text="排行榜" x="14.85" y="5.28" anchorOffsetX="0" width="126" anchorOffsetY="0" height="35.5" textColor="0x38559a" size="30" fontFamily="SimHei"/>
+			<e:Group id="all_rank_player_hasbody_group" width="965.78" x="16.51" y="45" anchorOffsetY="0" anchorOffsetX="0">
+				<e:Scroller>
+					<e:Group>
+						<e:List id="rank_player_win_list_view" itemRendererSkinName="rank_player_winUi" anchorOffsetY="0">
+						</e:List>
+					</e:Group>
+				</e:Scroller>
+			</e:Group>
+			<e:Group id="all_rank_player_nobody_group" x="17.89" y="46.34" visible="false">
+				<e:Rect width="961.46" height="123.43" x="0" y="0" anchorOffsetX="0" anchorOffsetY="0" fillColor="0x84adcd" strokeColor="0x84adcd"/>
+				<e:Label text="尚未有玩家进入排行" textColor="0x1E4184" size="40" fontFamily="SimHei" verticalCenter="0" horizontalCenter="0" verticalAlign="middle"/>
+			</e:Group>
+		</e:Group>
+	</e:Group>
+</e:Skin>

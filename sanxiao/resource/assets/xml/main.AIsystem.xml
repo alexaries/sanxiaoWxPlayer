@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AIsystems>
+  <AIsystem id="1" type="形成一个三消" level="10" mygoal="10" enemygoal="5" noInfect="10" hasInfect="30" noInfectEnd="50" hasInfectEnd="180" />
+  <AIsystem id="2" type="形成两个三消" level="20" mygoal="10" enemygoal="5" noInfect="20" hasInfect="40" noInfectEnd="60" hasInfectEnd="190" />
+  <AIsystem id="3" type="形成一个鸟" level="30" mygoal="10" enemygoal="5" noInfect="400" hasInfect="450" noInfectEnd="10" hasInfectEnd="10" />
+  <AIsystem id="4" type="形成一个四连" level="40" mygoal="10" enemygoal="5" noInfect="410" hasInfect="460" noInfectEnd="20" hasInfectEnd="20" />
+  <AIsystem id="5" type="形成炸弹" level="50" mygoal="10" enemygoal="5" noInfect="420" hasInfect="470" noInfectEnd="30" hasInfectEnd="30" />
+  <AIsystem id="6" type="形成黑洞" level="60" mygoal="10" enemygoal="5" noInfect="430" hasInfect="480" noInfectEnd="40" hasInfectEnd="40" />
+  <AIsystem id="7" type="鸟和三连" level="70" mygoal="10" enemygoal="5" noInfect="100" hasInfect="400" noInfectEnd="100" hasInfectEnd="400" />
+  <AIsystem id="8" type="四连和三连" level="80" mygoal="10" enemygoal="5" noInfect="300" hasInfect="600" noInfectEnd="300" hasInfectEnd="600" />
+  <AIsystem id="9" type="炸弹和三连" level="90" mygoal="10" enemygoal="5" noInfect="200" hasInfect="500" noInfectEnd="200" hasInfectEnd="500" />
+  <AIsystem id="10" type="双鸟" level="110" mygoal="10" enemygoal="5" noInfect="110" hasInfect="410" noInfectEnd="110" hasInfectEnd="410" />
+  <AIsystem id="11" type="鸟和四连" level="120" mygoal="10" enemygoal="5" noInfect="310" hasInfect="610" noInfectEnd="310" hasInfectEnd="610" />
+  <AIsystem id="12" type="鸟和炸弹" level="130" mygoal="10" enemygoal="5" noInfect="210" hasInfect="510" noInfectEnd="210" hasInfectEnd="510" />
+  <AIsystem id="13" type="双四连" level="140" mygoal="10" enemygoal="5" noInfect="320" hasInfect="620" noInfectEnd="320" hasInfectEnd="620" />
+  <AIsystem id="14" type="黑洞和三连" level="150" mygoal="10" enemygoal="5" noInfect="50" hasInfect="800" noInfectEnd="70" hasInfectEnd="800" />
+  <AIsystem id="15" type="炸弹和四连or双炸弹" level="160" mygoal="10" enemygoal="5" noInfect="330" hasInfect="700" noInfectEnd="330" hasInfectEnd="700" />
+  <AIsystem id="16" type="黑洞和鸟" level="170" mygoal="10" enemygoal="5" noInfect="60" hasInfect="810" noInfectEnd="80" hasInfectEnd="810" />
+  <AIsystem id="17" type="黑洞和四连或者黑洞和炸弹" level="180" mygoal="10" enemygoal="5" noInfect="340" hasInfect="820" noInfectEnd="340" hasInfectEnd="820" />
+  <AIsystem id="18" type="双黑洞" level="190" mygoal="10" enemygoal="5" noInfect="70" hasInfect="830" noInfectEnd="90" hasInfectEnd="830" />
+</AIsystems>

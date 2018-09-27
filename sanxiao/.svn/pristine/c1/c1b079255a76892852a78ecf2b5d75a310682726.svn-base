@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="begin_rankUi" width="900" height="891" xmlns:e="http://ns.egret.com/eui">
+	<e:Group y="0" horizontalCenter="0">
+		<e:Group y="30" scaleX="1" scaleY="1" height="272.55" anchorOffsetY="0" horizontalCenter="0">
+			<e:Image width="823.04" height="83.64" x="0" y="0" source="Popup_TitleBg_png" anchorOffsetX="0" anchorOffsetY="0" scale9Grid="20,23,8,33" scaleX="1" scaleY="1"/>
+			<e:Label text="最先通关" x="30" y="18.8" anchorOffsetX="0" width="346.73" anchorOffsetY="0" height="45.15" size="41" bold="true" scaleX="1" scaleY="1"/>
+		</e:Group>
+		<e:Group y="312" scaleX="1" scaleY="1" horizontalCenter="0">
+			<e:Image width="823" height="83.64" x="0" y="0" source="Popup_TitleBg_png" anchorOffsetX="0" anchorOffsetY="0" scale9Grid="20,23,8,33" scaleX="1" scaleY="1"/>
+			<e:Label text="战绩排名" x="30" y="29.13" anchorOffsetX="0" width="346.73" anchorOffsetY="0" height="45.15" size="41" bold="true" scaleX="1" scaleY="1"/>
+			<e:Scroller width="823" height="484" y="91">
+			<e:Group>
+				<e:List x="0" anchorOffsetX="0" itemRendererSkinName="begin_rank_itemUi" y="0" scaleX="1" scaleY="1">
+				<e:ArrayCollection>
+					<e:Array>
+					<e:Object a="1"/>
+					<e:Object a="2"/>
+					<e:Object a="3"/>
+					<e:Object a="4"/>
+					<e:Object a="5"/>
+					</e:Array>
+				</e:ArrayCollection>
+				<e:layout>
+					<e:VerticalLayout/>
+				</e:layout>
+				</e:List>
+			</e:Group>
+			</e:Scroller>
+		</e:Group>
+	</e:Group>
+</e:Skin>

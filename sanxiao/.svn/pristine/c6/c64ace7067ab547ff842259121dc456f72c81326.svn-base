@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="rank_player_first_winUi" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<w:Config id="165d21f42f8"/>
+	<e:Group id="first_rank_player_win_id" width="356.28" height="46.86" anchorOffsetY="0" anchorOffsetX="0">
+		<e:Rect fillColor="0xb0c7d7" left="0" right="0" top="0" bottom="0" anchorOffsetX="0" anchorOffsetY="0"/>
+		<e:Group id="first_rank_player_win_group" x="36" y="2.5">
+			<e:Group id="first_win_player_head_group_id" x="0" y="0">
+				<e:Image width="42" height="42" anchorOffsetY="0" anchorOffsetX="0" fillMode="scale" source="ui_paihangbang_icon_2_bg_png" x="0" y="0"/>
+				<e:Image id="first_win_player_head_img" width="40" height="40" anchorOffsetY="0" anchorOffsetX="0" fillMode="scale" source="head001_png" x="0" maxWidth="40" maxHeight="40" minHeight="40" minWidth="40" mask="{first_win_player_head_mask}" verticalCenter="0"/>
+				<e:Image id="first_win_player_head_mask" width="40" height="40" anchorOffsetY="0" anchorOffsetX="0" fillMode="scale" source="ui_paihangbang_icon_2_png" x="0.5" verticalCenter="0"/>
+			</e:Group>
+			<e:Label id="first_win_player_nickname" text="玩家昵称" x="51" y="4.9" textColor="0x1e4184" size="14" fontFamily="SimHei" anchorOffsetX="0" width="161.87" scaleX="1" scaleY="1" textAlign="left"/>
+			<e:Label id="first_win_player_create_time" text="2018/09/12 17:07:15" x="51" y="20.2" textColor="0x1E4184" size="14" fontFamily="SimHei" anchorOffsetX="0" width="164.2" scaleX="1" scaleY="1" textAlign="left"/>
+			<e:Button id="first_win_player_detail_btn" label="详情" anchorOffsetX="0" width="129.5" anchorOffsetY="0" height="46.5" enabled="true" scaleX="0.5" scaleY="0.5" y="9.13" x="244.34" visible="true">
+				<e:skinName>
+				<e:Skin states="up,down,disabled">
+					<e:Image width="100%" height="100%" source="ui_button_3_1_png"/>
+					<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0"/>
+				</e:Skin>
+				</e:skinName>
+			</e:Button>
+		</e:Group>
+		<e:Label id="first_rank_player_nobody" text="尚未有玩家进入排行" horizontalCenter="0" verticalCenter="0" textColor="0x1e4184" size="30" fontFamily="SimHei" visible="false"/>
+	</e:Group>
+</e:Skin>

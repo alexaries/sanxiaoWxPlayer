@@ -1,0 +1,107 @@
+﻿/**
+ * Created by Administrator on 2018/6/19.
+ */
+
+class ConfigConst {
+
+    //是否开启微信登录
+    public static open_wxLogin:boolean = false;
+
+    // 开发环境:dev 测试环境demo 预发布环境pre 正式发布环境pro
+    public static env:string = "demo";
+    // 关卡数据连接
+    public static url = "";
+    public static devUrl="http://192.168.0.77:8091/h5Server/sendGame/getStageInfo";
+    public static demoUrl="http://192.168.0.77:8091/h5Server/sendGame/getStageInfo";
+    public static preUrl="http://120.92.210.53:8091/h5Server/sendGame/getStageInfo";
+    public static proUrl="http://39.107.237.225:8093/h5Server/sendGame/getStageInfo";
+
+    // 获取微信用户信息url
+    public static wxUserInfoUrl = "";
+    // public static devWxUserInfoUrl = "http://192.168.0.77:8001/wxLogin/getUserInfo";
+    // public static testWxUserInfoUrl = "http://192.168.0.77:8001/wxLogin/getUserInfo";
+    public static preWxUserInfoUrl = "http://39.107.237.225:8001/wxLogin/getWxUserInfo";
+    public static proWxUserInfoUrl = "http://39.107.237.225:8001/wxLogin/getWxUserInfo";
+
+    // 跨域请求图片前缀链接 完整链接请拼接 00a5484527414f4cb9e2ed6f54dc6ce4.png
+    public static networkLink = "";
+    public static devNetWorkLink = "http://192.168.0.77:8001/fileSearchServer/image/";
+    public static demoNetWorkLink = "http://192.168.0.77:8001/fileSearchServer/image/";
+    public static preNetWorkLink = "https://tt-game-js.oss-cn-beijing.aliyuncs.com/images/";
+    public static proNetWorkLink = "https://tt-game.oss-cn-beijing.aliyuncs.com/images/";
+
+    // 阿里云cdn服务器加速前缀地址
+    // public static cdnImgPathPrefix = "http://h5cdn.ugcapp.com/resource/";
+    // 阿里云cdn服务器加速后缀地址
+    // public static cdnImgPathSuffix = ".png";
+
+    // dev  => 20180702  0.1
+    // demo => 20180702  0.1
+    // pre  => 20180702  1.1
+    // pro  => 20180702  1.1
+    public static version = "2.45";
+
+    /**
+     *
+     * 配置数据初始化
+     *
+     */
+    public static init() {
+        // 关卡数据连接初始化
+        this.getUrl();
+        // 获取微信用户信息url
+        this.getWxUserInfoUrl();
+        // 图片服务器前缀初始化
+        this.getNetWorkLink();
+    }
+    /**
+     * 获取图片服务器连接前缀
+     * @returns {string}
+     */
+    public static getNetWorkLink() {
+        if (this.env == "dev") {
+            this.networkLink = ConfigConst.devNetWorkLink;
+        }
+        if (this.env == "demo") {
+            this.networkLink = ConfigConst.demoNetWorkLink;
+        }
+        if (this.env == "pre") {
+            this.networkLink = ConfigConst.preNetWorkLink;
+        }
+        if (this.env == "pro") {
+            this.networkLink = ConfigConst.proNetWorkLink;
+        }
+        return this.networkLink;
+    }
+
+    public static getWxUserInfoUrl() {
+        if (this.env == "pre") {
+            this.wxUserInfoUrl = ConfigConst.preWxUserInfoUrl;
+        }
+        if (this.env == "pro") {
+            this.wxUserInfoUrl = ConfigConst.proWxUserInfoUrl;
+        }
+        return this.wxUserInfoUrl;
+    }
+
+    /**
+     * 获取关卡数据连接
+     */
+    public static getUrl () {
+        this.url = "";
+        if (this.env == "dev") {
+            this.url = ConfigConst.devUrl;
+        }
+        if (this.env == "demo") {
+            this.url = ConfigConst.demoUrl;
+        }
+        if (this.env == "pre") {
+            this.url = ConfigConst.preUrl;
+        }
+        if (this.env == "pro") {
+            this.url = ConfigConst.proUrl;
+        }
+        return this.url;
+    }
+
+}

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="beginUI" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:game="game.*" xmlns:ns1="*" height="1916">
+	<e:Image id="bg1" anchorOffsetX="0" anchorOffsetY="0" fillMode="repeat" scaleX="1" source="Bg_png" scaleY="1" right="0" left="0" top="0" bottom="0"/>
+	<e:Image id="bg2" source="downBg2_png" scaleX="1" scaleY="1" left="20" right="20" top="0" bottom="0"/>
+	<e:Image id="xx1" width="5" source="Common_MainCenterLine_png" fillMode="repeat" scaleX="1" scaleY="1" left="30" top="0" bottom="0"/>
+	<e:Image width="5" id="xx0" source="Common_MainCenterLine_png" fillMode="repeat" scaleX="1" scaleY="1" right="30" top="0" bottom="0"/>
+	<e:Image anchorOffsetX="0" anchorOffsetY="0" source="DownTitle_png" scaleX="1" scaleY="1" left="50" right="50" top="0" bottom="0"/>
+	<e:Group height="697.21" y="22.42" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" left="0" right="0">
+		<e:Image height="676" y="0" anchorOffsetX="0" anchorOffsetY="0" source="Up_Bg_png" scale9Grid="41,3,11,5" left="70" right="70" horizontalCenter="0"/>
+		<e:Image id="textureImg" height="450" anchorOffsetX="0" anchorOffsetY="0" source="bg13_png" left="70" right="70" y="0"/>
+		<e:Image width="200" height="200" y="462" anchorOffsetX="0" anchorOffsetY="0" source="BgHead_2(32-10-32)_png" scale9Grid="32,32,10,10" left="90"/>
+		<e:Image id="headImg" width="200" height="200" y="462" fillMode="scale" left="90" source="ICON_png" mask="{head_mask}"/>
+		<e:Rect id="head_mask" width="190" height="190" y="467" anchorOffsetX="0" anchorOffsetY="0" ellipseWidth="64" left="95"/>
+		<e:Label id="nameTex" text="关卡名称" y="484" anchorOffsetX="0" width="456" anchorOffsetY="0" height="42" size="46" left="320"/>
+		<e:Label id="authorTex" text="作者的名字" y="562" anchorOffsetX="0" width="502" anchorOffsetY="0" height="42" size="46" left="320"/>
+	</e:Group>
+	<game:DimTabGroup id="tabBar" width="421.09" height="81.57" y="745" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" left="100">
+		<e:Button label="详情" x="6" y="0" width="196" height="76" anchorOffsetY="0"/>
+		<e:Button label="排行榜" x="214.55" y="0" width="196" height="76"/>
+	</game:DimTabGroup>
+	<e:Group anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" left="0" right="0" top="826.57" bottom="0">
+		<e:Image source="tanchudiban_png" scale9Grid="54,52,23,26" anchorOffsetY="0" anchorOffsetX="0" left="70" right="70" top="0" bottom="0"/>
+	</e:Group>
+	<e:Group id="datile_group" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" left="0" right="0" top="837" bottom="200">
+		<e:Scroller id="scroll1" scaleX="1" scaleY="1" enabled="true" anchorOffsetY="0" left="0" right="0" top="0" bottom="0">
+		<e:Group id="g1">
+			<e:Group left="0" right="0" y="0">
+			<ns1:DetailView id="datile_view" skinName="begin_detailUi" left="0" right="0" y="0"/>
+			</e:Group>
+		</e:Group>
+		</e:Scroller>
+	</e:Group>
+	<e:Group id="rank_group" height="890.91" scaleX="1" scaleY="1" anchorOffsetX="0" anchorOffsetY="0" y="837" left="0" right="0" horizontalCenter="0" visible="false">
+		<ns1:RankView id="rank_view" height="889.7" y="0" anchorOffsetX="0" anchorOffsetY="0" skinName="begin_rankUi" left="90" right="90"/>
+	</e:Group>
+	<e:Group id="group1" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" height="150" left="0" right="0" bottom="-4">
+		<e:Image source="DownBg1(60-10-60)_png" scale9Grid="60,60,10,10" height="200" left="0" right="-26" bottom="-6"/>
+		<e:Group y="94.21" horizontalCenter="0">
+			<e:Image id="loadingBarBg" width="800" height="31" y="0" anchorOffsetX="0" anchorOffsetY="0" source="loading_bg_png" scale9Grid="24,15,29,1" x="0"/>
+			<e:Image id="loadingBar" width="10" height="31" y="0" anchorOffsetX="0" anchorOffsetY="0" source="loading_png" scale9Grid="16,9,4,2" x="0"/>
+		</e:Group>
+		<e:Button id="beginBtn" label="开始" y="26" anchorOffsetX="0" width="240.33" anchorOffsetY="0" height="98.48" horizontalCenter="0">
+		<e:skinName>
+			<e:Skin states="up,down,disabled">
+			<e:Image width="100%" height="100%" source="CommonBtn_SmallYellow_png" source.down="CommonBtn_SmallYellow_png"/>
+			<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0" size="50" textColor="0xb76a25" bold="true"/>
+			</e:Skin>
+		</e:skinName>
+		</e:Button>
+		<e:Label id="numField" text="" y="18.26" anchorOffsetX="0" anchorOffsetY="0" height="54.24" size="39" textAlign="center" bold="true" textColor="0x268c07" left="0" right="0"/>
+	</e:Group>
+</e:Skin>

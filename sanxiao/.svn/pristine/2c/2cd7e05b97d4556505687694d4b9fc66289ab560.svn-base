@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="rank_player_winUi" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" width="964.85" height="129.09">
+	<w:Config id="165d21f42f8"/>
+	<e:Group id="my_rank_player_win_id" width="963.86" height="127.66" anchorOffsetY="0" anchorOffsetX="0">
+		<e:Group id="my_rank_player_win_hasRank" x="0" y="-0.01" anchorOffsetY="0" height="126.79" anchorOffsetX="0" width="964.58">
+			<e:Group x="0" y="0.01" anchorOffsetY="0" height="126.45" anchorOffsetX="0" width="159">
+				<e:Rect id="my_rank_player_rect1" width="159.38" height="126.32" x="0" y="0" enabled="true" fillColor="0x4b88b5" anchorOffsetX="0" anchorOffsetY="0"/>
+				<e:Label id="my_rank_player_num_id" text="4" anchorOffsetY="0" anchorOffsetX="0" size="40" bold="true" fontFamily="SimHei" textColor="0x40679f" textAlign="center" left="0" right="0" top="0" bottom="0" verticalAlign="middle" visible="false"/>
+				<e:Image id="my_rank_player_num_img_id" width="85.33" height="87.33" x="37.86" y="19.74" scaleX="1" scaleY="1" source="ui_paihangbang_no1_1_png" anchorOffsetX="0" anchorOffsetY="0"/>
+			</e:Group>
+			<e:Group x="160.36" y="1.33" anchorOffsetY="0" height="126.33" anchorOffsetX="0" width="803.33">
+				<e:Rect id="my_rank_player_rect2" width="804" height="126.71" x="0" y="0" fillColor="0x84aece" anchorOffsetY="0" anchorOffsetX="0" enabled="true"/>
+				<e:Group id="my_win_player_head_group_id" x="28.35" y="5.18" anchorOffsetX="0" width="116.32" anchorOffsetY="0" height="114">
+					<e:Image width="114" height="114" anchorOffsetY="0" anchorOffsetX="0" fillMode="scale" source="ui_paihangbang_icon_2_bg_png" x="1.33" y="0"/>
+					<e:Image id="my_win_player_head_img" width="114" height="114" anchorOffsetY="0" anchorOffsetX="0" fillMode="scale" source="head001_png" x="0.5" y="0" mask="{my_win_player_head_mask}"/>
+					<e:Image id="my_win_player_head_mask" width="116" height="112" anchorOffsetY="0" anchorOffsetX="0" fillMode="scale" source="ui_paihangbang_icon_2_png" x="1.5" y="1"/>
+				</e:Group>
+				<e:Label id="my_win_player_nickname" text="玩家昵称" x="165.01" y="16.38" textColor="0x1e4184" size="40" fontFamily="SimHei" anchorOffsetX="0" width="406.6" scaleX="1" scaleY="1" textAlign="left" anchorOffsetY="0" height="45.03"/>
+				<e:Label id="my_win_player_chengji" text="使用步数: 0步" x="165.03" y="61.68" textColor="0x1E4184" size="40" fontFamily="SimHei" anchorOffsetX="0" width="403.68" scaleX="1" scaleY="1" textAlign="left" anchorOffsetY="0" height="43.03"/>
+				<e:Button id="my_win_player_btn" label="详情" anchorOffsetX="0" width="176.17" anchorOffsetY="0" height="63.84" enabled="true" scaleX="1" scaleY="1" y="28.74" x="596.05">
+					<e:skinName>
+					<e:Skin states="up,down,disabled">
+						<e:Image width="100%" height="100%" source="ui_button_3_1_png"/>
+						<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0"/>
+					</e:Skin>
+					</e:skinName>
+				</e:Button>
+			</e:Group>
+		</e:Group>
+		<e:Label id="my_rank_player_win_noHasRank" text="您尚未进入排行" scaleX="1" scaleY="1" verticalCenter="0" horizontalCenter="0" textColor="0x1e4184" size="40" fontFamily="SimHei" visible="false"/>
+	</e:Group>
+</e:Skin>

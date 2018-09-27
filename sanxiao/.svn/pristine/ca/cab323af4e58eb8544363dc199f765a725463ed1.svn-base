@@ -1,0 +1,51 @@
+/**
+ * Created by ZhangHui on 2018/6/1.
+ */
+class Panel_PopupLayer extends egret.Sprite{
+    /*单例*/
+    private static panel_PopupLayer:Panel_PopupLayer;
+    public static getInstance(){
+        if(!this.panel_PopupLayer){
+            this.panel_PopupLayer=new Panel_PopupLayer();
+        }
+        return this.panel_PopupLayer;
+    }
+    /*浮层框提示*/
+    private myAlertSp:egret.Sprite;
+    public myAlert(str,time=700,vy=Main.stageHeight*.5){
+        if(this.myAlertSp){
+            egret.Tween.removeTweens(this.myAlertSp);
+            App.DisplayUtils.removeFromParent(this.myAlertSp)
+            this.myAlertSp=null;
+        }
+        try{
+            this.myAlertSp=new egret.Sprite();
+            this.addChild(this.myAlertSp);
+            var bg=new egret.Bitmap(RES.getRes("common_bg1"));
+            this.myAlertSp.addChild(bg);
+            var txt=new egret.TextField();
+            this.myAlertSp.addChild(txt);
+            txt.width=bg.width;
+            txt.height=bg.height;
+            txt.textAlign="center";
+            txt.verticalAlign="middle";
+            txt.textColor=0xffffff;
+            txt.text=str;
+            txt.size=24;
+
+            this.myAlertSp.x=Main.stageWidth/2-bg.width/2;
+            this.myAlertSp.y=vy-bg.height/2+20;
+
+            this.myAlertSp.alpha=0;
+            egret.Tween.get(this.myAlertSp).to({y:this.myAlertSp.y-20,alpha:1},100).wait(time).to({y:this.myAlertSp.y-40,alpha:0},150).call(function(){
+                if(this.myAlertSp){
+                    App.DisplayUtils.removeFromParent(this.myAlertSp);
+                    this.myAlertSp=null;
+                }
+            }.bind(this),this)
+        }catch (e) {
+            console.log("浮框背景未加载...")
+        }
+
+    }
+}

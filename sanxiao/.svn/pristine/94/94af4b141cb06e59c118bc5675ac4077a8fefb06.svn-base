@@ -1,0 +1,10 @@
+/**
+ * Created by HuDe Zheng on 2018/7/30.
+ */
+class RankView extends BaseEuiView
+{
+    public constructor(controller:BaseController, parent:eui.Group) {
+        super(controller, parent);
+        // this.skinName = "begin_rankUi";
+    }
+}

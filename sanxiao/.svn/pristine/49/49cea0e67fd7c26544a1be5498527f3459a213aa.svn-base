@@ -1,0 +1,21 @@
+/**
+ * Created by ZhangHui on 2018/7/10.
+ */
+class TG_Entry{
+    /*根据blockId 查找xml中上下左右是否可以引爆*/
+    public static GetEntry(blockId){
+        let entry={
+            detonateTop:false,
+            detonateButtom:false,
+            detonateLeft:false,
+            detonateRight:false
+        };
+        let obj=TG_MapData.getInstance().mapConfigData[blockId].detonateDirection;
+        let detonateDirectionArr=obj.split(",")
+        entry.detonateTop = Number(detonateDirectionArr[0]) == 1;
+        entry.detonateButtom = Number(detonateDirectionArr[1]) == 1;
+        entry.detonateLeft =Number(detonateDirectionArr[2]) == 1;
+        entry.detonateRight =Number(detonateDirectionArr[3]) == 1;
+        return entry;
+    }
+}

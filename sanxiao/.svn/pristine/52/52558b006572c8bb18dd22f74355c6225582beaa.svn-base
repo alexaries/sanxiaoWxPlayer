@@ -1,0 +1,55 @@
+﻿/**
+ * Created by HuDe Zheng on 2018/8/07.
+ */
+class GameTitleController extends BaseController
+{
+    private titleView:GameTitleView
+
+
+    public constructor() {
+        super();
+        this.titleView = new GameTitleView(this, LayerManager.Game_Main);
+        App.ViewManager.register(ViewConst.Title, this.titleView);
+
+        this.titleView.backBtn.touchEnabled = true;
+        this.titleView.backBtn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.backHandler,this);
+
+        //监听切换回合事件
+        App.MessageCenter.addListener(Msg.Event.ChaneRound,this.updateRole,this);
+
+        this.initVictoryPos();
+
+    }
+    public backHandler(e)
+    {
+        App.ViewManager.open(ViewConst.GameExit);
+    }
+    public init()
+    {
+
+    }
+    public initVictoryPos(){
+        if(!TG_Stage.SingelModel){
+            //pk模式
+            this.titleView.winGroup.x=301;
+            this.titleView.winGroup.y=290;
+        }
+    }
+    /*切换小人的状态*/
+    public updateRole(type){
+        if(TG_Stage.SingelModel){
+            return;
+        }
+        if(type=="我的回合"){
+            //A回合
+            this.titleView.roleBSp.stop();
+            this.titleView.roleSp.play();
+        }else {
+            this.titleView.roleBSp.play();
+            this.titleView.roleSp.stop();
+        }
+    }
+
+
+
+}

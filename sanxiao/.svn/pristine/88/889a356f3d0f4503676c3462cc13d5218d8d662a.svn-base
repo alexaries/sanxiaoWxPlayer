@@ -1,0 +1,53 @@
+
+/**
+ * Created by ZhangHui on 2018/6/1.
+ */
+class GamePanel_BgSp extends GamePanel{
+    /*单例*/
+    private static gamePanel_BgSp:GamePanel_BgSp;
+    public static getInstance(){
+        if(!this.gamePanel_BgSp){
+            this.gamePanel_BgSp=new GamePanel_BgSp();
+        }
+        return this.gamePanel_BgSp;
+    }
+    public topBg:eui.Image;
+    private bottomBg:egret.Bitmap;
+    private bottomBg_1:eui.Image;
+
+
+    public initView(){
+
+
+        //上部背景
+        this.topBg=new eui.Image();
+        this.addChild(this.topBg);
+        this.topBg.source = "ui_battle_BG_jpg";
+        this.topBg.width = Main.stageWidth
+        this.topBg.height = Main.stageHeight;
+
+        // let scal:number = Main.stageWidth/this.topBg.width;
+        // this.topBg.width = this.topBg.width * scal;
+        // this.topBg.height = this.topBg.height *scal;
+
+        // //下部背景
+        // this.bottomBg=new egret.Bitmap(RES.getRes("gamePanel_bg2_png"));
+        // this.addChild(this.bottomBg);
+        // this.bottomBg.scale9Grid=new egret.Rectangle(10,10,5,5);
+        // this.bottomBg.width=Main.stageWidth;
+        // this.bottomBg.height=Main.stageHeight-this.topBg.height;
+        // this.bottomBg.y=this.topBg.height-3;
+        // this.bottomBg_1 = new eui.Image(RES.getRes("gamePanel_bg2_png"));
+        // this.addChild(this.bottomBg_1);
+        // this.bottomBg_1.width=Main.stageWidth;
+        // this.bottomBg_1.height=Main.stageHeight-this.topBg.height;
+        // this.bottomBg_1.y=this.topBg.height-3;
+        // this.bottomBg_1.fillMode = "repeat";
+
+
+
+
+    }
+
+
+}

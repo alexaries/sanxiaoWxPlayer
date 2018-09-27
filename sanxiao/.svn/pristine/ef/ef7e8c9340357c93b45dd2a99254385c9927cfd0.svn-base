@@ -1,0 +1,103 @@
+/**
+ * Created by HuDe Zheng on 2018/6/29.
+ */
+
+class GameOver_View extends BaseClassSprite
+{
+    //游戏结果类型 0：失败 1：成功
+    private type:number = 0;
+    private sure_button:egret.Bitmap;
+
+    private gatherSp:egret.Sprite;
+    private taskItemArr:Array<any>;
+
+    public init(_type:number)
+    {
+        //关闭道具面板
+        this.touchEnabled = true;
+        App.ViewManager.close(ViewConst.Prop);
+        App.ViewManager.close(ViewConst.Title);
+
+
+        this.type = _type;
+        let btm:egret.Bitmap;
+        if(this.type == 0)
+        {
+            btm = TG_Object.Create("failure_png");
+            this.addChild(btm);
+        }
+        else
+        {
+            btm = TG_Object.Create("success_png");
+            this.addChild(btm);
+        }
+        btm.width = Main.stageWidth;
+        btm.height = Main.stageHeight;
+
+        this.taskItemArr = [];
+
+        //0:消除 1:收集
+        let ruleType = TG_MapData.getInstance().stageData["Stage"].RuleType;
+        this.gatherSp = new egret.Sprite();
+
+
+        this.addChild(this.gatherSp);
+
+        if(ruleType == 1)
+        {
+            this.addTesk( ConfigGameData.getInstance().taskArr,0);
+        }
+        this.gatherSp.x = Main.stageWidth/2 - this.gatherSp.width/2;
+
+        this.sure_button = TG_Object.Create("sure_button_png");
+        this.sure_button.x = Main.stageWidth/2 - this.sure_button.width/2;
+        this.sure_button.y = Main.stageHeight - this.sure_button.height * 2;
+        this.addChild(this.sure_button);
+        this.sure_button.addEventListener(egret.TouchEvent.TOUCH_TAP,this.sure_click,this);
+        this.sure_button.touchEnabled = true;
+
+        this.gatherSp.y =  this.sure_button.y -this.gatherSp.height - 200;
+    }
+    private sure_click()
+    {
+        // Panel_PopupLayer.getInstance().myAlert("没办法确定！^_^",2000);
+
+        // let urlParamArr = SystemConst.urlParameters;
+        // let isTest = urlParamArr["IsTest"];
+        // if (isTest && isTest == "true") {
+
+        // if(ConfigConst.env == "pro" || ConfigConst.env == "pre" )
+        // {
+        //     App.MessageCenter.dispatch(Msg.Event.BeginGame);
+        // }
+        // else {
+
+            App.MessageCenter.dispatch(Msg.Event.RePlay);
+        // }
+
+
+    }
+    //添加任务系统
+    private addTesk(taskArr:any,ruleType:number)
+    {
+        //初始化任务
+
+        for(var i = 0;i < taskArr.length;i ++)
+        {
+            let obj:any = taskArr[i];
+
+            let obj11=TG_MapData.getInstance().mapConfigData[obj.Target];
+            let str=obj11.image+"_png";
+            let item:GatherItem = new GatherItem(str,obj.Num, ruleType,obj.Target);
+            let child_num = this.gatherSp.numChildren;
+            //行
+            var r:number = child_num % 3;
+            //列
+            var c:number =  Math.floor(child_num/3);
+            item.x = (r) * (item.width +20);
+            item.y = (c) * (item.height +1);
+            this.gatherSp.addChild(item);
+            this.taskItemArr.push(item);
+        }
+    }
+}

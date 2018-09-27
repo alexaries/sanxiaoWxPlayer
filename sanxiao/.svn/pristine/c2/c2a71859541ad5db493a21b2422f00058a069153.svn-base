@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="gameover_RankPlayerFirstWinUi" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<w:Config id="165d21f42f8"/>
+	<e:Group id="gameover_first_rank_player_win_id" anchorOffsetY="0" anchorOffsetX="0" width="964" x="0" height="130" y="0">
+		<e:Rect fillColor="0xb0c7d7" left="0" right="0" top="0" bottom="0" anchorOffsetX="0" anchorOffsetY="0"/>
+		<e:Group id="gameover_first_rank_player_win_group" anchorOffsetY="0" anchorOffsetX="0" left="0" right="0" top="0" bottom="0">
+			<e:Group id="gameover_first_win_player_head_group_id" x="98.85" y="7.98" anchorOffsetY="0" height="111.62" anchorOffsetX="0" width="112">
+				<e:Image width="111" height="111" anchorOffsetY="0" anchorOffsetX="0" fillMode="scale" source="ui_paihangbang_icon_2_bg_png" x="0.92" y="0.14"/>
+				<e:Image id="gameover_first_win_player_head_img" width="102.3" height="102.56" anchorOffsetY="0" anchorOffsetX="0" fillMode="scale" source="head001_png" x="4.85" maxWidth="40" maxHeight="40" minHeight="40" minWidth="40" verticalCenter="-0.3100000000000023" mask="{gameover_first_win_player_head_mask}"/>
+				<e:Image id="gameover_first_win_player_head_mask" width="104.87" height="105.71" anchorOffsetY="0" anchorOffsetX="0" fillMode="scale" source="ui_paihangbang_icon_2_png" x="4.58" verticalCenter="-0.8100000000000023"/>
+			</e:Group>
+			<e:Label id="gameover_first_win_player_nickname" text="玩家昵称" x="243" y="22.83" textColor="0x1e4184" size="30" fontFamily="SimHei" anchorOffsetX="0" width="451.87" scaleX="1" scaleY="1" textAlign="left" anchorOffsetY="0" height="38"/>
+			<e:Label id="gameover_first_win_player_create_time" text="2018/09/12 17:07:15" x="237" y="64.2" textColor="0x1E4184" size="30" fontFamily="SimHei" anchorOffsetX="0" width="426.2" scaleX="1" scaleY="1" textAlign="left" anchorOffsetY="0" height="42"/>
+		</e:Group>
+		<e:Label id="gameover_first_rank_player_nobody" text="尚未有玩家进入排行" textColor="0x1e4184" size="40" fontFamily="SimHei" anchorOffsetY="0" height="84" textAlign="center" verticalAlign="middle" anchorOffsetX="0" horizontalCenter="27.360000000000014" verticalCenter="0.07000000000000028" width="414" visible="false"/>
+	</e:Group>
+</e:Skin>

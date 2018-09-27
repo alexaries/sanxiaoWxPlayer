@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="begin_detailUi" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" width="1000">
+	<e:Image source="beginBack_png" height="1305.79" anchorOffsetY="0" width="1000" y="0" horizontalCenter="0"/>
+	<e:Group id="jieshao" y="0" anchorOffsetX="0" width="1000" horizontalCenter="2">
+		<e:Group width="1000" height="56.06" y="30" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="0">
+			<e:Image height="3" y="30.300000000000004" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" source="beginXian_png" width="390" left="13"/>
+			<e:Image height="3" y="30.300000000000004" source="beginXian_png" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" width="390" right="13"/>
+			<e:Label text="关卡简介" y="6.979999999999997" anchorOffsetX="0" width="167.94" anchorOffsetY="0" height="48.18" size="28" bold="true" scaleX="1" scaleY="1" horizontalCenter="0" x="304" textColor="0x708db0" verticalAlign="middle" textAlign="center"/>
+		</e:Group>
+		<e:Scroller height="180" y="85.43" anchorOffsetX="0" anchorOffsetY="0" left="0" right="0">
+			<e:Group width="1000">
+				<e:Label id="decTex" text="我是关卡详情介绍我是关卡详情介绍我是关卡详情介绍我是关卡详情介绍我是关卡详情介绍我是关卡详情介绍我是关卡详情介绍我是关卡详情介绍我是关卡详情介绍我是关卡详情介绍我是关卡详情介绍我是关卡详情介绍我是关卡详情介绍我是关卡详情介绍我是关卡详情介绍我是关卡详情介绍我是关卡详情介绍我是关" y="3.03" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" size="28" textColor="0x649fc9" width="950" horizontalCenter="0"/>
+			</e:Group>
+		</e:Scroller>
+	</e:Group>
+	<e:Group id="guize" y="265.43" anchorOffsetX="0" width="1000" horizontalCenter="0">
+		<e:Group width="1000" height="57.58" y="-0.3" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="0">
+			<e:Image height="3" y="30.300000000000004" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" source="beginXian_png" width="390" left="13"/>
+			<e:Image height="3" y="30.300000000000004" source="beginXian_png" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" width="390" right="13" x="518.82"/>
+			<e:Label text="游戏规则" y="6.979999999999997" anchorOffsetX="0" width="167.94" anchorOffsetY="0" height="48.18" size="28" bold="true" scaleX="1" scaleY="1" horizontalCenter="0" x="304" verticalAlign="middle" textAlign="center" textColor="0x708db0"/>
+		</e:Group>
+		<e:Group y="56.01" anchorOffsetX="0" width="950" anchorOffsetY="0" height="54" x="25">
+			<e:Label text="生成风车数量" y="0" anchorOffsetX="0" width="404.29" anchorOffsetY="0" height="45.16" scaleX="1" scaleY="1" size="28" bold="true" textColor="0x649fc9" left="0" verticalAlign="middle" textAlign="left"/>
+			<e:Label id="ruleTex1" text="Label" y="0" anchorOffsetX="0" width="164.91" anchorOffsetY="0" height="32.54" bold="true" size="28" right="360" textColor="0x649fc9" verticalAlign="middle" textAlign="center"/>
+		</e:Group>
+		<e:Group y="105.25" anchorOffsetX="0" width="950" anchorOffsetY="0" height="54" horizontalCenter="0">
+			<e:Label text="是否可以生成风车：" anchorOffsetX="0" width="380.29" anchorOffsetY="0" height="45.16" scaleX="1" scaleY="1" size="28" bold="true" textColor="0x649fc9" left="0" y="0" verticalAlign="middle" textAlign="left"/>
+			<e:Label id="ruleTex2" text="Label" y="0" anchorOffsetX="0" width="164.91" anchorOffsetY="0" height="32.54" bold="true" size="28" right="360" textColor="0x649fc9" verticalAlign="middle" textAlign="center"/>
+		</e:Group>
+		<e:Group y="155.25" anchorOffsetX="0" width="950" anchorOffsetY="0" height="54" horizontalCenter="0">
+			<e:Label text="道具是否收费：" y="0" anchorOffsetX="0" width="441.29" anchorOffsetY="0" height="45.16" scaleX="1" scaleY="1" size="28" bold="true" textColor="0x649fc9" left="0" verticalAlign="middle" textAlign="left"/>
+			<e:Label id="ruleTex3" text="Label" y="0" anchorOffsetX="0" width="164.91" anchorOffsetY="0" height="32.54" bold="true" size="28" right="360" textColor="0x649fc9" verticalAlign="middle" textAlign="center"/>
+		</e:Group>
+		<e:Group y="204.19" anchorOffsetX="0" width="950" anchorOffsetY="0" height="54" horizontalCenter="0">
+			<e:Label text="是否有失败限制：" y="0" anchorOffsetX="0" width="450" anchorOffsetY="0" height="45.16" scaleX="1" scaleY="1" size="28" bold="true" textColor="0x649fc9" left="0" verticalAlign="middle" textAlign="left"/>
+			<e:Label id="ruleTex4" text="Label" y="0" anchorOffsetX="0" width="164.91" anchorOffsetY="0" height="32.54" bold="true" size="28" right="360" textColor="0x649fc9" verticalAlign="middle" textAlign="center"/>
+		</e:Group>
+	</e:Group>
+	<e:Group id="mubiao" y="524.92" anchorOffsetY="0" anchorOffsetX="0" width="1000" horizontalCenter="0">
+		<e:Group width="1000" height="53.03" y="-0.3" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="0">
+			<e:Image height="3" y="30.300000000000004" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" source="beginXian_png" width="390" x="13.33"/>
+			<e:Image height="3" y="30.300000000000004" source="beginXian_png" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" width="390" right="13" x="518.82"/>
+			<e:Label text="消除目标" y="6.979999999999997" anchorOffsetX="0" width="167.94" anchorOffsetY="0" height="48.18" size="28" bold="true" scaleX="1" scaleY="1" horizontalCenter="0" x="304" verticalAlign="middle" textAlign="center" textColor="0x708db0"/>
+		</e:Group>
+		<e:Group y="55.15" anchorOffsetX="0" anchorOffsetY="0" height="116" width="950" horizontalCenter="0">
+			<e:Image width="785" height="116" anchorOffsetX="0" anchorOffsetY="0" top="0" right="0" alpha="0.2" source="ui_championships_person_bg_1_png"/>
+			<e:Image width="165" height="116" anchorOffsetX="0" anchorOffsetY="0" source="ui_championships_person_bg_1_png" left="0" top="0" alpha="0.5"/>
+			<e:Label text="玩家1" y="39.5" anchorOffsetX="0" width="150" anchorOffsetY="0" height="35" scaleX="1" scaleY="1" size="32" bold="true" textColor="0x649fc9" textAlign="center" verticalAlign="middle" x="7"/>
+			<e:Group y="0" anchorOffsetX="0" anchorOffsetY="0" left="167" right="0">
+				<e:Scroller y="0" anchorOffsetX="0" anchorOffsetY="0" left="0" right="0">
+				<e:Group anchorOffsetX="0" width="780" x="53.03">
+					<e:List id="taskList1" x="0" y="0" anchorOffsetX="0">
+					<e:layout>
+						<e:HorizontalLayout/>
+					</e:layout>
+					</e:List>
+				</e:Group>
+				</e:Scroller>
+			</e:Group>
+		</e:Group>
+		<e:Group y="171.82" anchorOffsetX="0" anchorOffsetY="0" height="116" width="950" horizontalCenter="0">
+			<e:Image width="785" height="116" anchorOffsetX="0" anchorOffsetY="0" top="0" right="0" alpha="0.2" source="ui_championships_person_bg_2_png"/>
+			<e:Image width="165" height="116" anchorOffsetX="0" anchorOffsetY="0" left="0" top="0" alpha="0.5" source="ui_championships_person_bg_2_png"/>
+			<e:Label text="玩家2" anchorOffsetX="0" width="150" anchorOffsetY="0" height="35" scaleX="1" scaleY="1" size="32" bold="true" textColor="0x649fc9" verticalAlign="middle" textAlign="center" verticalCenter="0" x="7"/>
+			<e:Group y="0" anchorOffsetX="0" anchorOffsetY="0" width="780" height="31.52" x="170">
+				<e:Scroller y="0" anchorOffsetX="0" anchorOffsetY="0" width="780" x="0">
+				<e:Group anchorOffsetX="0" width="788.48" rotation="0.02">
+					<e:List id="taskList2" x="0" y="0" anchorOffsetX="0">
+						<e:layout>
+							<e:HorizontalLayout/>
+						</e:layout>
+					</e:List>
+				</e:Group>
+				</e:Scroller>
+			</e:Group>
+		</e:Group>
+	</e:Group>
+	<e:Group id="xianzhi" y="813.29" anchorOffsetX="0" width="1000" horizontalCenter="0">
+		<e:Group width="1000" height="59.09" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="0" x="2" scaleX="1" scaleY="1" top="0">
+		<e:Image height="3" y="30.300000000000004" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" source="beginXian_png" width="390" left="13" x="-2"/>
+		<e:Image height="3" y="30.300000000000004" source="beginXian_png" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" width="390" right="13" x="518.82"/>
+		<e:Label text="失败限制条件" y="6.979999999999997" anchorOffsetX="0" width="190" anchorOffsetY="0" height="48.18" size="28" bold="true" scaleX="1" scaleY="1" horizontalCenter="0" x="304" verticalAlign="middle" textAlign="center" textColor="0x708db0"/>
+		</e:Group>
+		<e:Group y="58.1" width="950" horizontalCenter="0">
+			<e:Image width="785" height="116" anchorOffsetX="0" anchorOffsetY="0" top="0" right="0" alpha="0.2" source="ui_championships_person_bg_1_png"/>
+			<e:Image width="165" height="116" anchorOffsetX="0" anchorOffsetY="0" source="ui_championships_person_bg_1_png" left="0" top="0" alpha="0.5"/>
+		<e:Label text="玩家1" anchorOffsetX="0" width="150" anchorOffsetY="0" height="35" scaleX="1" scaleY="1" size="32" bold="true" textColor="0x649fc9" textAlign="center" left="7" verticalCenter="0"/>
+		<e:Label id="failTex1" text="步数：25" x="180.6" size="32" bold="true" width="190" textColor="0x649fc9" textAlign="center" anchorOffsetX="0" anchorOffsetY="0" height="40" verticalAlign="middle" verticalCenter="0"/>
+		<e:Scroller height="116.33" y="0" anchorOffsetX="0" anchorOffsetY="0" left="391" right="0">
+			<e:Group anchorOffsetY="0" height="117.85">
+			<e:List id="failList1" y="0" anchorOffsetX="0" left="0" right="0">
+				<e:layout>
+				<e:HorizontalLayout/>
+				</e:layout>
+			</e:List>
+			</e:Group>
+		</e:Scroller>
+		</e:Group>
+		<e:Group y="174.87" width="950" horizontalCenter="0">
+			<e:Image width="785" height="116" source="ui_championships_person_bg_2_png" anchorOffsetX="0" anchorOffsetY="0" right="0" alpha="0.2" top="0"/>
+			<e:Image width="165" height="116" anchorOffsetX="0" anchorOffsetY="0" left="0" top="0" alpha="0.5" source="ui_championships_person_bg_2_png"/>
+		<e:Label text="玩家2" anchorOffsetX="0" width="150" anchorOffsetY="0" height="35" scaleX="1" scaleY="1" size="32" bold="true" textColor="0x649fc9" textAlign="center" left="7" verticalCenter="0"/>
+		<e:Label id="failTex2" text="时间:25:54" x="180.6" size="32" bold="true" width="190.91" textColor="0x649fc9" textAlign="center" anchorOffsetX="0" anchorOffsetY="0" height="40" verticalAlign="middle" verticalCenter="0"/>
+		<e:Scroller height="116" y="0" anchorOffsetX="0" anchorOffsetY="0" left="391" right="0">
+			<e:Group anchorOffsetY="0" height="114.82">
+			<e:List id="failList2" y="0" anchorOffsetX="0" left="0" right="0">
+				<e:layout>
+				<e:HorizontalLayout/>
+				</e:layout>
+			</e:List>
+			</e:Group>
+		</e:Scroller>
+		</e:Group>
+	</e:Group>
+	<e:Group id="daoju" y="1109.89" anchorOffsetX="0" width="1000" horizontalCenter="0">
+		<e:Group width="1000" height="53.03" y="7.12" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="0" x="2" scaleX="1" scaleY="1">
+			<e:Image height="3" y="30.300000000000004" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" source="beginXian_png" width="390" left="13" x="-2"/>
+			<e:Image height="3" y="30.300000000000004" source="beginXian_png" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" width="390" right="13" x="518.82"/>
+			<e:Label text="可用道具" y="6.979999999999997" anchorOffsetX="0" width="167.94" anchorOffsetY="0" height="48.18" size="28" bold="true" scaleX="1" scaleY="1" horizontalCenter="0" x="304" verticalAlign="middle" textAlign="center" textColor="0x708db0"/>
+		</e:Group>
+		<e:Group y="62.6" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" width="922.73" horizontalCenter="0">
+			<e:Scroller height="133" y="0" anchorOffsetX="0" anchorOffsetY="0" left="0" right="-0.2699999999999818">
+			<e:Group anchorOffsetX="0" width="918.18">
+				<e:List id="propList" y="0" anchorOffsetX="0" x="0">
+				<e:layout>
+					<e:HorizontalLayout/>
+				</e:layout>
+				</e:List>
+			</e:Group>
+			</e:Scroller>
+		</e:Group>
+	</e:Group>
+</e:Skin>

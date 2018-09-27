@@ -1,0 +1,28 @@
+﻿/**
+ * Created by HuDe Zheng on 2018/8/07.
+ */
+class GameTitleController extends BaseController
+{
+    private titleView:GameTitleView
+
+
+    public constructor() {
+        super();
+        this.titleView = new GameTitleView(this, LayerManager.Game_Main);
+        App.ViewManager.register(ViewConst.Title, this.titleView);
+
+        this.titleView.backBtn.touchEnabled = true;
+        this.titleView.backBtn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.backHandler,this);
+
+    }
+    public backHandler(e)
+    {
+        App.ViewManager.open(ViewConst.GameExit);
+    }
+    public init()
+    {
+
+    }
+
+
+}

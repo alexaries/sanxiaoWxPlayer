@@ -1,0 +1,81 @@
+/**
+ * Created by ZhangHui on 2018/6/26.
+ *  运行常量
+ */
+class Msg{
+    //特效块类型
+    public static EffectType={
+        ET_none:0,
+        ET_Hor:1,//横消
+        ET_Vel:2,//纵消
+        ET_Gold:5,//炸弹
+        ET_Black:10,//黑洞
+        ET_Bird:20,//风车
+        ET_ChangeColor:50,//变色块
+        ET_Egg:100,// 鸡蛋块
+        ET_SecondBoom:99,
+        ET_SuperBoom:999
+    };
+    //事件名
+    public static Event={
+        AddScore:"AddScoreEvent",//增加分数
+        AddStepNum:"AddStepNumEvent",//增加步数
+        CutStepNum:"CutStepNumEvent",//减少步数
+        AddTimeNum:"AddTimeNumEvent",//增加时间
+        CutTimeNum:"CutTimeNumEvent",//减少时间
+        ItemFlyToGoal:"ItemFlyToGoalEvent",//游戏中飞到消除目标位置
+        IsGameOver:"IsGameOverEvent",//游戏是否结束
+        RePlay: "RePlayEvent",// 重玩
+        BeginGame:"BeginGameEvent",//开始游戏
+        BeginGame2:"BeginGame2Event",//点击关卡介绍界面的开始按钮
+        BeginTimeDrop:"BeginTimeDropEvent",//时间模式下 执行掉落
+        SelectProp:"SelectPropEvent",//选择道具，携带数据 道具item
+        CancelSelectProp:"CancelSelectPropEvent",//取消选择技能
+        GameResize:"10000", //适配
+        NetLoadComplete:"NetLoadCompleteEvent",//网络图片加载完毕
+        NetDataInitComplete:"NetDataInitCompleteEvent",//网络数据初始化完成
+        UseProp:"UsePropEvent", //使用道具 参数prop id
+        CreateHairBall:"CreateHairBall",
+        AskForIsGameOver:"AskForIsGameOver", //请求游戏是否结束
+        BrowseGameBeginRoll:"BrowseGameBeginRollEvent",//游戏开始的棋盘滚动
+        BrowseRollUp:"BrowseRollUpEvent",//游戏中棋盘向上滚动
+        ClearBeginRollItem:"ClearBeginRollItem",//移除开始游戏滚动的多余元素块
+        CreateGameItem:"CreateGameItemEvent",//创建游戏中元素块
+        cleatDoStartDrop:"cleatDoStartDropEvent",//滚动结束后的掉落
+    };
+    //socket和http 事件
+    public static NetEvent = {
+        Get_UserInfo:"Get_UserInfoEvent",//获取用户信息，参数是授权code
+        Send_GameScore:"Send_GameScoreEvent",//提交分数 参数score、stageId
+        Get_RankData:"Get_RankDataEvent",//获取排行榜数据
+    }
+}
+/*加分类型对应分数*/
+enum ScoreType{
+    ST_Normal=10,//各色基础块
+    ST_CreateBird = 10,//合成小鱼
+    ST_CreateHor = 10,//合成横消
+    ST_CreateVel = 10,//合成竖消
+    ST_CreateGold = 20,//合成炸弹
+    ST_CreateBlack = 50,//合成黑洞
+    ST_Normal_Black=300,//黑洞（黑洞和普通块结合）
+    ST_ExplodeBB = 400,//小鸟和小鸟
+    ST_ExplodeHor_Bird = 450,//横消和小鸟
+    ST_ExplodeVel_Bird = 450,//竖消和小鸟
+    ST_ExplodeGold_Bird = 450,//炸弹和小鸟
+    ST_ExplodeHV = 500,//横竖消+横竖消
+    ST_ExplodeGHV = 1000,//炸弹和横竖消
+    ST_ExplodeGG = 1500,//炸弹+炸弹
+    ST_ExplodeBlackB = 1500,//黑洞+小鸟
+    ST_ExplodeBlackHV = 2000,//黑洞+横竖消
+    ST_ExplodeBlackG = 2500,//黑洞+炸弹
+    ST_ExplodeBlackBlack = 5000,//黑洞+黑洞
+    ST_STEPSCORE = 2500,//过关后剩下的步数每一步奖励分数 2500
+    ST_ExplodeGift=100,//礼品盒
+    ST_ExplodeCloud=100,//云层
+    ST_ExplodePea=100,//皇冠
+    ST_ExplodeHairBall=100,//毛球
+    ST_ExplodeMesh=100,//铁丝网
+    ST_ExplodeFlowIce=100,//流冰
+    ST_ExplodeIce=100,//冰层
+}

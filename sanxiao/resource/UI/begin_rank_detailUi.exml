@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="begin_rank_detailUi" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" width="1080" height="1920">
+	<w:Config id="165ea755e4b"/>
+	<e:Rect id="begin_rank_detail_rect" left="0" right="0" top="0" bottom="0" fillAlpha="0.1" anchorOffsetX="0" fillColor="0x99a8b1"/>
+	<e:Image width="909.91" height="411.88" x="84.79" y="734" source="ui_tongyong_tankuangmianban_1_png" scale9Grid="37,38,13,15" anchorOffsetX="0" anchorOffsetY="0"/>
+	<e:Image width="879.54" height="379.88" x="99.76" y="749.06" source="ui_tongyong_tankuangmianban_2_png" scale9Grid="29,30,14,12" anchorOffsetX="0" anchorOffsetY="0"/>
+	<e:Group x="135.67" y="761.67">
+		<e:Rect width="814.66" height="131.99" x="0" y="0" anchorOffsetX="0" anchorOffsetY="0" fillAlpha="0.4"/>
+		<e:Group x="0" y="0.83" anchorOffsetY="0" height="131.5">
+			<e:Rect width="156.33" height="132.5" x="0" y="-0.5" fillColor="0x7d99a9" anchorOffsetX="0" anchorOffsetY="0"/>
+			<e:Image id="begin_rank_detail_number_img" width="86" height="88" x="38" y="21.67" anchorOffsetX="0" anchorOffsetY="0" source="ui_paihangbang_no1_1_png"/>
+			<e:Label id="begin_rank_detail_number_label" text="4" x="82" y="65.67" anchorOffsetY="45" height="90" anchorOffsetX="45" width="90" textColor="0x40679f" size="32" fontFamily="SimHei" textAlign="center" verticalAlign="middle" visible="false"/>
+		</e:Group>
+		<e:Group x="157" y="0.83">
+			<e:Rect width="657.5" height="132" x="0" y="0" anchorOffsetX="0" anchorOffsetY="0" fillColor="0xa7b8c0"/>
+			<e:Image id="begin_rank_detail_usr_img" width="114" height="112" x="37" y="9.17" anchorOffsetX="0" anchorOffsetY="0" source="head001_png"/>
+			<e:Label id="begin_rank_detail_usr_nickname" text="梦想的蜗牛" x="175" y="41.17" anchorOffsetX="0" width="78.5" anchorOffsetY="0" height="18.5" textColor="0x1e4184" size="15" fontFamily="SimHei" scaleX="2" scaleY="2"/>
+			<e:Image width="113.94" height="65.45" x="485.92" y="38.13" source="ui_guanqia_icon_yitongguan_png" anchorOffsetX="0" anchorOffsetY="0"/>
+		</e:Group>
+	</e:Group>
+	<e:Group x="142" y="910.54">
+		<e:Label text="通关详情" x="0" y="0" size="28" fontFamily="SimHei" textColor="0x557cb4"/>
+		<e:Label id="begin_rank_detail_target" text="使用步数: 0步" x="4.67" y="35.46" anchorOffsetX="0" width="252" anchorOffsetY="0" height="32" textColor="0x557cb4" size="28" fontFamily="SimHei"/>
+		<e:Label id="begin_rank_detail_score" text="达成分数: 0分" x="3.67" y="69.46" anchorOffsetX="0" width="252" anchorOffsetY="0" height="32" textColor="0x557CB4" size="28" fontFamily="SimHei"/>
+	</e:Group>
+
+
+
+
+
+
+</e:Skin>

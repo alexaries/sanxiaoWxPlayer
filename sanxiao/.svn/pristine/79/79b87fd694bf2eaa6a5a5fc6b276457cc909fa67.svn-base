@@ -1,0 +1,163 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>方块创造</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="full-screen" content="true" />
+    <meta name="screen-orientation" content="portrait" />
+    <meta name="x5-fullscreen" content="true" />
+    <meta name="360-fullscreen" content="true" />
+    <link rel='stylesheet' href="resource/css/style.css">
+    <style>
+        html, body {
+            -ms-touch-action: none;
+            background: #20293a;
+            padding: 0;
+            border: 0;
+            margin: 0;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="margin: auto;width: 100%;height: 100%;" class="egret-player"
+         data-entry-class="Main"
+         data-orientation="auto"
+         data-scale-mode="fixedWidth"
+         data-frame-rate="60"
+         data-content-width="1080"
+         data-content-height="1920"
+         data-multi-fingered="2"
+         data-show-fps="false" data-show-log="false"
+         data-show-fps-style="x:0,y:0,size:12,textColor:0xffffff,bgAlpha:0.9">
+    </div>
+    <script src="resource/console/console.js?v=1530791410"></script>
+    <script src="resource/bzier/TweenMax.js?v=1523445686"></script>
+    <div id="loading" style="position: fixed;z-index:99;top:0;left:0;width: 100%;height: 100%;">
+        <div id="loadingDiv" style="display: block;">
+            <div style="position:relative; text-align:center; margin:0 auto; top:30%;"><img src="resource/img/icon.png" width="110" height="110"/></div>
+            <div id="loading-dian" style="position:relative; text-align:center; margin:0 auto;top:30%;">
+                <img src='resource/img/dian1.png' width='5' height='5' class="dian" id="dian1">
+                <img src='resource/img/dian2.png' width='5' height='5' class="dian" id="dian2">
+                <img src='resource/img/dian3.png' width='5' height='5' class="dian" id="dian3">
+            </div>
+        </div>
+    </div>
+<script>
+
+    // var loadingDian =$("#loading-dian");
+    var timer = window.setInterval(function(){
+        // var firstSrc = $(".dian:eq(0)").attr("src");
+        // var secondSrc = $(".dian:eq(1)").attr("src");
+        // var threeSrc = $(".dian:eq(2)").attr("src");
+        var dian1Obj = document.getElementById("dian1");
+        var dian2Obj = document.getElementById("dian2");
+        var dian3Obj = document.getElementById("dian3");
+        var firstSrc = dian1Obj.getAttribute("src");
+        var secondSrc = dian2Obj.getAttribute("src");
+        var threeSrc = dian3Obj.getAttribute("src");
+        dian2Obj.setAttribute("src",firstSrc);
+        dian3Obj.setAttribute("src",secondSrc);
+        dian1Obj.setAttribute("src",threeSrc);
+    },500);
+    // 判断是否是微信浏览器环境
+    function isWeiXin () {
+        var ua = window.navigator.userAgent.toLowerCase();
+        if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    if (isWeiXin ()) {// 微信中需要授权登录
+        console.info("微信环境需要授权登录");
+        // 预发布 金山 和线上环境 阿里 监测登录执行逻辑
+        var aQuery = window.location.href.split("?");//取得Get参数
+        var aUrl = aQuery[0];
+        var aParam = aQuery[1];
+        if (aUrl && aParam && aParam.indexOf('openid') == -1) {
+            if (aUrl.indexOf('h5.ugcapp.com') > 0) {// 阿里
+                window.location.href="http://h5wxlogin.ugcapp.com/wxLogin/authorize?"+aParam+"&sType=2";
+            }
+            if (aUrl.indexOf('120.92.210.53') > 0) {// 金山
+                window.location.href="http://h5wxlogin.ugcapp.com/wxLogin/authorize?"+aParam+"&sType=1";
+            }
+        }
+    } else {
+        console.info("不是微信环境，不需要授权登录");
+    }
+
+    // loading 页面
+    var Loading=document.getElementById("loading");
+    var LoadingDiv=document.getElementById("loadingDiv");
+    var loadingDivWith=LoadingDiv.offsetWidth;
+    LoadingDiv.style.height=loadingDivWith+"px";
+
+    /*移除loading*/
+    window["removeLoading"]=function () {
+        Loading.style.display="none";
+        window.clearInterval(timer);
+    };
+    window["TweenMax"]=TweenMax;
+    var loadScript = function (list, callback) {
+        var loaded = 0;
+        var loadNext = function () {
+            loadSingleScript(list[loaded], function () {
+                loaded++;
+                if (loaded >= list.length) {
+                    callback();
+                }
+                else {
+                    loadNext();
+                }
+            })
+        };
+        loadNext();
+    };
+
+    var loadSingleScript = function (src, callback) {
+        var s = document.createElement('script');
+        s.async = false;
+        s.src = src;
+        s.addEventListener('load', function () {
+            s.parentNode.removeChild(s);
+            s.removeEventListener('load', arguments.callee, false);
+            callback();
+        }, false);
+        document.body.appendChild(s);
+    };
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', './manifest.json?v=' + Math.random(), true);
+    xhr.addEventListener("load", function () {
+        var manifest = JSON.parse(xhr.response);
+        var list = manifest.initial.concat(manifest.game);
+        loadScript(list, function () {
+            /**
+             * {
+             * "renderMode":, //Engine rendering mode, "canvas" or "webgl"
+             * "audioType": 0 //Use the audio type, 0: default, 2: web audio, 3: audio
+             * "antialias": //Whether the anti-aliasing is enabled in WebGL mode, true: on, false: off, defaults to false
+             * "calculateCanvasScaleFactor": //a function return canvas scale factor
+             * }
+             **/
+            egret.runEgret({ renderMode: "webgl", audioType: 0, calculateCanvasScaleFactor:function(context) {
+                var backingStore = context.backingStorePixelRatio ||
+                    context.webkitBackingStorePixelRatio ||
+                    context.mozBackingStorePixelRatio ||
+                    context.msBackingStorePixelRatio ||
+                    context.oBackingStorePixelRatio ||
+                    context.backingStorePixelRatio || 1;
+                return (window.devicePixelRatio || 1) / backingStore;
+            }});
+        });
+    });
+    xhr.send(null);
+</script>
+</body>
+
+</html>

@@ -1,0 +1,701 @@
+/**
+ * Created by ZhangHui on 2018/6/4.
+ */
+class TG_Item extends egret.Sprite{
+
+    /**item内的image显示对象*/
+    public item:egret.Bitmap;
+    /*单例*/
+    private static tG_Item:TG_Item;
+    public static getInstance(){
+        if(!this.tG_Item){
+            this.tG_Item=new TG_Item();
+        }
+        return this.tG_Item;
+    }
+    /*==========成员属性=============*/
+    //被选中的框框
+    private select_btm:egret.Bitmap;
+    public selected(bool:boolean)
+    {
+        if(bool)
+        {
+            //
+            if(this.select_btm == null)
+                this.select_btm = TG_Object.Create("item_select_png");
+            this.addChild(this.select_btm);
+        }
+        else
+        {
+            if(this.select_btm)
+            {
+                App.DisplayUtils.removeFromParent(this.select_btm);
+            }
+        }
+    }
+    public isDL:boolean = false;
+
+    public isDetonate2:boolean = false;//黑色毛球是否被引爆
+
+    public Color;//类型
+    public BlockId;
+    public itemWidth=97;
+    /*（X,Y)=>>(列，行)*/
+    /*位置*/
+    public SitePos={"X":-1,"Y":-1};
+    /*横向相邻有多少相同的元素*/
+    public MarkedHor;//
+    /*纵向相邻有多少相同的元素*/
+    public MarkedVel;//
+    /*是否已经被标记为合成块*/
+    public MarkedAlready;
+    /*是否在爆炸*/
+    public Exploding=false;
+    /*掉落路径*/
+    public DropPaths=[];
+    public IsCalDropPath=false;
+    /*是否是空块*/
+    public isNoneItem=false;
+    /*移动路径  会有重复点*/
+    public ActionPaths =[];
+    /*在本回合主动移动*/
+    public MoveItem=false;
+    /*标记这块移动完毕后去调用合成特殊块的逻辑*/
+    public MarkedForExplodingCallfunc=false;
+    /*特效块的类型*/
+    public EffectType=Msg.EffectType.ET_none;
+    /*被引爆的颜色*/
+    public DetonateColor;
+    /*是否被引爆*/
+    public isDetonate = false;
+    /*是否是鸟的飞行的目标快*/
+    public IsBirdTarget=false;
+    /*印发自己爆炸的黑洞坐标*/
+    public BlackHolePos;
+    /* 是否和黑洞交换 并且 自己是非黑洞的特效块*/
+    public isEffectExchangeWithBlack = false;
+    /* 毛球块的Id*/
+    public venonatId = 0;
+    //爆炸延迟时间
+    public DelayExplode = 0;
+    //掉落延迟时间
+    public DelayDrop = 0;
+    /*是否是子弹形成的特效块*/
+    public IsBullet=false;
+    /*是否可以被周围的块爆炸而引爆*/
+    public CanAroundDetonate=false;
+    //消除块的类型 详情见xml里的配置
+    private _itemType:number = -1;
+    //本身是否能被移动
+    private _isMove:boolean = true;
+    //是否是功能块
+    private _isFunction:boolean = false;
+    //功能块类型 暂定 1 加步数 2加时间
+    private _extendType:number = 0;
+    //功能属性 加多少
+    private _extendParam:number = 0;
+    // 消除快的生命值
+    private _life:number = 1;
+    // 是否可以掉掉落
+    private _canFallDown:boolean = true;
+    // 是否可以被特效穿过、击穿 如榛子
+    private _canThrough:boolean = true;
+    //是否是冰块
+    private _isIces:boolean = false;
+    //是否是流沙
+    private _isFlowIces:boolean = false;
+    //是否在流动中（流沙）
+    private _IsFlow:boolean = false;
+    //是否可以穿过底块
+    private _CanFallThrough:boolean=false;
+    //是否是被毒液感染
+    public IsInfectVenom=false;
+    //是否是道具宝箱
+    private _isPropBox:boolean = false;
+    //随机生成的道具id
+    private _propId:number = 0;
+    //道具数量
+    private _propNum:number = 1;
+    //下一个id
+    public _NextId:number=0;
+
+    public set NextId(num){
+        this._NextId=num;
+    }
+    public get NextId(){
+        return this._NextId;
+    }
+    /// 异步爆炸标识
+    public IsAsyncExplode = false;
+    public SetAsyncExplode(flag){
+       this.IsAsyncExplode = flag;
+    }
+    //是否是被摆放的，随机打乱会用到这个参数，勿删 hdz
+    public isBe_Placed:boolean = false;
+
+    public set isPropBox(val)
+    {
+        this._isPropBox = val;
+    }
+    public get isPropBox():boolean
+    {
+        return this._isPropBox;
+    }
+    public set propId(val)
+    {
+        this._propId = val;
+    }
+    public get propId():number
+    {
+        return this._propId;
+    }
+    public set propNum(val)
+    {
+        this._propNum = val;
+    }
+    public get propNum():number
+    {
+        return this._propNum;
+    }
+    public Create(...param)
+    {
+
+    }
+    public MarkedCache = [];
+
+    public _AiMoveDiction=-1;
+    public set AiMoveDiction(num){
+        this._AiMoveDiction=num;
+    }
+    public get AiMoveDiction(){
+        return this._AiMoveDiction;
+    }
+
+    /**
+     *  初始化图片宽高
+     * @param img
+     */
+    public initItemW_H()
+    {
+        this.itemWidth = 97;
+        this.item.width = this.itemWidth;
+        this.item.height = this.itemWidth;
+    }
+    public changeText(...age)
+    {
+
+    }
+    public Release(){
+        if(this.item){
+            TG_Object.Release(this.item);
+            this.item=null;
+        }
+    }
+    public _IsBirdPriorityTarget=true;//是否是风车的优先目标
+    /*==========成员函数=============*/
+    /*是否是风车的优先目标*/
+    public set IsBirdPriorityTarget(flag){
+        this._IsBirdPriorityTarget=flag;
+    }
+    public get IsBirdPriorityTarget(){
+          return this._IsBirdPriorityTarget;
+    }
+    /*获取是否被毒液感染*/
+    public GetIsInfectVenom(){
+        return this.IsInfectVenom;
+    }
+    /*设置是否是被毒液感染*/
+    public SetIsInfectVenom(flag){
+        this.IsInfectVenom=flag;
+    }
+    /*是否可以移动*/
+    public  CheckCellCouldMove() {
+          return this.isMove && TG_Game.getInstance().CheckCellCouldMove(this);
+    }
+    /*是否是X的空块*/
+    public IsItemNull() {
+        return this.itemType == ItemType.TG_ITEM_TYPE_NULL;
+    }
+    /*是否是穿透块*/
+    public IsItemCross(){
+        return this.itemType == ItemType.TG_ITEM_TYPE_CROSS;
+    }
+    /*是否是铁丝网*/
+    public IsItemMesh() {
+        return this.itemType == ItemType.TG_ITEM_TYPE_MESH;
+    }
+    /*是否是云层块*/
+    public IsCloud(){
+        return this.itemType == ItemType.TG_ITEM_TYPE_CLOUD;
+    }
+    /*是否是填充块
+     */
+    public IsItemNone(){
+        return this.itemType == ItemType.TG_ITEM_TYPE_NONE;
+    }
+
+    /**
+     * 是否是毛球
+     * @constructor
+     */
+    public IsHairBall():boolean{
+        return this.itemType == ItemType.TG_ITEM_TYPE_VENONAT;
+    }
+    /**
+     * 是否是毒液
+     * @returns {ItemType}
+     * @constructor
+     */
+    public IsVenom()
+    {
+        return this.itemType == ItemType.TG_ITEM_TYPE_VENOM;
+    }
+    /*是否是变色块*/
+    public IsItemDisColor(){
+        return this.itemType == ItemType.TG_ITEM_TYPE_CHANGECOLOUR;
+    }
+    /*是否是魔法石*/
+    public IsItemMagicStone() {
+       return  this.itemType == ItemType.TG_ITEM_TYPE_MAGICSTONE;
+    }
+    /**
+     * 是否是毛球
+     * @returns {ItemType}
+     * @constructor
+     */
+    public IsVenonat()
+    {
+        return this.venonatId != 0;
+    }
+    /**
+     * 是否是普通块
+     * @returns {boolean}
+     * @constructor
+     */
+    public IsNormal()
+    {
+        return this.itemType == ItemType.TG_ITEM_TYPE_NORMAL || this.itemType == ItemType.TG_ITEM_TYPE_EFFECT;
+    }
+
+    /**
+     * 是否是特效块
+     */
+    public IsEffect()
+    {
+        return this.itemType == ItemType.TG_ITEM_TYPE_EFFECT;
+    }
+
+    /**
+     *  是否可以被拖动 是否有高层快固定
+     * @returns {boolean}
+     * @constructor
+     */
+    public get IsCanDrag(){
+
+        return  !TG_Game.getInstance().CheckHasHighItems(this.Index)&&this.isMove;
+    }
+    /*检测阻碍某个方向是否的移动
+     * <param name="direction"> 1-2-3-4 : 上-下-左-右</param>
+     * */
+    public CheckStopMove(direction){
+        return false;
+    }
+    //是否可以被周围的块爆炸引爆
+    public IsCanAroundDetonate(flag) {
+        return this.CanAroundDetonate;
+    }
+    public SetIsCanAroundDetonate(flag){
+        this.CanAroundDetonate = flag;
+    }
+
+    //是否可以垂直掉落
+    public CheckCellVerticalFallDown() {
+        return this.canFallDown && TG_Game.getInstance().CheckCellVerticalFallDown(this);
+    }
+    //自己可以下落
+    public CheckCellFallDown() {
+        return this.canFallDown && TG_Game.getInstance().CheckCellFallDown(this);
+    }
+    //普通爆炸
+    public DoExplode(...param){
+
+    }
+    //异步爆炸
+    public DoAsyncExplode(...param) {
+
+    }
+    //引爆
+    public DoDetonate() {
+        this.SetDetonate(true);
+        this.DoExplode();
+    }
+    public SetIsBullet(flag){
+        this.IsBullet=flag;
+    }
+    public GetIsBullet(){
+        return this.IsBullet;
+    }
+
+    public GetVenonatId() {
+        return this.venonatId;
+    }
+    public SetVenonatId (venonatId) {
+        this.venonatId = venonatId;
+    }
+    public GetIsBirdTarget() {
+        return this.IsBirdTarget;
+    }
+    public SetIsBirdTarget(flag)
+    {
+        this.IsBirdTarget = flag;
+    }
+    public SetEffectType(type) {
+        this.EffectType = type;
+    }
+    public GetEffectType(){
+        return this.EffectType;
+    }
+    public IsItemEffect() {
+        if(this.EffectType!=Msg.EffectType.ET_none){
+            return true;
+        }
+        return false;
+    }
+    //0 ET_Hor    1 ET_Vel  2黑洞 3炸弹  4风车
+    public IsEffectBlack(){
+        if(this.EffectType==Msg.EffectType.ET_Black){
+            return true;
+        }
+        return false;
+    }
+    public IsItemNormal(){
+        if(this.itemType==ItemType.TG_ITEM_TYPE_NORMAL){
+            return true;
+        }
+        return false;
+    }
+    public IsEffectVel(){
+        if(this.EffectType==Msg.EffectType.ET_Vel){
+            return true;
+        }
+        return false;
+    }
+    public IsEffectHor(){
+        if(this.EffectType==Msg.EffectType.ET_Hor){
+            return true;
+        }
+        return false;
+    }
+    public IsEffectGold(){
+        if(this.EffectType==Msg.EffectType.ET_Gold){
+            return true;
+        }
+        return false;
+    }
+    public IsEffectBird(){
+        if(this.EffectType==Msg.EffectType.ET_Bird){
+            return true;
+        }
+        return false;
+    }
+    //是否是栏杆
+    public IsItemRailing(){
+        return this.itemType==ItemType.TG_ITEM_TYPE_RAILING;
+    }
+
+    public SetItemWidth(wid){
+        wid = 97;
+        this.itemWidth=wid;
+    }
+    public GetItemWidth(){
+        return this.itemWidth;
+    }
+    public SetSitPos(col,row) {
+        this.SitePos.X =col;
+        this.SitePos.Y = row;
+    }
+    public GetSitPos() {
+        return this.SitePos;
+    }
+    public SetColorType(color) {
+        this.Color = Number(color);
+    }
+    public GetColorType()
+    {
+        return this.Color;
+    }
+    public GetColorTypeByBlockId(){
+        return this.Color;
+    }
+    public SetBlockId(id) {
+        this.BlockId = Number(id);
+    }
+    //横向相同元素数量赋值
+    public SetMarkedHor(num)
+    {
+        this.MarkedHor = num;
+    }
+    //获取横向相同元素的数量
+    public GetMarkedHor(){
+        return this.MarkedHor;
+    }
+    //纵向相同元素数量赋值
+    public SetMarkedVel(num)
+    {
+        this.MarkedVel = num;
+    }
+    //获取纵向相同元素的数量
+    public GetMarkedVel(){
+        return this.MarkedVel;
+    }
+    //设置是否爆炸
+    public SetExploding(flag){
+        this.Exploding=flag;
+    }
+    //获取是否在爆炸
+    public GetExploding(){
+        return this.Exploding;
+    }
+    public GetItemIndex(colNum)
+    {
+        return this.SitePos.Y * colNum + this.SitePos.X;
+    }
+    /*添加掉落路径*/
+    public AddDropPath(vec2,bool =true){
+        if(bool)
+        {
+            if(JSON.stringify(this.DropPaths).indexOf(JSON.stringify(vec2))==-1 ) {
+                //-1 代表数组中没有当前的这个对象
+                let pos;
+                if(vec2.delayTime != undefined)
+                    pos = {"X":vec2.X,"Y":vec2.Y,"needDelayTime":vec2.needDelayTime,"delayTime":vec2.delayTime};
+                else
+                {
+                    pos = {"X":vec2.X,"Y":vec2.Y,"needDelayTime":false,"delayTime":0};
+                }
+                this.DropPaths.push(pos);
+            }
+        }
+        else
+        {
+            let pos;
+            if(vec2.delayTime != undefined)
+                pos = {"X":vec2.X,"Y":vec2.Y,"needDelayTime":vec2.needDelayTime,"delayTime":vec2.delayTime};
+            else
+            {
+                pos = {"X":vec2.X,"Y":vec2.Y,"needDelayTime":false,"delayTime":0};
+            }
+            this.DropPaths.push(pos);
+        }
+
+    }
+    /*移除掉落路径*/
+    public RemoveDropPath(vec2){
+        for(let i =this.DropPaths.length-1;i>=0;i--){
+            if(this.DropPaths[i].X==vec2.X&&this.DropPaths[i].Y==vec2.Y){
+                this.DropPaths.splice(i,1);
+            }
+        }
+    }
+
+    /*设置方块是否空块*/
+    public setItemNone(flag){
+        this.isNoneItem=flag;
+    }
+    /*获取方块是否是空块*/
+    public getItemNone(){
+        return this.isNoneItem;
+    }
+    /*添加移动路径*/
+    public AddActionPath(vec2){
+        this.ActionPaths.push(vec2);
+    }
+    public AddActionPathToo(){
+        if (this.ActionPaths.length <= 0) {
+            let pos = this.DropPaths[0];
+            pos = {X: pos.X, Y: pos.Y};
+            this.ActionPaths.push(pos);
+        }else {
+            let pos = this.ActionPaths[this.ActionPaths.length-1];
+            pos = {X: pos.X, Y: pos.Y};
+            this.ActionPaths.push(pos);
+        }
+    }
+    /*根据 行Y 列X 获取坐标位置*/hair
+    public getPosByRowCol(Y,X){
+        let x,y,pos={x:0,y:0};
+        let baseY=TG_Game.getInstance().curRollRow-9;
+        x=X*(this.itemWidth+1.5)+this.itemWidth/2;
+        y=(Y+baseY)*(this.itemWidth+1.5)+this.itemWidth/2;
+        pos.x=x;
+        pos.y=y;
+        return pos;
+    }
+    public get Index()
+    {
+        return this.SitePos.Y*TG_Game.getInstance().ColNum + this.SitePos.X;
+    }
+    public CheckMatchSpecial() {
+        if(this.MarkedAlready){
+            return false;
+        }
+        return true;
+    }
+
+    public SetMoveItem(flag){
+         this.MoveItem = flag;
+    }
+
+    public GetMoveItem() {
+        return this.MoveItem;
+    }
+
+    public SetDetonateColor(color) {
+        this. DetonateColor = color;
+    }
+    public GetDetonateColor()
+    {
+        return this.DetonateColor;
+    }
+    public SetDetonate(flag)
+    {
+        this.isDetonate = flag;
+    }
+    public GetDetonate(){
+        return this.isDetonate;
+    }
+    public SetDetonate2(flag)
+    {
+        this.isDetonate2 = flag;
+    }
+    public GetDetonate2(){
+        return this.isDetonate2;
+    }
+
+    public set isFunction(bool:boolean)
+    {
+        this._isFunction = true;
+    }
+    public get isFunction():boolean
+    {
+        return this._isFunction;
+    }
+    public set extendType(_type)
+    {
+        this._extendType = _type;
+    }
+    public get extendType()
+    {
+        return this._extendType;
+    }
+    public set extendParam(_num)
+    {
+        this._extendParam = _num;
+    }
+    public get extendParam()
+    {
+        return this._extendParam;
+    }
+
+    public ET_SecondBoom=false;
+    public IsItemSecondBoom(){
+        if (this.IsItemEffect())
+        {
+            return this.ET_SecondBoom;
+        }
+        return false;
+    }
+
+    public set itemType(_type:number)
+    {
+        this._itemType = _type;
+    }
+    public get itemType():number
+    {
+        return this._itemType;
+    }
+    public set isMove(bool)
+    {
+        this._isMove = bool;
+    }
+    public get isMove():boolean
+    {
+        return this._isMove;
+    }
+    public set life(_num)
+    {
+        this._life = _num;
+    }
+    public get life():number
+    {
+        return this._life;
+    }
+    public set canFallDown(bool)
+    {
+        this._canFallDown = bool;
+    }
+    public get canFallDown():boolean
+    {
+        return this._canFallDown;
+    }
+    public set canThrough(bool)
+    {
+        this._canThrough = bool;
+    }
+    public get canThrough():boolean
+    {
+        return this._canThrough;
+    }
+    public set isIces(bool)
+    {
+        this._isIces = bool;
+    }
+    public get isIces():boolean
+    {
+        return this._isIces;
+    }
+
+    public set isFlow(bool)
+    {
+        this._IsFlow = bool;
+    }
+    public get isFlow():boolean
+    {
+        return this._IsFlow;
+    }
+    public set isFlowIces(bool)
+    {
+        this._isFlowIces = bool;
+    }
+    public get isFlowIces():boolean
+    {
+        return this._isFlowIces;
+    }
+
+    public set CanFallThrough(bool){
+        this._CanFallThrough=bool;
+    }
+    public get CanFallThrough(){
+        return this._CanFallThrough;
+    }
+    /*允许掉落进去的一层标识*/
+    public IsCanEnterButton(){
+        return this.itemType==ItemType.TG_ITEM_TYPE_BLANK||this.itemType==ItemType.TG_ITEM_TYPE_PEAPIT||this.itemType==ItemType.TG_ITEM_TYPE_INFECT;
+    }
+
+    //是否是黑洞的目标
+    private _IsBlackTarget=false;
+    public set IsBlackTarget(flag) {
+        this._IsBlackTarget=flag;
+    }
+    public get IsBlackTarget(){
+        return this._IsBlackTarget;
+    }
+
+
+
+
+
+
+
+}

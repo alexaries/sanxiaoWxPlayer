@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="game_overUI" width="1080" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:ns1="*" height="1920">
+	<w:Config id="1651c9e6cda"/>
+	<e:Image source="ui_jiesuan_bg_png" left="0" right="0" top="0" bottom="0"/>
+	<e:Group id="game_over_head" y="-203" horizontalCenter="0">
+		<e:Group id="game_over_head_win_group" x="0" y="0">
+			<e:Image anchorOffsetX="0" anchorOffsetY="0" source="ui_jiesuan_word_shengli_bg_png" y="0" height="477.58" scaleX="2" scaleY="1.5" left="0" right="0"/>
+			<e:Image anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" source="ui_jiesuan_word_shengli_bg_1_png" height="460.06" y="240.94" width="869.33" horizontalCenter="0"/>
+			<e:Image width="218" height="140.65" y="227.35" source="ui_jiesuan_img_1_png" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="0"/>
+			<e:Image width="167.41" height="69.29" y="389.79" source="ui_jiesuan_word_win_png" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="0"/>
+			<e:Image width="196.41" height="104.29" y="472.29" anchorOffsetX="0" anchorOffsetY="0" source="ui_jiesuan_word_shengli_png" scaleX="2" scaleY="2" horizontalCenter="0"/>
+		</e:Group>
+		<e:Group id="game_over_head_lose_group" x="198.99" y="382.52" visible="false">
+			<e:Image width="217.2" height="70.9" x="232" y="0" source="ui_jiesuan_word_lose_png" anchorOffsetX="0" anchorOffsetY="0"/>
+			<e:Image width="620.87" height="240.9" x="2.13" y="85.1" anchorOffsetX="0" anchorOffsetY="0" source="ui_jiesuan_word_shibai_png"/>
+		</e:Group>
+		<e:Group id="game_over_head_msg_group" x="913.5" y="219.15" visible="false">
+			<e:Group id="game_over_head_comment_group" x="0" y="0">
+			<e:Image width="63" height="66.5" x="0" y="0" anchorOffsetX="0" anchorOffsetY="0" source="ui_battle_button_pinglun_png" scaleX="1" scaleY="1"/>
+			<e:Label id="game_over_head_comment_num" text="0" x="11" y="59.85" anchorOffsetX="0" width="38" anchorOffsetY="0" height="33.5" textAlign="center" verticalAlign="middle"/>
+			</e:Group>
+			<e:Group id="game_over_head_praise_group" x="86" y="0">
+			<e:Image id="game_over_head_praise_img" width="63" height="66.5" x="0" y="0" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" source="ui_battle_button_zan_png"/>
+			<e:Label id="game_over_head_praise_num" text="0" x="11" y="59.85" anchorOffsetX="0" width="38" anchorOffsetY="0" height="33.5" textAlign="center" verticalAlign="middle"/>
+			</e:Group>
+		</e:Group>
+	</e:Group>
+	<e:Group id="game_over_body" y="515.38" horizontalCenter="0">
+		<e:Group id="game_over_body_content" x="60.49" y="72.44">
+			<e:Image width="958.7" height="1232.12" y="0" anchorOffsetX="0" anchorOffsetY="0" source="ui_tongyong_tankuangmianban_1_png" scale9Grid="33,35,20,19" horizontalCenter="0"/>
+			<e:Group x="32" y="10">
+			<e:Image width="895.9" height="1100.45" y="0" anchorOffsetX="0" anchorOffsetY="0" scale9Grid="33,35,20,19" source="ui_tongyong_tankuangmianban_2_png" horizontalCenter="0"/>
+			<e:Group x="39.39" y="80.7">
+				<e:Label text="最先通关玩家" x="0" y="0" anchorOffsetX="0" width="157.33" textColor="0x6e89aa" size="24" fontFamily="SimHei"/>
+				<ns1:GameOverRankPlayerFirstWinView id="gameOverRankPlayerFirstWinView" x="2.09" y="31.63" anchorOffsetX="0" anchorOffsetY="0" skinName="gameover_RankPlayerFirstWinUi" enabled="true" width="969.6" scaleX="0.84"/>
+			</e:Group>
+			<e:Group x="39.75" y="249.01">
+				<e:Label text="我的排行" x="0" y="0" anchorOffsetX="0" width="157.33" textColor="0x6E89AA" size="24" fontFamily="SimHei"/>
+				<ns1:GameOverMyRankPlayerWinView id="gameOverMyRankPlayerWinView" width="358.49" height="46.4" x="-0.07" y="39.35" anchorOffsetX="0" anchorOffsetY="0" skinName="gameover_MyRankPlayerWinUi" scaleX="2.27" scaleY="2.8" enabled="true"/>
+			</e:Group>
+				<e:Label text="排行榜" x="41" y="423" anchorOffsetX="0" width="157.33" textColor="0x6E89AA" size="24" fontFamily="SimHei"/>
+			<e:Group x="43.67" y="457.33">
+				<e:Rect enabled="true" left="0" right="0" top="0" bottom="0" fillColor="0xbdbdbd"/>
+				<e:Label id="game_over_body_rank_label" text="尚未有玩家进入排行榜" size="60" left="0" right="0" verticalCenter="0" textAlign="center" textColor="0x204284" visible="false"/>
+				<e:List id="game_over_body_rank_list" width="357.07" height="235.47" x="0" y="0" anchorOffsetY="0" anchorOffsetX="0" itemRendererSkinName="gameover_RankPlayerWinUi" scaleX="2.27" scaleY="2.7">
+					<e:ArrayCollection>
+						<e:Array>
+							<e:Object a="null"/>
+							<e:Object a="null"/>
+							<e:Object a="null"/>
+							<e:Object a="null"/>
+							<e:Object a="null"/>
+						</e:Array>
+					</e:ArrayCollection>
+				</e:List>
+			</e:Group>
+			</e:Group>
+			<e:Group id="game_over_body_btn" y="1122.65" horizontalCenter="0">
+			<e:Button id="game_over_body_replay_btn" label="再试一次" x="0" y="2" anchorOffsetX="0" width="218.6" anchorOffsetY="0" height="55.72" enabled="true" scaleX="1.5" scaleY="1.5">
+				<e:skinName>
+				<e:Skin states="up,down,disabled">
+					<e:Image width="100%" height="100%" source="ui_button_1_4_png" source.down="ui_button_1_4_press_png"/>
+					<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0"/>
+				</e:Skin>
+				</e:skinName>
+			</e:Button>
+			<e:Button id="game_over_body_download_btn" label="下载游戏" x="350" y="0" anchorOffsetX="0" width="221.26" anchorOffsetY="0" height="55.72" enabled="true" scaleX="1.5" scaleY="1.5">
+				<e:skinName>
+				<e:Skin states="up,down,disabled">
+					<e:Image width="100%" height="100%" source="ui_button_1_1_png" source.down="ui_button_1_1_press_png"/>
+					<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0"/>
+				</e:Skin>
+				</e:skinName>
+			</e:Button>
+			<e:Group id="game_over_body_share_group" x="717.53" y="10.67" visible="false">
+				<e:Button id="game_over_body_share_btn" label="" x="0" y="0" anchorOffsetX="0" width="33.67" anchorOffsetY="0" height="33.08" enabled="true" scaleX="2" scaleY="2">
+				<e:skinName>
+					<e:Skin states="up,down,disabled">
+					<e:Image width="100%" height="100%" source="ui_button_4_3_png" source.down="ui_button_4_3_press_png"/>
+					<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0"/>
+					</e:Skin>
+				</e:skinName>
+				</e:Button>
+				<e:Image width="28.6" height="32.4" x="4.87" y="0.26" anchorOffsetY="0" anchorOffsetX="0" scaleX="2" scaleY="2" source="ui_button_icon_share_png" visible="true"/>
+			</e:Group>
+			</e:Group>
+		</e:Group>
+		<e:Group id="game_over_body_tasktarget" x="0" y="0">
+			<e:Image id="game_over_body_tasktarget_img" width="1081.76" height="153.33" y="0" anchorOffsetX="0" anchorOffsetY="0" source="ui_jiesuan_hengfu_yellow_png" scale9Grid="61,38,50,81" horizontalCenter="0"/>
+			<e:Label id="game_over_body_tasktarget_title" text="完成目标" x="95.03" y="46.82" anchorOffsetY="0" height="55.75" anchorOffsetX="0" width="375.4" fontFamily="SimHei" size="50" textAlign="center" stroke="2" strokeColor="0xb87b07" visible="true"/>
+			<e:Label id="game_over_body_tasktarget_score" text="12" x="475.96" y="0.66" anchorOffsetY="0" height="125.66" anchorOffsetX="0" width="184.4" fontFamily="SimHei" size="100" textAlign="left" border="false" stroke="2" strokeColor="0xb87b07" verticalAlign="middle" visible="true"/>
+		</e:Group>
+	</e:Group>
+	<e:Group id="gameover_footer" y="1837.67" horizontalCenter="0">
+		<e:Image width="70.66" height="72" x="0" y="0" anchorOffsetX="0" anchorOffsetY="0"/>
+		<e:Group id="gameover_footer_author_group" x="1.98" y="0.98">
+			<e:Group x="4.57" y="0">
+			<e:Image width="60.37" height="58.4" anchorOffsetY="0" anchorOffsetX="0" fillMode="scale" source="ui_paihangbang_icon_2_bg_png" x="0.06" y="2.46"/>
+			<e:Image id="gameover_footer_author_head_img" width="59.57" height="59.86" anchorOffsetY="0" anchorOffsetX="0" fillMode="scale" source="head001_png" x="0" maxWidth="40" maxHeight="40" minHeight="40" minWidth="40" mask="{gameover_footer_author_head_img_mask}" y="0"/>
+			<e:Image id="gameover_footer_author_head_img_mask" width="56.45" height="55.07" anchorOffsetY="0" anchorOffsetX="0" fillMode="scale" source="ui_paihangbang_icon_2_png" x="1.81" y="4"/>
+			</e:Group>
+		</e:Group>
+		<e:Label id="gameover_footer_author_stagename" text="作品名字好多字  （ID:7701000000002852）" x="75.66" y="5.33" anchorOffsetX="0" width="662" anchorOffsetY="0" height="27" size="29" fontFamily="SimHei" textColor="0xbec7ce"/>
+		<e:Label id="gameover_footer_author_nickname" text="玩家昵称七个字" x="74.66" y="34.33" anchorOffsetX="0" width="665" anchorOffsetY="0" height="27" size="28" fontFamily="SimHei" textColor="0xbec7ce"/>
+	</e:Group>
+</e:Skin>

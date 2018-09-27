@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BattleParameters>
+  <BattleParameter id="1" name="NextDropDelay" value="0" desc="激活下次掉落的延迟等待时长" />
+  <BattleParameter id="2" name="BlackBomoDelay" value="1.5" desc="黑洞表演时间" />
+  <BattleParameter id="3" name="NormalBomoDelay" value="0.15" desc="普通爆炸的时间" />
+  <BattleParameter id="4" name="ReyFlyDelay" value="0.1" desc="射线飞行时间" />
+  <BattleParameter id="5" name="ReyAlteDelay" value="0.04" desc="射线之间的间隔时间" />
+  <BattleParameter id="6" name="RefreshStage" value="1" desc="刷新道具的展示时间" />
+  <BattleParameter id="7" name="FlowIceMoveTime" value="0.5" desc="流冰移动时间" />
+  <BattleParameter id="8" name="FreeFallAcceleration" value="1950" desc="自由落体加速度(格子掉落的加速度)" />
+  <BattleParameter id="9" name="SingleRowRollDelay" value="0.5" desc="单行滚动时间" />
+  <BattleParameter id="10" name="EggPopupTargetTime" value="0.7" desc="鸡蛋弹出目标块，目标块飞行动画用时" />
+  <BattleParameter id="11" name="ReceiveTargetItems" value="1" desc="收取目标块动画的时长" />
+  <BattleParameter id="12" name="ItemExchangeAnimTime" value="0.2" desc="元素交换的动画时长" />
+  <BattleParameter id="13" name="VenomInfectTime" value="0.4" desc="毒液感染时间" />
+  <BattleParameter id="14" name="VenonatMoveTime" value="0.5" desc="毛球移动时间" />
+  <BattleParameter id="15" name="VenonatSplitTime" value="0.5" desc="毛球分裂时间" />
+  <BattleParameter id="16" name="BirdFlyInterval" value="0" desc="黑洞和鸟结合时，众鸟起飞时的间隔" />
+  <BattleParameter id="17" name="BirdFlyTim" value="0.5" desc="鸟飞行到目标块的时间" />
+  <BattleParameter id="18" name="CaterpillarFleeTime" value="0" desc="毛毛虫逃跑时间" />
+  <BattleParameter id="19" name="HorizontalExplodeInterval" value="0.06" desc="横消时元素爆炸间隔" />
+  <BattleParameter id="20" name="VerticalExplodeInterval" value="0.06" desc="竖消时元素爆炸间隔" />
+  <BattleParameter id="21" name="CompoundEffectMoveTime" value="0.3" desc="合成特效时元素块的动作时长" />
+  <BattleParameter id="22" name="UsePongToolTime" value="0.9" desc="使用锤子道具表现时间" />
+  <BattleParameter id="23" name="UseHorToolTime" value="1.05" desc="使用横消道具表现时间" />
+  <BattleParameter id="24" name="UseVerToolTime" value="1.05" desc="使用竖消道具表现时间" />
+  <BattleParameter id="25" name="UseAdd3StepToolTime" value="1.5" desc="使用加3步道具表现时间" />
+  <BattleParameter id="26" name="UseAdd5StepToolTime" value="1.5" desc="使用加5步道具表现时间" />
+  <BattleParameter id="27" name="BlockHoleItemLargenTime" value="0.5" desc="黑洞元素块被引爆时，自身变大阶段时长" />
+  <BattleParameter id="28" name="BlockHoleItemRotationTime" value="1" desc="黑洞元素块放大完毕后，自由旋转阶段的时长" />
+  <BattleParameter id="29" name="BlockHoleItemDisappearTime" value="0.3" desc="黑洞元素块动画表现后，消失阶段时长" />
+  <BattleParameter id="30" name="BeDisoriganziedTime" value="1.5" desc="元素被黑洞吸收(或者元素飞向黑洞)的动画的时长" />
+  <BattleParameter id="31" name="HandReadyMoveTime" value="1" desc="提示移动手从角色移动到交换起点的动画的时长" />
+  <BattleParameter id="32" name="IntegralParameter" value="2600" desc="计算星级参数" />
+  <BattleParameter id="33" name="OneStarParameter" value="0.2" desc="1星比例" />
+  <BattleParameter id="34" name="TwoStarParameter" value="0.4" desc="2星比例" />
+  <BattleParameter id="35" name="ThreeStarParameter" value="0.7" desc="3星比例" />
+  <BattleParameter id="36" name="BlockHoleExchangeEffectTime" value="0.2" desc="黑洞和其他特效交换后，两者合并到一起的时间" />
+  <BattleParameter id="37" name="DelayCreateBulletTime" value="0.6" desc="黑洞和其他特效块交换后，子弹延迟生成的时间" />  
+  <BattleParameter id="38" name="UseGoldToolTime" value="0.68" desc="道具炸弹 表演时间" />  
+  <BattleParameter id="39" name="UseResetToolTime" value="0.8" desc="道具重置 表演时间" />  
+  <BattleParameter id="40" name="PeaToTargetTime" value="0.8" desc="豌豆收集 过程时间" />  
+  <BattleParameter id="41" name="PeaToTargetWaitTime" value="0.2" desc="豌豆收集 等待时间" />  
+  <BattleParameter id="42" name="PeaToTargetMove" value="3" desc="没有目标时 豌豆收集 上移几个格子" />  
+  <BattleParameter id="43" name="BlockHoleItemSpeed" value="914" desc="黑洞和普通块交换吸收速度" />  
+  <BattleParameter id="44" name="BlockHoleItemRotateTime" value="1.5" desc="黑洞和普通块交换吸收旋转时间差值" />  
+  <BattleParameter id="45" name="DropDiffValue" value="10" desc="掉落蹲的位移" />  
+  <BattleParameter id="46" name="DropDiffDownTime" value="0.06" desc="掉落蹲的位移时间" />  
+  <BattleParameter id="47" name="DropDiffUpTime" value="0.08" desc="掉落弹的位移时间" />  
+  <BattleParameter id="48" name="CompoundEffectScaleTime" value="0.5" desc="合成特效时特效块的动作时长，如果有掉落合成 也是掉落所等待的时间" />  
+  <BattleParameter id="49" name="CompoundEffectInScaleTime" value="0.2" desc="合成特效时特效块的缩放动作时长" />  
+  <BattleParameter id="50" name="CompoundEffectOutScaleTime" value="0.1" desc="合成特效时特效块的恢复动作时长" />  
+  <BattleParameter id="51" name="BirdRotateLoopTime" value="8" desc="鸟的旋转循环时间 / 720°" />  
+  <BattleParameter id="52" name="GlodBoomWaitDropTime" value="0.35" desc="炸弹一次爆炸时的等待掉落时长" />  
+  <BattleParameter id="53" name="BoomAndHContinueTime" value="0.5" desc="炸弹和横竖消 横消持续时长" />  
+  <BattleParameter id="54" name="BoomAndVContinueTime" value="1.5" desc="炸弹和横竖消 竖消持续时长" />  
+  <BattleParameter id="55" name="BoomAndHVIntervalTime" value="0.5" desc="炸弹和横竖消间隔等待时长" />  
+  <BattleParameter id="56" name="BoomAndHVScaleTime" value="0.5" desc="炸弹和横竖消放大色块时长" />  
+  <BattleParameter id="57" name="TargetReceiveTime" value="0.5" desc="收集目标时长" />  
+  <BattleParameter id="58" name="TargetReceiveFromScale" value="0.7" desc="收集目标起始大小" /> 
+  <BattleParameter id="59" name="TargetReceiveToScale" value="0.7" desc="收集目标结束大小" /> 
+  <BattleParameter id="60" name="MagicStoneStartTime" value="0.7" desc="魔法石爆炸延时启动的时间 -- 给引爆块用的" /> 
+  <BattleParameter id="61" name="MagicStoneInterval" value="0.08" desc="魔法石爆炸间隔" /> 
+  <BattleParameter id="62" name="MagicStoneDifferenceInterval" value="0.1" desc="魔法石加速度爆炸间隔" /> 
+  <BattleParameter id="63" name="MagicStoneFourthInterval" value="1.2" desc="魔法石加速度第四组爆炸间隔" /> 
+  <BattleParameter id="64" name="MagicStoneFifthInterval" value="4" desc="魔法石加速度第五组爆炸间隔" /> 
+  <BattleParameter id="65" name="MagicStoneAllTime" value="1.5" desc="魔法石表演总时长" /> 
+  <BattleParameter id="66" name="TargetReceiveAllTime" value="0.8" desc="收集目标总时长" /> 
+  <BattleParameter id="67" name="TargetReceiveAlphaInterval" value="0.45" desc="收集目标触发透明度时机" /> 
+  <BattleParameter id="68" name="TargetReceiveAlphaTime" value="0.25" desc="收集目标触发透明度表现时长" /> 
+  <BattleParameter id="69" name="TargetReceiveScaleMagnify" value="0.3" desc="收集目标触发透明度表现时长" /> 
+  <BattleParameter id="70" name="ItemNotExchangeAnimTime" value="0.6" desc="交换不可交换色块的动画等待时常" /> 
+</BattleParameters>

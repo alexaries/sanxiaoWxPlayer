@@ -1,0 +1,301 @@
+/**
+ * Created by Administrator on 2018/6/13.
+ * 关卡信息
+ *
+ */
+class TG_Stage {
+    // 字段
+    //关卡id
+    public static StageId:number;
+    // 创建时间
+    public static CreateTime:number;
+    // 修改时间
+    public static UpdateTime:number;
+    //关卡名称
+    public static Name:string;
+    public static Dec:string;//关卡描述
+    public static Author:any; // 作者
+    public static TextureUrl:string; //封面资源
+    public static MoneyType:number;  //花费
+    public static Cost:number; //花费
+    public static VoiceUrl:string; // 声音资源
+    public static VoiceTime:number; //声音长度
+
+
+    public static SingelModel:boolean;     //游戏模式： flase 双人  true 单人
+    public static RuleType:number;         //游戏规则： 0 消除   1 收集
+    public static IsTimeLimit:boolean;     //结束规则： false 步数  true 限时
+    public static StageVictoryType:number; //胜利条件： 0 得分高获胜   1 完成目标多获胜
+
+    public static Step:number;  // 步数
+    public static StoryType:number;  // 关卡所属故事类型
+    public static Time:number;  // 单回合时间
+    public static FishNum:number=2;  //鱼数量
+    public static TimeLimitLength:number;// 限时关卡的时间长度
+    public static LinkNum:number;  //连击数量
+    public static PropNum:number;  //道具数量
+
+    public static CanCreateFish:boolean; //是否可以生成鱼(鱼、鸟、风车是同一个东西)
+    public static DropModel:boolean=false; // 是否为随机掉落 true 顺序掉落 false 为随机掉落 老数据
+    public static DropModels=[];////掉落模式   1 顺序掉落  0 随机掉落 新数据
+    // public static IsTargetAdd:boolean;    //消除对方目标快是否增加对方数量
+    public static RollTargetIsVictory:boolean; // 将目标滚动设置为胜利条件
+    public static IsCanUseProp:boolean;//是否允许使用道具
+    public static IsUsePropInBag:boolean; //道具是否从玩家背包扣除
+    public static IsAddInfectJudge:boolean; // 是否加入传染模式判断。判断内容为一方没有传染色块时，提前结束战斗。
+    public static IsOfficial:boolean;//是否是官方关卡
+    public static IsDefaultMotif:boolean; // 是否使用默认主题
+    public static Blocks = [];  //棋盘块
+    public static DropBlocks = [
+
+    ];  //掉落块
+    public static Targets1 = []; //A任务目标（存在服务器真实数据）
+    public static Targets2 = []; //B任务目标（存在服务器真实数据）
+    public static Items:Array<any> = [];  //可使用物品
+    public static ItemIds = [];// 可使用物品id列表
+    public static ItemNums = [];// 可使用物品数量列表
+
+    public static PropChests = []; // 道具宝箱
+    public static ARollTargets = [];// 目标滚动类型的任务目标
+    public static BRollTargets = [];// 目标滚动类型的任务目标
+    public static AutoRollTargets = [];// 自动滚动棋盘的任务目标
+    public static Caterpillars = []; // 毛毛虫列表
+    public static SetColorNumElement = [];//保存棋盘选中的颜色块
+    public static ItemMotifs = []; // 元素主题列表
+    public static setColorNumElement = [];// 预设掉落块
+
+    public static ALimitTargets1 = [];//玩家1 失败条件1
+    public static ALimitTargets2 = [];//玩家1 失败条件2
+    public static BLimitTargets1 = [];//玩家2 失败条件1
+    public static BLimitTargets2 = [];//玩家2 失败条件2
+
+
+    public static IsStepLimit:boolean = false;	//是否限制回合
+    public static IsConditionLimit:boolean = false;	//是否条件限制
+    public static IsElementLimit1:boolean = false;	//是否限制元素1
+    public static IsElementLimit2:boolean = false;	//是否限制元素2
+
+    public static IsSyncCollectTarget:boolean=false;//直接收集任务目标
+
+    public static Belts = [];
+
+    // 函数方法
+    public static init() {
+        let stageData = TG_MapData.getInstance().stageData;
+        // console.info(stageData);
+        let blocks = stageData["Stage"]["Blocks"];
+        // 将皇冠坑拿出来存起来
+        for (let oneIndex in blocks) {
+            let one = blocks[oneIndex];
+            if (one["Id1"] == 1006) {
+                one["Id0"] = 1006;
+                one["Id1"] = 1002
+            } else {
+                one["Id0"] = -1;
+            }
+        }
+        // 关卡信息
+        let Stage = stageData["Stage"];
+        if(ConfigConst.env=="dev"){
+            this.DropBlocks=[
+                {"DropIds":[2001, 2002, 2003, 2004, 2005, 2006]},
+                {"DropIds":[2001, 2042, 2003, 2004, 2005, 2006]},
+                {"DropIds":[2001, 2002, 2003, 2004, 2005, 2006]},
+                {"DropIds":[2001, 2002, 2003, 2004, 2005, 2006]},
+                {"DropIds":[2001, 2002, 2003, 2004, 2005, 2006]},
+                {"DropIds":[2001, 2002, 2003, 2004, 2005, 2006]},
+                {"DropIds":[2001, 2003, 2002, 2004, 2005, 2006]},
+                {"DropIds":[2001, 2002, 2003, 2004, 2005, 2006]},
+                {"DropIds":[2001, 2002, 2003, 2004, 2005, 2006]}
+            ];
+            this.Belts = [
+                // {Bodies: [ 2, 3, 4], EnterId: 2345, ExitId: 2345},
+                // {Bodies: [22, 23, 24, 33, 42, 51, 50, 49, 40, 31], EnterId: -1, ExitId: -1},
+                // {Bodies: [45, 46, 47], EnterId: 2344, ExitId: 2343},
+                // {Bodies: [35, 44, 53], EnterId: 2343, ExitId: 2344}
+            ];
+        }
+        else
+        {
+            this.DropBlocks = Stage["DropBlocks"];
+            this.Belts = Stage["Belts"];
+        }
+        Log.getInstance().trace("===========TG_Stage 数据初始化============");
+
+        this.IsStepLimit = Stage["IsStepLimit"];
+        this.IsConditionLimit = Stage["IsConditionLimit"];
+        this.IsElementLimit1 = Stage["IsElementLimit1"];
+        this.IsElementLimit2 = Stage["IsElementLimit2"];
+
+        // 关卡id信息
+        this.StageId = Stage["StageId"];
+        this.Name = Stage["Name"];
+        // Log.getInstance().trace("Name"+this.Name, 0);
+        this.Dec = Stage["Dec"];
+        // Log.getInstance().trace("Dec"+this.Dec, 0);
+        this.Author = Stage["Author"];
+        if(!this.Author)
+        {
+            this.Author = {"Avatar":"","Name":"作者名称"};
+        }
+        // Log.getInstance().trace("Author==========");
+        // Log.getInstance().trace(this.Author, 0);
+        this.TextureUrl = Stage["TextureUrl"];
+        if(!this.TextureUrl)
+        {
+            this.TextureUrl = "";
+        }
+        // Log.getInstance().trace("TextureUrl"+this.TextureUrl, 0);
+        this.MoneyType = Stage["MoneyType"];
+        // Log.getInstance().trace("MoneyType"+this.MoneyType, 0);
+        this.Cost = Stage["Cost"];
+        // Log.getInstance().trace("Cost"+this.Cost, 0);
+        this.VoiceUrl = Stage["VoiceUrl"];
+        // Log.getInstance().trace("VoiceUrl"+this.VoiceUrl, 0);
+        this.VoiceTime = Stage["VoiceTime"];
+        // Log.getInstance().trace("VoiceTime"+this.VoiceTime, 0);
+        this.SingelModel = Stage["SingelModel"];
+        // Log.getInstance().trace("SingelModel"+this.SingelModel, 0);
+        this.RuleType = Stage["RuleType"];
+        // Log.getInstance().trace("RuleType"+this.RuleType, 0);
+        this.IsTimeLimit = Stage["IsTimeLimit"];
+        // Log.getInstance().trace("IsTimeLimit"+this.IsTimeLimit, 0);
+        this.StageVictoryType = Stage["StageVictoryType"];
+        // Log.getInstance().trace("StageVictoryType"+this.StageVictoryType, 0);
+        this.Step = Stage["Step"];
+        // Log.getInstance().trace("Step"+this.Step, 0);
+        this.StoryType = Stage["StoryType"];
+        // Log.getInstance().trace("StoryType"+this.StoryType, 0);
+        this.Time = Stage["Time"];
+        // Log.getInstance().trace("Time"+this.Time, 0);
+        this.FishNum = Stage["FishNum"];
+        // Log.getInstance().trace("FishNum"+this.FishNum, 0);
+        this.TimeLimitLength = Stage["TimeLimitLength"];
+        // Log.getInstance().trace("TimeLimitLength"+this.TimeLimitLength, 0);
+        this.LinkNum = Stage["LinkNum"];
+        // Log.getInstance().trace("LinkNum"+this.LinkNum, 0);
+        this.PropNum = Stage["PropNum"];
+        // Log.getInstance().trace("PropNum"+this.PropNum, 0);
+        this.CanCreateFish = Stage["CanCreateFish"];
+        // Log.getInstance().trace("CanCreateFish"+this.CanCreateFish, 0);
+        this.DropModel = Stage["DropModel"];
+        this.DropModels= Stage["DropModels"];
+        // Log.getInstance().trace("DropModel"+this.DropModel, 0);
+        // this.IsTargetAdd = Stage["IsTargetAdd"];
+        // Log.getInstance().trace("IsTargetAdd"+this.IsTargetAdd, 0);
+        this.RollTargetIsVictory = Stage["RollTargetIsVictory"];
+        // Log.getInstance().trace("RollTargetIsVictory"+this.RollTargetIsVictory, 0);
+        this.IsCanUseProp = Stage["IsCanUseProp"];
+        // Log.getInstance().trace("IsCanUseProp"+this.IsCanUseProp, 0);
+        this.IsUsePropInBag = Stage["IsUsePropInBag"];
+        // Log.getInstance().trace("IsUsePropInBag"+this.IsUsePropInBag, 0);
+        this.IsAddInfectJudge = Stage["IsAddInfectJudge"];
+        // Log.getInstance().trace("IsAddInfectJudge"+this.IsAddInfectJudge, 0);
+        this.IsOfficial = Stage["IsOfficial"];
+        // Log.getInstance().trace("IsOfficial"+this.IsOfficial, 0);
+        this.IsDefaultMotif = Stage["IsDefaultMotif"];
+        // Log.getInstance().trace("IsDefaultMotif"+this.IsDefaultMotif, 0);
+        this.Blocks = Stage["Blocks"];
+        // Log.getInstance().trace("Blocks"+this.Blocks, 0);
+
+        // Log.getInstance().trace("DropBlocks"+this.DropBlocks, 0);
+        this.Targets1 = Stage["Targets1"];
+        // Log.getInstance().trace("Targets1"+this.Targets1, 0);
+        this.Targets2 = Stage["Targets2"];
+        // Log.getInstance().trace("Targets2"+this.Targets2, 0);
+        this.ItemIds = Stage["ItemIds"];
+        this.ItemNums = Stage["ItemNums"];
+        this.Items = [];
+        for (let i =0;i < this.ItemIds.length;i++) {
+            let obj = {"id":this.ItemIds[i],"num":this.ItemNums[i]};
+            this.Items.push(obj);
+        }
+        // Log.getInstance().trace("Items"+this.Items, 0);
+        this.PropChests = Stage["PropChests"];
+        // Log.getInstance().trace("PropChests"+this.PropChests, 0);
+        this.ARollTargets = Stage["ARollTargets"];
+        // Log.getInstance().trace("ARollTargets"+this.ARollTargets, 0);
+        this.BRollTargets = Stage["BRollTargets"];
+        // Log.getInstance().trace("BRollTargets"+this.BRollTargets, 0);
+        this.AutoRollTargets = Stage["AutoRollTargets"];
+        // Log.getInstance().trace("AutoRollTargets"+this.AutoRollTargets, 0);
+        this.Caterpillars = Stage["Caterpillars"];
+        // Log.getInstance().trace("Caterpillars"+this.Caterpillars, 0);
+        this.SetColorNumElement = Stage["SetColorNumElement"];
+        // Log.getInstance().trace("SetColorNumElement"+this.SetColorNumElement, 0);
+        this.ItemMotifs = Stage["ItemMotifs"];
+        // Log.getInstance().trace("ItemMotifs"+this.ItemMotifs, 0);
+        this.setColorNumElement = Stage["setColorNumElement"];
+        this.ALimitTargets1 = Stage["ALimitTargets1"];
+        this.BLimitTargets1 = Stage["BLimitTargets1"];
+        this.ALimitTargets2 = Stage["ALimitTargets2"];
+        this.BLimitTargets2 = Stage["BLimitTargets2"];
+
+        this.IsSyncCollectTarget=Stage["IsSyncCollectTarget"];
+        App.MessageCenter.dispatch(Msg.Event.NetDataInitComplete);
+    }
+
+//临时
+//TODO chenlin 重构
+//TODO 目前依据策划需求值固定为6. 玩家消除目标不再与棋盘颜色有关联
+//     private int PlayerTargetCount = 6;// 棋盘玩家目标数量
+//     public bool IsChangeedDropStage;
+//     private List<TG_TaskTarget> rollATargets = new List<TG_TaskTarget>();
+//     private List<TG_TaskTarget> rollBTargets = new List<TG_TaskTarget>();
+//     private List<TG_TaskTarget> rollAutoTargets = new List<TG_TaskTarget>();
+
+/// <summary>
+/// 临时胜利条件目标数据1 消除
+/// </summary>
+//     public List<TG_TaskTarget> TempXC_Targets1 = new List<TG_TaskTarget>();
+/// <summary>
+/// 临时胜利条件目标数据1 收集
+/// </summary>
+//     public List<TG_TaskTarget> TempSJ_Targets1 = new List<TG_TaskTarget>();
+
+
+/// <summary>
+/// 临时胜利条件目标数据2 消除
+/// </summary>
+//     public List<TG_TaskTarget> TempXC_Targets2 = new List<TG_TaskTarget>();
+// /// <summary>
+// /// 临时胜利条件目标数据2 收集
+// /// </summary>
+//     public List<TG_TaskTarget> TempSJ_Targets2 = new List<TG_TaskTarget>();
+// /// <summary>
+// /// 默认的元素主题列表
+// /// </summary>
+//     public List<TG_ItemMotif> DefaultItemMotifs = new List<TG_ItemMotif>();
+// /// <summary>
+// /// 主题元素的图集列表（生成新图集图素列表）
+// /// </summary>
+//     public List<string> MotifTextures = new List<string>();
+// /// <summary>
+// /// 棋盘中鸡蛋元素列表
+// /// </summary>
+//     public  eggsList = [];
+// /// <summary>
+// /// 挑战任务id
+// /// </summary>
+//     public long ChallenageId;
+// /// <summary>
+// /// 挑战任务名字
+// /// </summary>
+//     public string ChallenageKey;
+// /// <summary>
+// /// 【勾选】是否上传挑战活动
+// /// </summary>
+// /// <returns></returns>
+//     public bool IsSubmitShop;
+// /// <summary>
+// /// 【勾选】是否上传PK关卡商店
+// /// </summary>
+// /// <returns></returns>
+//     public bool IsSubmitPKShop;
+
+
+
+
+
+}
+

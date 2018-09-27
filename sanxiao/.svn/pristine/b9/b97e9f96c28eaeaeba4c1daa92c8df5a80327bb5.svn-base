@@ -1,0 +1,202 @@
+/**
+ * Created by ZhangHui on 2018/6/11.
+ */
+class TG_CreateItem{
+    /**
+     * 创建底板层 第一层
+     */
+    public static CreateButton(id,row=-1,col=-1){
+        let obj=TG_MapData.getInstance().mapConfigData[id];
+        let itemType = obj.itemType;
+        let item:TG_Item;
+        if(itemType==ItemType.TG_ITEM_TYPE_NULL){
+            //空块
+            item = new TG_ItemNull();
+            item.Create(id,row,col);
+        } else {
+            item=new TG_ItemBgButton();
+            item.Create(id,row,col);
+        }
+        return item;
+    }
+
+    /**
+     * 创建冰层 第三层
+     */
+    public static CreateIces(id,row=-1,col=-1) {
+
+        let obj=TG_MapData.getInstance().mapConfigData[id];
+        let itemType = obj.itemType;
+        let item:TG_Item;
+
+        if(itemType == ItemType.TG_ITEM_TYPE_ICE)//冰块
+        {
+            item = new TG_ItemIces();
+            item.Create(id,row,col);
+        }
+        else if(itemType == ItemType.TG_ITEM_TYPE_FLOWICE)//流沙
+        {
+            item = new TG_ItemFlowIce();
+            item.Create(id,row,col);
+        }
+        else if(itemType == 0)//填充物
+        {
+            item = new TG_ItemNull();
+            item.Create(id,row,col);
+        }
+
+        return item;
+    }
+
+    /**
+     * 创建消除块层 第四层
+     * @constructor
+     * Id2 消除块
+     * Id7 毛球块
+     */
+    public static CreateItems(Id2,Id7=-1, row=-1, col=-1,EffectType=Msg.EffectType.ET_none) {
+
+        let obj=TG_MapData.getInstance().mapConfigData[Id2];
+        let itemType = obj.itemType;
+        let item:TG_Item;
+
+        if(itemType == ItemType.TG_ITEM_TYPE_NORMAL || itemType == ItemType.TG_ITEM_TYPE_EFFECT|| itemType == ItemType.TG_ITEM_TYPE_CHANGECOLOUR)
+        {
+            //普通快(包含变色块) 特效块
+            let EffectType=Msg.EffectType.ET_none;
+            EffectType=TG_Blocks.GetEffectByLayerid(Id2);
+            item=new TG_ItemEffect();
+            item.Create(Id2,Id7,row,col,EffectType);
+        }
+        else if(itemType == ItemType.TG_ITEM_TYPE_GEM)
+        {
+            //宝石
+            item = new TG_ItemGem();
+            item.Create(Id2,row,col)
+        }
+        else if(itemType==ItemType.TG_ITEM_TYPE_PEA) {
+            item = new TG_ItemPea();
+            item.Create(Id2,row,col)
+        }
+        else if(itemType==ItemType.TG_ITEM_TYPE_GIFT){
+            //礼品盒
+            item=new TG_ItemGift();
+            item.Create(Id2,row,col)
+        }
+        else if(itemType==ItemType.TG_ITEM_TYPE_NUST){
+            //榛子
+            item=new TG_ItemHazel();
+            item.Create(Id2,row,col)
+        }
+        else if(itemType == 13)
+        {
+            //道具宝箱
+            item=new TG_PropBox();
+            item.Create(Id2,row,col)
+        } else if (itemType == 19){
+            // 小恶魔
+            item=new TG_ItemVenom();
+            item.Create(Id2,row,col)
+        }else if(itemType==ItemType.TG_ITEM_TYPE_MAGICSTONE){
+            //魔法石
+            item=new TG_ItemMagicStone();
+            item.Create(Id2,row,col)
+
+        } else if (itemType == ItemType.TG_ITEM_TYPE_EGG) {
+            item=new TG_ItemEgg();
+            item.Create(Id2,row,col)
+        }
+        if(Id2 == -1)//填充物
+        {
+            item = new TG_ItemNull();
+            item.Create(Id2,row,col);
+        }
+
+
+        return item;
+    }
+
+    /**
+     * 铁丝网层 第五层
+     *
+     */
+    public static CreateMeshs(id,row=-1,col=-1) {
+        let obj=TG_MapData.getInstance().mapConfigData[id];
+        let itemType = obj.itemType;
+        let item:TG_Item;
+        if(itemType==ItemType.TG_ITEM_TYPE_MESH){
+            item = new TG_ItemMeshs();
+            item.Create(id,row,col);
+        }else {
+            //填充物
+            item = new TG_ItemNull();
+            item.Create(id,row,col);
+        }
+        return item;
+    }
+
+    /**
+     * 创建毛球 第7层
+     */
+    public static CreateHairBall(id7,row=-1,col=-1) {
+            let hairBallItem = new TG_ItemHairBall();
+            hairBallItem.Create(id7,row,col);
+            return hairBallItem;
+    }
+
+    /**
+     * 创建栏杆层 第6层
+     *
+     */
+    public static CreateRailings(id,row=-1,col=-1) {
+        let item:TG_Item;
+        if(id == -1)//填充物
+        {
+            item = new TG_ItemNull();
+            item.Create(id,row,col);
+        }else {
+            item = new TG_ItemRailings();
+            item.Create(id,row,col);
+        }
+        return item;
+    }
+
+    /**
+     * 创建云层 第八层
+     */
+    public static CreateClouds(id,row=-1,col=-1) {
+        let obj=TG_MapData.getInstance().mapConfigData[id];
+        let itemType = obj.itemType;
+        let item:TG_Item;
+        if(itemType==ItemType.TG_ITEM_TYPE_CLOUD){
+            item = new TG_ItemClouds();
+            item.Create(id,row,col);
+        }else {
+            //填充物
+            item = new TG_ItemNull();
+            item.Create(id,row,col);
+        }
+        return item;
+
+
+    }
+
+    /**
+     * 创建皇冠层 第九层
+     */
+    public static CreatePea(id,row=-1,col=-1){
+        let obj=TG_MapData.getInstance().mapConfigData[id];
+        let itemType = obj.itemType;
+        let item:TG_Item;
+        if(itemType==ItemType.TG_ITEM_TYPE_PEAPIT){
+            item=new TG_ItemPeaPii();
+            item.Create(id,row,col);
+        } else {
+            item = new TG_ItemNull();
+            item.Create(id,row,col);
+        }
+        return item;
+    }
+
+
+}

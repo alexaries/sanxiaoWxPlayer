@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<itemConfigs>
+  <itemConfig id="1" name="刷新" itemimagepath="tool/refresh.png" itemingame="1" itemdesc="重新排列棋盘上的所有色块。" itemname="refresh" quality="1" srs="0" drs="0" type="1" itemSettingReward="1" stackCount="99" price="10" />
+  <itemConfig id="2" name="小金锤" itemimagepath="tool/hammer.png" itemingame="1" itemdesc="小金锤可以敲碎任意一个色块或障碍物。" itemname="hammer" quality="1" srs="0" drs="0" type="1" itemSettingReward="1" stackCount="99" price="5" />
+  <itemConfig id="3" name="魔力横消" itemimagepath="tool/heng.png" itemingame="1" itemdesc="点击后再棋盘中选择消除的色块，以选中色块所在行实现横条糖果消除效果。" itemname="heng" quality="1" srs="0" drs="0" type="1" itemSettingReward="1" stackCount="99" price="20" />
+  <itemConfig id="4" name="魔力竖消" itemimagepath="tool/shu.png" itemingame="1" itemdesc="点击后再棋盘中选择消除的色块，以选中色块所在行实现竖条糖果消除效果。" itemname="shu" quality="1" srs="0" drs="0" type="1" itemSettingReward="1" stackCount="99" price="20" />
+  <itemConfig id="5" name="暴怒炸弹" itemimagepath="tool/bomb.png" itemingame="1" itemdesc="点击后再棋盘中选择消除的色块，以选中色块为中心，实现3*3格炸弹消除" itemname="bomb" quality="1" srs="0" drs="0" type="1" itemSettingReward="1" stackCount="99" price="20" />
+  <itemConfig id="6" name="强制交换" itemimagepath="tool/exchange.png" itemingame="1" itemdesc="使用后强制交换两个相邻色块" itemname="exchange" quality="1" srs="0" drs="0" type="1" itemSettingReward="1" stackCount="99" price="10" />
+  <itemConfig id="7" name="加3步" itemimagepath="tool/jiasanbu.png" itemingame="1" itemdesc="加3步" itemname="addstep3" quality="1" srs="0" drs="0" type="1" itemSettingReward="1" stackCount="99" extendType="1" parameter="3" price="10" />
+  <itemConfig id="8" name="加5步" itemimagepath="tool/jiawubu.png" itemingame="1" itemdesc="加5步" itemname="addstep5" quality="1" srs="0" drs="0" type="1" itemSettingReward="1" stackCount="99" extendType="1" parameter="5" price="15" />
+  <itemConfig id="9" name="加10秒" itemimagepath="tool/addtime10.png" itemingame="1" itemdesc="加10秒" itemname="addtime10" quality="1" srs="0" drs="0" type="1" itemSettingReward="1" stackCount="99" extendType="2" parameter="10" price="10" />
+  <itemConfig id="10" name="加20秒" itemimagepath="tool/addtime20.png" itemingame="1" itemdesc="加20秒" itemname="addtime20" quality="1" srs="0" drs="0" type="1" itemSettingReward="1" stackCount="99" extendType="2" parameter="20" price="15" />
+</itemConfigs>

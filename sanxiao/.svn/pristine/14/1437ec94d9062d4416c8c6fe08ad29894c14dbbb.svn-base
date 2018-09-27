@@ -1,0 +1,791 @@
+import GlowFilter = egret.GlowFilter;
+/**
+ * Created by Administrator on 2018/6/25.
+ */
+class GamePanel_Title extends BaseClassSprite
+{
+
+    //是否为限时关卡
+    private isTimeLimit:boolean = false;
+    //限时关卡的倒计时时长
+    private timeLimitLength:number = 0;
+
+    //分数显示容器
+    private scoreSp:egret.Sprite ;
+    //步数组建显示容器
+    private stepSp:egret.Sprite ;
+    //收集部分容器
+    private gatherSp:egret.Sprite;
+
+    //当前总步数
+    private stepNum:number = 0;
+
+    private  step_text:egret.BitmapText;
+
+    //动态条
+    private bm1_2_1:egret.Bitmap;
+    private score_num:number = 0;
+
+    private score_tex:egret.TextField;
+    //全满多少分
+    public full_all:number;
+    //三个星星分别需要的得分
+    public score_arr:Array<number>;
+    //
+    private score_boo:Array<boolean> ;
+    private star_arr:Array<egret.Sprite>;
+    private taskItemArr:Array<GatherItem> = [];
+    public taskArr:Array<any> = [];
+    //游戏规则 0:消除 1:收集
+    public ruleType:number ;
+
+    //人物模型信息
+    public roleArr:Array<any>;
+    //人物性别 1女 2男
+    public avatar:number;
+
+    //人物模型
+    public roleSp:TG_Role_Model;
+    public addStepNum(num:number)
+    {
+        if(this.isTimeLimit) return;
+        this.set_step(1,num);
+    }
+    public CutStepNum(num:number)
+    {
+        if(this.isTimeLimit) return;
+        this.set_step(0,num);
+    }
+
+    /**
+     * 增加时间
+     * @param num
+     */
+    public addTimeNum(num:number):void
+    {
+        if(!this.isTimeLimit) return;
+        this.set_Time(1,num);
+    }
+    /**
+     * 减少时间
+     * @param num
+     */
+    public cutTimeNum(num:number):void
+    {
+        if(!this.isTimeLimit) return;
+        this.set_Time(0,num);
+    }
+    public AddScore(num:number)
+    {
+        this.set_score(1,num);
+    }
+    public AddTime(num:number)
+    {
+        if(!this.isTimeLimit) return;
+        this.set_Time(1,num);
+    }
+    public ItemFlyToGoal(item,id:number)
+    {
+        this.seekitemFunction(item);//判断功能
+        this.setRect(item,id);
+    }
+    //游戏主逻辑请求判定游戏是否结束
+    public AskForIsGameOver(num:number)
+    {
+        if(this.downOver())
+        {
+            Log.getInstance().trace("游戏结束！")
+            this.doEndingTime();
+            App.TimerManager.doTimer(2000,1,this.GameOver,this)
+            this.GameOver1(true);
+        }
+        else
+        {
+            this.GameOver1(false);
+            //没有结束
+            Log.getInstance().trace("游戏继续！")
+        }
+    }
+    /**
+     * 初始化属性
+     */
+    private init()
+    {
+        App.MessageCenter.removeListener(Msg.Event.GameResize,this.resize,this);
+        App.TimerManager.remove(this.update_time,this);
+
+        App.MessageCenter.addListener(Msg.Event.AddStepNum,this.addStepNum,this);  //增加步数
+        App.MessageCenter.addListener(Msg.Event.CutStepNum,this.CutStepNum,this);  //减少步数
+
+
+        App.MessageCenter.addListener(Msg.Event.AddTimeNum,this.addTimeNum,this);  //增加步数
+        App.MessageCenter.addListener(Msg.Event.CutTimeNum,this.cutTimeNum,this);  //减少步数
+
+
+        App.MessageCenter.addListener(Msg.Event.AddScore,this.AddScore,this);//分数
+        App.MessageCenter.addListener(Msg.Event.ItemFlyToGoal,this.ItemFlyToGoal,this); //游戏中飞到消除目标位置
+        App.MessageCenter.addListener(Msg.Event.AskForIsGameOver,this.AskForIsGameOver,this);//请求游戏是否结束
+
+        App.MessageCenter.addListener(Msg.Event.BeginGame2,this.begin_times,this);//开始倒计时
+        this.avatar = 1;//初始化人物性别
+        this.roleArr = [10101,10102,0,0,10201,0,10202,0,0,0];//初始化任务模型信息
+
+
+
+        this.score_num = 0;//初始分数
+        this.stepNum =TG_MapData.getInstance().stageData["Stage"].Step;//初始步数
+        //0:消除 1:收集
+        this.ruleType = TG_MapData.getInstance().stageData["Stage"].RuleType;
+
+        this.isTimeLimit = TG_MapData.getInstance().stageData["Stage"].IsTimeLimit;//是否为限时关卡
+
+        this.timeLimitLength = TG_MapData.getInstance().stageData["Stage"].TimeLimitLength;//限时关卡的倒计时时长
+        // this.taskArr  = [
+        //     {"Cur":0,"Num":2,"Target":2001},
+        //     {"Cur":0,"Num":3,"Target":2002},
+        //     {"Cur":0,"Num":8,"Target":2003},
+        //     {"Cur":0,"Num":4,"Target":2004}
+        // ];
+        this.taskArr  =TG_MapData.getInstance().stageData["Stage"].Targets1;
+        this.taskItemArr = [];
+        this.full_all = this.stepNum * 1500;
+        this.score_arr = [this.full_all*0.2,this.full_all*0.4,this.full_all*0.7];
+        this.score_boo = [false,false,false];
+        this.star_arr = [];
+        this.game_is_over = false;
+        this.begin_num = 3;
+    }
+    //开始倒计时
+    public begin_times()
+    {
+
+
+        if(this.isTimeLimit) {
+            this.GameOver1(true);
+            if(this.begin_num <= 0)
+            {
+                App.DisplayUtils.removeFromParent(this.tex_1);
+                App.TimerManager.doTimer(1000, 0, this.update_time, this);
+                this.GameOver1(false);
+                App.MessageCenter.dispatch(Msg.Event.BeginTimeDrop);//执行掉落
+                return ;
+            }
+            if(!this.tex_1) {
+                this.tex_1 = new egret.Bitmap();
+
+            }
+            this.tex_1.texture = RES.getRes("tex_" + this.begin_num + "_png")
+            this.tex_1.y = Main.stageHeight/2;// - this.tex_1.height/2;
+            this.tex_1.x = Main.stageWidth/2;// - this.tex_1.width/2
+            this.tex_1.scaleY = 15;
+            this.tex_1.scaleX = 15;
+            Tool.getInstance().setAnchorPoint(this.tex_1);
+            LayerManager.UI_Message.addChild( this.tex_1);
+            let tween = egret.Tween.get(this.tex_1);
+            tween.to({"scaleY":1,"scaleX":1},500);
+            //tween.wait(1000);
+            tween.call(function (){
+                    egret.Tween.removeTweens(this.tex_1);
+
+                    App.TimerManager.doTimer(500, 1, this.begin_times, this);
+                },this
+            );
+            this.begin_num --;
+        }
+
+    }
+    //321动画
+    public tex_1:egret.Bitmap;
+    public begin_num:number = 3;
+
+
+    //初始化布局
+    public initView()
+    {
+        while(this.numChildren)
+        {
+            App.DisplayUtils.removeFromParent(this.getChildAt(0));
+        }
+        this.init();
+
+        /** 得分显示区域 */
+        this.scoreSp = new egret.Sprite();
+        this.addChild(this.scoreSp);
+        let bm1_0:egret.Bitmap = new egret.Bitmap();
+        bm1_0.texture = RES.getRes("gametitle_000_png");
+        bm1_0.width = Main.stageWidth;
+        bm1_0.height = 50;
+        this.scoreSp.addChild(bm1_0);
+
+
+        let bm1_1:egret.Bitmap = new egret.Bitmap();
+        bm1_1.texture = RES.getRes("shangzuo_png");
+        this.scoreSp.addChild(bm1_1);
+        let bm1_2:egret.Bitmap = new egret.Bitmap();
+        bm1_2.texture = RES.getRes("title_bg2_png");
+        bm1_2.scale9Grid = new egret.Rectangle(15,2,8,23);
+        bm1_2.width = 404;
+        bm1_2.y = 10;
+        bm1_2.x = bm1_1.x + bm1_1.width + 20;
+        this.scoreSp.addChild(bm1_2);
+
+        this.bm1_2_1 = new egret.Bitmap();
+        this.bm1_2_1.texture = RES.getRes("pingxingJinDuTiao_png");//pingxingJinDuTiao_png
+        this.bm1_2_1.scale9Grid = new egret.Rectangle(15,2,8,23);
+        this.bm1_2_1.width = 0;
+        this.bm1_2_1.y = bm1_2.y + 2;
+        this.bm1_2_1.x = bm1_2.x + 2;
+        this.scoreSp.addChild(this.bm1_2_1);
+        for(let i = 0;i < 3; i ++)
+        {
+            let star1 = this.getStar(i);
+            let temp:number = this.score_arr[i]/this.full_all * 400;
+            star1.x = bm1_2.x +2 + temp - star1.width/2;
+            star1.y = bm1_2.y;
+            this.scoreSp.addChild(star1);
+            this.star_arr.push(star1);
+        }
+        this.score_tex = new egret.TextField();
+        this.score_tex.textAlign = "center";
+        this.score_tex.size = 27;
+        this.score_tex.textColor = 0xffffff;
+        this.score_tex.width = 404;
+        this.score_tex.strokeColor = 0x000000;
+        this.score_tex.stroke = 2;
+        this.score_tex.text = this.score_num+"";
+        this.score_tex.height = this.score_tex.textHeight;
+        this.score_tex.x = bm1_2.x;
+        this.score_tex.y = bm1_2.y + bm1_2.height/2 - this.score_tex.height/2;
+        this.scoreSp.addChild( this.score_tex);
+
+
+
+        /** 步数显示区域 */
+        this.stepSp = new egret.Sprite();
+        this.addChild(this.stepSp);
+
+        // let bm2:egret.Sprite = new egret.Sprite();
+
+        let bm2:egret.Bitmap = new egret.Bitmap();
+        bm2.texture = RES.getRes("shibaixianzhiBg_png");
+        this.stepSp.addChild(bm2);
+        this.step_text = new egret.BitmapText();
+        this.step_text.font = RES.getRes("num_btm_fnt");
+        this.step_text.textAlign = "center";
+        this.step_text.width = bm2.width-20;
+
+
+        let bm2_1:egret.Bitmap;
+        if(this.isTimeLimit)
+        {
+            //限时
+            bm2_1 = new egret.Bitmap();
+            bm2_1.texture = RES.getRes("daojishi_png");
+            bm2_1.x = bm2.width/2 - bm2_1.width/2;
+            this.stepSp.addChild(bm2_1);
+
+        }
+        else
+        {
+            //步数
+            bm2_1 = new egret.Bitmap();
+            bm2_1.texture = RES.getRes("bushu_png");
+            bm2_1.x = bm2.width/2 - bm2_1.width/2;
+            this.stepSp.addChild(bm2_1);
+        }
+        this.step_text.x = bm2.width/2 -  this.step_text.width/2;
+        this.step_text.y = bm2_1.y + bm2_1.height + 10;
+
+        // let bm3:egret.Bitmap = new egret.Bitmap();
+        // bm3.texture = RES.getRes("moves_png");
+        // this.stepSp.addChild(bm3);
+        // bm3.x = bm2.width/2 - bm3.width/2 + 10;
+
+        this.stepSp.addChild( this.step_text);
+
+        this.stepSp.x = Main.stageWidth -  this.stepSp.width;
+
+
+        this.gatherSp = new egret.Sprite();
+        this.gatherSp.x = 300;
+        this.gatherSp.y = 300;
+        this.addChild( this.gatherSp);
+
+        //显示任务
+        this.addTesk();
+
+        let wid = Main.stageHeight /1920;
+        let scaleBi = wid *0.4;
+
+        this.roleSp =TG_Role_Model.createModel(this.avatar,this.roleArr,scaleBi);
+        this.addChild(this.roleSp);
+        this.roleSp.play();
+        this.roleSp.x = bm1_1.x + bm1_1.height;
+        this.roleSp.y = GamePanel_BgSp.getInstance().topBg.y + GamePanel_BgSp.getInstance().topBg.height - this.roleSp.height1 - 30;
+
+        this.gatherSp.x = this.roleSp.x + this.roleSp.width1;
+
+        App.MessageCenter.addListener(Msg.Event.GameResize,this.resize,this);
+
+         this.resize();
+        this.step_text.text = this.getFontText();
+    }
+
+    /**
+     *  更新时间
+     */
+    public update_time()
+    {
+        this.set_Time(0,1);
+    }
+
+    public game_is_over:boolean = false;
+
+    /**
+     * 游戏结算
+     */
+    public doEndingTime()
+    {
+        let step_temp:number = (this.isTimeLimit)?Math.floor(this.timeLimitLength/5):this.stepNum;
+        //剩余步数换成得分
+        this.set_score(1, step_temp* ScoreType.ST_STEPSCORE);
+    }
+    public update_step()
+    {
+        this.step_text.text = this.getFontText();
+
+        if(TG_Game.currentState == 2)//游戏中
+        {
+            return;
+        }
+        else
+        {
+            if(this.downOver())
+            {
+                this.doEndingTime();
+                App.TimerManager.doTimer(2000,1,this.GameOver,this)
+                this.GameOver1(true);
+            }
+        }
+        if(this.timeLimitLength <= 0)
+        {
+            this.timeLimitLength = 0;
+            App.TimerManager.remove(this.update_time,this);
+        }
+    }
+    public getFontText():string
+    {
+        if(this.isTimeLimit) {
+            return  Tool.getInstance().getTimeForTime(this.timeLimitLength);
+        }
+        else
+        {
+            return  this.stepNum.toString();
+        }
+        return "";
+    }
+    private resize()
+    {
+        this.gatherSp.y = 50+(GamePanel_BgSp.getInstance().topBg.height-50)/2 - this.gatherSp.height/2;
+        this.roleSp.y = GamePanel_BgSp.getInstance().topBg.y + GamePanel_BgSp.getInstance().topBg.height - this.roleSp.height1 - 30;
+    }
+
+    //添加任务系统
+    private addTesk()
+    {
+        //初始化任务
+
+        for(var i = 0;i < this.taskArr.length;i ++)
+        {
+            let obj:any = this.taskArr[i];
+
+            let obj11=TG_MapData.getInstance().mapConfigData[obj.Target];
+            let str=LoadNetworkImageUtils.getResNameByLayerId(obj11.layerid);//obj11.image+"_png";
+            let item:GatherItem = new GatherItem(str,obj.Num, this.ruleType,obj.Target);
+            let child_num = this.gatherSp.numChildren;
+            //行
+            var r:number = child_num % 3;
+            //列
+            var c:number =  Math.floor(child_num/3);
+            item.x = (r) * (item.width +20);
+            item.y = (c) * (item.height +1);
+            this.gatherSp.addChild(item);
+            this.taskItemArr.push(item);
+        }
+    }
+
+    //判断块的功能 加属性
+    public seekitemFunction(items:TG_Item)
+    {
+        if(items.isFunction)
+        {
+            if(items.extendType == 1)//加步数
+            {
+                this.addStepNum(items.extendParam);
+            }
+            else if(items.extendType == 2)//加时间
+            {
+                this.AddTime(items.extendParam)
+            }
+        }
+        if(items.isPropBox)
+        {
+            //是道具宝箱
+            //宝箱id
+            let propId:number= items.propId;
+            let propNum:number = items.propNum;
+            App.MessageCenter.dispatch(Msg.Event.UseProp,propId,1,propNum);//派发更新道具数量事件
+        }
+    }
+
+    public time_num:number = 0;
+    //设置消除格子信息
+    public setRect(items,id:number)
+    {
+        try {
+            let _x: number = 0;
+            let _y: number = 0;
+            let pos:any = items.SitePos;
+            if(pos)
+            {
+                let pos1:any = items.getPosByRowCol(pos.Y,pos.X);
+                _x = pos1.x;
+                _y = pos1.y;
+            }
+
+            // let texture:string = (items.getChildAt(0) as TG_Object).textureName;
+
+
+            let _id: number = id;//items["BlockId"];
+            let obj12 = TG_MapData.getInstance().mapConfigData[_id];
+            let str = LoadNetworkImageUtils.getResNameByLayerId(obj12.layerid);//obj12.image + "_png";
+            let item: GatherItem = null;
+            for (let i = 0; i < this.taskItemArr.length; i++) {
+                let item1: GatherItem = this.taskItemArr[i];
+                if (item1.id == _id) {
+                    item = item1;
+                    break;
+                }
+            }
+            if (item != null) {
+
+                var btm: egret.Bitmap = ObjectPool.pop("egret.Bitmap");
+                btm.texture = RES.getRes(str);
+                btm.width = TG_Item.getInstance().itemWidth;
+                btm.height = TG_Item.getInstance().itemWidth;
+
+                // btm.x = _x + GamePanel_ItemSp.getInstance().IcesSp.x - btm.width / 2;
+                // btm.y = _y + GamePanel_ItemSp.getInstance().IcesSp.y - btm.height / 2;
+                btm.x = _x + GamePanel.getInstance().rectSp.x - btm.width / 2;
+                btm.y = _y + GamePanel.getInstance().rectSp.y - btm.height / 2;
+                item.updateRectNum(1);
+                GamePanel.getInstance().addChild(btm);
+                egret.Tween.get(btm).to({
+                    x: this.gatherSp.x + item.x + item.btm.x,
+                    y: this.gatherSp.y + item.y + item.btm.y
+                }, 500, egret.Ease.sineInOut).call(function () {
+                    egret.Tween.removeTweens(btm);
+                    App.DisplayUtils.removeFromParent(btm);
+                    btm.texture = null;
+                    ObjectPool.push(btm);
+
+                    //判断游戏是否结束
+                   // this.AskForIsGameOver();
+                    // this.set_score(1,1000);//加分
+                }.bind(this), this);
+            }
+            else
+            {
+                // this.downOver();
+                // App.MessageCenter.dispatch(Msg.Event.IsGameOver,false);
+            }
+            this.time_num++;
+        }catch(e)
+        {
+            Log.getInstance().trace("报错items--->"+items + " -->"+items["BlockId"]);
+        }
+    }
+
+    private getStar(num:number)
+    {
+        let sp:egret.Sprite = new egret.Sprite();
+        let bm2:egret.Bitmap = new egret.Bitmap();
+        bm2.texture = RES.getRes("scoreLine_png");
+        sp.addChild(bm2);
+
+        let bm3:egret.Bitmap = new egret.Bitmap();
+        bm3.texture = RES.getRes("scoreStar1_png");
+        sp.addChild(bm3);
+        bm3.name = "star_"+num;
+        bm3.y = bm2.y + bm2.height;
+        bm2.x = bm3.width/2 - bm2.width/2;
+
+        return sp;
+    }
+
+    /** 设置步数
+     * @param type 0减num步  1加num步
+     * @param num
+     */
+    public set_step(type:number,_step:number)
+    {
+        if(this.isTimeLimit) return ;
+
+        let step = Math.abs(_step);
+        if(type == 1)
+            this.stepNum += step;
+        else
+            this.stepNum -= step;
+
+        if(this.stepNum <= 0)
+        {
+            //没有步数了，游戏需要结束
+            this.stepNum = 0;
+        }
+
+        this.update_step();
+    }
+
+    /**
+     *  设置时间
+     * @param type 0减num时间  1加num时间
+     * @param num
+     */
+    public set_Time(type:number,num:number)
+    {
+        let time:number = Math.abs(num);
+        if(type == 1)
+            this.timeLimitLength += time;
+        else
+            this.timeLimitLength -= time;
+
+
+        this.update_step()
+
+    }
+    /**
+     * 更新分数
+     * @type 1：加分 0：减分
+     * @num 需要加的分数
+     * */
+    public set_score(type:number,num:number)
+    {
+        let score =  Math.abs(num);
+        if(type == 1)
+            this.score_num +=score;
+        else
+            this.score_num -= score;
+
+        for(let i = 0;i < 3;i++)
+        {
+            if(this.score_num >= this.score_arr[i] && this.score_boo[i] == false)
+            {
+                let star:egret.Sprite;
+
+                star = this.star_arr[i] as egret.Sprite;
+                let sp:egret.Bitmap = star.getChildByName("star_"+i ) as egret.Bitmap;
+                if(sp)
+                {
+                    sp.texture = RES.getRes("scoreStar0_png");
+                }
+            }
+        }
+        let tmp = this.score_num/this.full_all * 400;
+        if(tmp > 400)
+            tmp = 400;
+        this.bm1_2_1.width = tmp;
+
+        //更新星星完毕
+        this.score_tex.text = this.score_num.toString();
+    }
+    //游戏结果 1是成功 0是失败
+    private game_over = 0;
+    public isComplete_over:boolean = false;
+
+    //判断游戏结果
+    public downOver():boolean
+    {
+        //if(this.isComplete_over) return true;
+        if(this.game_is_over) return true;
+
+        let isComplete:boolean = false;
+        //这里判断任务是否完成
+        let completeNum = 0;
+        for (let i = 0; i < this.taskItemArr.length; i++) {
+            let items: GatherItem = this.taskItemArr[i];
+            if (items.isComplete) {
+                completeNum++;
+            }
+        }
+        if (completeNum >= this.taskItemArr.length) {
+            isComplete = true;
+        }
+        let isOver:boolean = false;
+
+        if(isComplete)
+        {
+            this.isComplete_over = true;//任务完成标示
+            App.TimerManager.remove(this.update_time,this);//清除计时器
+            //任务完成了
+            Log.getInstance().trace("任务完成了");
+        }
+        //如果是收集模式步数每了就成功
+        if(isComplete ||
+            (this.ruleType == 1 &&
+            (this.stepNum <= 0 && !this.isTimeLimit))  || (this.isTimeLimit && this.timeLimitLength <= 0
+            )
+        )
+        {
+            if(this.isTimeLimit && this.timeLimitLength <= 0)
+            {
+                if(this.ruleType == 1)
+                    this.game_over = 1;
+                else
+                {
+                    this.game_over = 0;
+                }
+                Log.getInstance().trace("222没有时间了，游戏结束！")
+            }
+
+            if((this.ruleType == 1 &&
+                (this.stepNum <= 0 && !this.isTimeLimit)))
+            {
+                this.game_over = 1;
+            }
+            
+            if(isComplete)
+            {
+                this.game_over = 1;
+            }
+
+            isOver = true;
+            let taskArr:Array<any> = [];
+            for (let i = 0; i < this.taskItemArr.length; i++) {
+                let items: GatherItem = this.taskItemArr[i];
+                let objs = {};
+                objs["Target"] = items.id;
+                objs["Num"] = items.num;
+                taskArr.push(objs);
+            }
+            ConfigGameData.getInstance().taskArr = taskArr.splice(0);
+
+            this.game_is_over = true;
+        }
+        else if((this.stepNum <= 0 && !this.isTimeLimit) || (this.isTimeLimit && this.timeLimitLength <= 0))
+        {
+            isOver = true;
+            //没有步数了，游戏需要结束
+
+            this.game_over = 0;
+            let taskArr:Array<any> = [];
+            for (let i = 0; i < this.taskItemArr.length; i++) {
+                let items: GatherItem = this.taskItemArr[i];
+                let objs= {};
+                objs["Target"] = items.id;
+                objs["Num"] = items.num;
+                taskArr.push(objs);
+            }
+            ConfigGameData.getInstance().taskArr = taskArr.splice(0);
+
+            this.game_is_over = true;
+        }
+        return isOver;
+    }
+    private GameOver()
+    {
+            if(this.game_over == 1)
+            {
+                Panel_PopupLayer.getInstance().myAlert("任务完成，游戏结束！", 2000);
+            }
+            else
+            {
+                if(this.isTimeLimit)
+                    Panel_PopupLayer.getInstance().myAlert("游戏结束",2000);
+                else
+                    Panel_PopupLayer.getInstance().myAlert("游戏结束",2000);
+            }
+            GamePanel.getInstance().showGameOver(this.game_over);
+    }
+    //向游戏主逻辑发送游戏结果命令，是否可以继续操作
+    private GameOver1(bool:boolean = true)
+    {
+        App.MessageCenter.dispatch(Msg.Event.IsGameOver,bool);
+    }
+}
+
+/**
+ *  收集items
+ */
+class GatherItem extends egret.Sprite
+{
+    public num_tex:egret.TextField;
+    public ruleType:number;
+    public num:number;
+    public id:number;
+    public btm:egret.Bitmap;
+
+    //是否完成
+    public isComplete:boolean = false;
+
+    /**
+     *
+     * @param textureName 图片文理
+     * @param num 收集个数
+     * @param ruleType 游戏规则 0:消除 1:收集
+     */
+    public constructor(textureName:string,_num:number,_ruleType:number,_id)
+    {
+        super();
+        this.ruleType = _ruleType;
+        if( this.ruleType == 1)
+            this.num = 0;
+        else
+            this.num = _num;
+
+        this.id = _id;
+
+        this.btm = TG_Object.Create(textureName);
+        this.btm.width = TG_Item.getInstance().itemWidth;
+        this.btm.height = TG_Item.getInstance().itemWidth;
+        this.addChild(this.btm);
+        this.num_tex = new egret.TextField();
+        this.num_tex.textAlign = "center";
+        this.num_tex.size = 33;
+        this.num_tex.textColor = 0xffffff;
+        this.num_tex.width = 100;
+        this.num_tex.strokeColor = 0x000000;
+        this.num_tex.stroke = 2;
+        this.num_tex.text = "" +  this.num;
+        this.num_tex.height = this.num_tex.textHeight;
+        this.num_tex.x = this.btm.x + this.btm.width/2 - this.num_tex.width/2;
+        this.num_tex.y = this.btm.y + this.btm.height +5;
+        this.addChild( this.num_tex);
+    }
+    public updateRectNum(_num:number)
+    {
+
+        if(this.ruleType == 0 && this.isComplete == false) {
+            this.num -= _num;
+            if (this.num <= 0) {
+                this.num = 0;
+                if(TG_Stage.SingelModel){
+                    //完成
+                    let b = TG_Object.Create("duihao_png");
+                    b.x = this.btm.x + this.btm.width - b.width / 2 - 10;
+                    b.y = this.btm.y + this.btm.height - b.height / 2 - 10;
+                    this.addChild(b);
+                }
+                this.isComplete = true;
+            }
+
+        }
+        else if(this.ruleType == 1)
+        {
+            this.num += _num;
+        }
+        if(this.num > 0)
+            this.num_tex.text = "" + this.num;
+        else
+            this.num_tex.text = "";
+    }
+}

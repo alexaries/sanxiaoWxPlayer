@@ -1,0 +1,76 @@
+{
+  "global": {
+    "globalAutoLayerMarkEnable": true
+  },
+  "16541746258": {
+    "backgroundType": "null",
+    "backgroundX": 0,
+    "backgroundY": 0,
+    "backgroundWidth": -1,
+    "backgroundHeight": -1,
+    "useBgImage": true,
+    "useBgColor": true,
+    "backgroundAlpha": 100,
+    "backgroundImage": "D:\\H5\\sanxiao_art\\新版ui\\Z战斗界面\\JPG效果图\\战斗界面_系列弹框_暂停.jpg"
+  },
+  "1657f8ee3ef": {
+    "backgroundX": 0,
+    "backgroundY": 0,
+    "backgroundWidth": -1,
+    "backgroundHeight": -1
+  },
+  "1657f8ee3f0": {
+    "useBgImage": true,
+    "useBgColor": true,
+    "backgroundAlpha": 100
+  },
+  "165d1c1ce34": {
+    "backgroundType": "user",
+    "backgroundImage": "D:\\H5\\sanxiao_art\\H5\\排行榜list.png"
+  },
+  "165d21f42f8": {
+    "backgroundType": "null",
+    "backgroundImage": "D:\\H5\\sanxiao_art\\H5\\H5-流程-3-3.jpg",
+    "backgroundX": 0,
+    "backgroundY": 0,
+    "backgroundWidth": -1,
+    "backgroundHeight": -1,
+    "useBgImage": true,
+    "useBgColor": true,
+    "backgroundAlpha": 100,
+    "guideLines": [
+      {
+        "type": "v",
+        "pos": -109
+      }
+    ]
+  },
+  "165d5e6836c": {
+    "backgroundType": "null",
+    "backgroundImage": "D:\\H5\\sanxiao_art\\H5\\排行榜list.png",
+    "useBgImage": false,
+    "useBgColor": true
+  },
+  "165ea755e4b": {
+    "backgroundType": "null",
+    "backgroundImage": "D:\\H5\\sanxiao_art\\H5\\detailpage.png",
+    "backgroundX": 0,
+    "backgroundY": 0,
+    "backgroundWidth": -1,
+    "backgroundHeight": -1,
+    "useBgImage": true,
+    "useBgColor": true,
+    "backgroundAlpha": 100
+  },
+  "1651c9e6cda": {
+    "backgroundType": "user",
+    "backgroundImage": "D:\\H5\\Document\\h5前端\\主界面_结算_加作者信息.jpg",
+    "backgroundX": 0,
+    "backgroundY": 0,
+    "backgroundWidth": -1,
+    "backgroundHeight": -1,
+    "useBgImage": true,
+    "useBgColor": true,
+    "backgroundAlpha": 100
+  }
+}

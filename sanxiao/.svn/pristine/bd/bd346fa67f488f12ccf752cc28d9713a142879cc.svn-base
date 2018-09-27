@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="begin_detailUi" height="1877.73" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" width="900.82">
+	<e:Group y="0" left="60" right="60" horizontalCenter="0">
+		<e:Image height="83.64" y="30" source="Popup_TitleBg_png" anchorOffsetX="0" anchorOffsetY="0" scale9Grid="20,23,8,33" scaleX="1" scaleY="1" left="40" right="40" horizontalCenter="0"/>
+		<e:Label text="关卡简介" y="52.13" anchorOffsetX="0" width="346.73" anchorOffsetY="0" height="45.15" size="41" bold="true" scaleX="1" scaleY="1" left="60"/>
+		<e:Scroller height="180" y="140" anchorOffsetX="0" anchorOffsetY="0" left="0" right="0">
+			<e:Group>
+				<e:Label id="decTex" text="我是关卡详情介绍我是关卡详情介绍我是关卡详情介绍我是关卡详情介绍我是关卡详情介绍我是关卡详情介绍我是关卡详情介绍我是关卡详情介绍我是关卡详情介绍我是关卡详情介绍我是关卡详情介绍我是关卡详情介绍我是关卡详情介绍我是关卡详情介绍我是关卡详情介绍我是关卡详情介绍我是关卡详情介绍我是关" y="0" anchorOffsetX="0" anchorOffsetY="0" textColor="0x0807f2" scaleX="1" scaleY="1" size="45" left="80" right="80"/>
+			</e:Group>
+		</e:Scroller>
+	</e:Group>
+	<e:Group y="323" anchorOffsetX="0" left="60" right="60">
+		<e:Image height="83.64" y="31.82" source="Popup_TitleBg_png" anchorOffsetX="0" anchorOffsetY="0" scale9Grid="20,23,8,33" scaleX="1" scaleY="1" left="40" right="40"/>
+		<e:Label text="游戏规则" y="52.13" anchorOffsetX="0" width="346.73" anchorOffsetY="0" height="45.15" size="41" bold="true" scaleX="1" scaleY="1" left="60"/>
+		<e:Group y="145.82" left="80">
+			<e:Label text="1、生成风车数量：" x="0" y="0" anchorOffsetX="0" width="404.29" anchorOffsetY="0" height="45.16" textColor="0x0807F2" scaleX="1" scaleY="1" size="35" bold="true"/>
+			<e:Label id="ruleTex1" text="Label" x="304.46" y="0" anchorOffsetX="0" width="164.91" anchorOffsetY="0" height="32.54" textColor="0xe8e40b" bold="true" size="36"/>
+		</e:Group>
+		<e:Group y="194.01" left="80">
+			<e:Label text="2、是否可以生成风车：" x="0" y="0" anchorOffsetX="0" width="380.29" anchorOffsetY="0" height="45.16" textColor="0x0807F2" scaleX="1" scaleY="1" size="35" bold="true"/>
+			<e:Label id="ruleTex2" text="Label" x="372" y="0" anchorOffsetX="0" width="164.91" anchorOffsetY="0" height="32.54" textColor="0xE8E40B" bold="true" size="36"/>
+		</e:Group>
+		<e:Group y="244" left="80">
+			<e:Label text="3、道具是否收费：" x="0" y="0" anchorOffsetX="0" width="441.29" anchorOffsetY="0" height="45.16" textColor="0x0807F2" scaleX="1" scaleY="1" size="36" bold="true"/>
+			<e:Label id="ruleTex3" text="Label" x="303.16" y="0" anchorOffsetX="0" width="164.91" anchorOffsetY="0" height="32.54" textColor="0xE8E40B" bold="true" size="36"/>
+		</e:Group>
+		<e:Group y="294" left="80">
+			<e:Label text="4、是否有失败限制：" x="0" y="0" anchorOffsetX="0" width="441.29" anchorOffsetY="0" height="45.16" textColor="0x0807F2" scaleX="1" scaleY="1" size="36" bold="true"/>
+			<e:Label id="ruleTex4" text="Label" x="343.16" y="0" anchorOffsetX="0" width="164.91" anchorOffsetY="0" height="32.54" textColor="0xE8E40B" bold="true" size="36"/>
+		</e:Group>
+	</e:Group>
+	<e:Group y="665.79" anchorOffsetY="0" height="447" anchorOffsetX="0" left="60" right="60">
+		<e:Image height="83.64" y="31.82" source="Popup_TitleBg_png" anchorOffsetX="0" anchorOffsetY="0" scale9Grid="20,23,8,33" scaleX="1" scaleY="1" left="40" right="40" horizontalCenter="0"/>
+		<e:Label id="ruleTex" text="消除目标" y="52.13" anchorOffsetX="0" width="346.73" anchorOffsetY="0" height="45.15" size="41" bold="true" scaleX="1" scaleY="1" left="60"/>
+		<e:Group y="138.5" left="80" right="80">
+			<e:Label text="玩家1" x="0" y="39.5" anchorOffsetX="0" width="112.29" anchorOffsetY="0" height="39.16" textColor="0x0807F2" scaleX="1" scaleY="1" size="35" bold="true"/>
+			<e:Group y="0" anchorOffsetX="0" anchorOffsetY="0" left="110" right="0">
+				<e:Scroller y="0" anchorOffsetX="0" anchorOffsetY="0" left="0" right="0">
+				<e:Group>
+					<e:List id="taskList1" x="0" y="0" anchorOffsetX="0">
+					<e:layout>
+						<e:HorizontalLayout/>
+					</e:layout>
+					</e:List>
+				</e:Group>
+				</e:Scroller>
+			</e:Group>
+		</e:Group>
+		<e:Group y="291.5" left="80" right="80">
+			<e:Label text="玩家2" x="0" y="38.51" anchorOffsetX="0" width="100.29" anchorOffsetY="0" height="45.16" textColor="0x0807F2" scaleX="1" scaleY="1" size="35" bold="true"/>
+			<e:Group y="0" anchorOffsetX="0" anchorOffsetY="0" left="110" right="0">
+				<e:Scroller y="0" anchorOffsetX="0" anchorOffsetY="0" left="0" right="0">
+				<e:Group>
+					<e:List id="taskList2" x="0" y="0" anchorOffsetX="0">
+					<e:layout>
+						<e:HorizontalLayout/>
+					</e:layout>
+					</e:List>
+				</e:Group>
+				</e:Scroller>
+			</e:Group>
+		</e:Group>
+	</e:Group>
+	<e:Group y="1113.79" anchorOffsetX="0" left="60" right="60">
+		<e:Image height="83.64" y="31.82" source="Popup_TitleBg_png" anchorOffsetX="0" anchorOffsetY="0" scale9Grid="20,23,8,33" scaleX="1" scaleY="1" left="40" right="40"/>
+		<e:Label text="可用道具" y="52.13" anchorOffsetX="0" width="346.73" anchorOffsetY="0" height="45.15" size="41" bold="true" scaleX="1" scaleY="1" left="60"/>
+		<e:Group y="153.5" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" left="80" right="80">
+			<e:Scroller height="133" y="0" anchorOffsetX="0" anchorOffsetY="0" left="0" right="0">
+			<e:Group>
+				<e:List id="propList" y="0" anchorOffsetX="0" x="0">
+				<e:layout>
+					<e:HorizontalLayout/>
+				</e:layout>
+				</e:List>
+			</e:Group>
+			</e:Scroller>
+		</e:Group>
+	</e:Group>
+	<e:Group y="1401.79" anchorOffsetX="0" left="60" right="60">
+		<e:Image height="83.64" y="31.82" source="Popup_TitleBg_png" anchorOffsetX="0" anchorOffsetY="0" scale9Grid="20,23,8,33" scaleX="1" scaleY="1" left="40" right="40"/>
+		<e:Label text="失败限制条件" y="52.13" anchorOffsetX="0" width="346.73" anchorOffsetY="0" height="45.15" size="41" bold="true" scaleX="1" scaleY="1" left="60"/>
+		<e:Group y="149" left="80" right="80">
+			<e:Label text="玩家1" x="0" y="52" anchorOffsetX="0" width="142.29" anchorOffsetY="0" height="33.16" textColor="0x0807F2" scaleX="1" scaleY="1" size="35" bold="true"/>
+			<e:Label id="failTex1" text="步数：25" x="120" y="51.08" size="32" bold="true" width="210"/>
+			<e:Scroller height="133" y="0" anchorOffsetX="0" anchorOffsetY="0" left="335" right="56">
+				<e:Group>
+				<e:List id="failList1" y="0" anchorOffsetX="0" left="0" right="0">
+					<e:layout>
+					<e:HorizontalLayout/>
+					</e:layout>
+				</e:List>
+				</e:Group>
+			</e:Scroller>
+		</e:Group>
+		<e:Group y="306" left="80" right="80">
+			<e:Label text="玩家2" x="0" y="54.01" anchorOffsetX="0" width="116.29" anchorOffsetY="0" height="45.16" textColor="0x0807F2" scaleX="1" scaleY="1" size="35" bold="true"/>
+			<e:Label id="failTex2" text="时间:25:54" x="120" y="51.59" size="32" bold="true" width="219"/>
+			<e:Scroller height="133" y="0" anchorOffsetX="0" anchorOffsetY="0" left="335" right="56">
+				<e:Group>
+				<e:List id="failList2" y="0" anchorOffsetX="0" left="0" right="0">
+					<e:layout>
+					<e:HorizontalLayout/>
+					</e:layout>
+				</e:List>
+				</e:Group>
+			</e:Scroller>
+		</e:Group>
+	</e:Group>
+</e:Skin>

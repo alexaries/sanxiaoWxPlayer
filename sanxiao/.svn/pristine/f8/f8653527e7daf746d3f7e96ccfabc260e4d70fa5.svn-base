@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="detailItem_item" width="133" height="133" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Group anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="0" verticalCenter="-1.5">
+		<e:Image id="img_item1" width="133" height="133" y="0" anchorOffsetX="0" anchorOffsetY="0" x="0" scaleX="1" scaleY="1" source="ItemBg_Blue_png"/>
+		<e:Image id="img_rect1" width="90" height="90" y="15.5" anchorOffsetX="0" anchorOffsetY="0" x="21.5" scaleX="1" scaleY="1" source="item_2_1_v_png"/>
+		<e:Label id="des_txt1" text="x12" y="87.5" anchorOffsetX="0" width="114" verticalAlign="middle" textAlign="right" size="26" x="9" scaleX="1" scaleY="1" anchorOffsetY="0" height="24" textColor="0xf9fcf7" bold="true"/>
+	</e:Group>
+</e:Skin>

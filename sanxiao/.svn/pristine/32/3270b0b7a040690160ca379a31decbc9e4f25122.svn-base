@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="propNewUI" width="1080" xmlns:e="http://ns.egret.com/eui" xmlns:ns1="*" xmlns:w="http://ns.egret.com/wing">
+	<e:Group anchorOffsetY="0" y="0" width="1080" horizontalCenter="0">
+		<e:Image id="bgImg" source="ui_battle_daoju_bg_png" y="0" anchorOffsetY="0" height="176" scale9Grid="0,44,540,5" width="1080" horizontalCenter="0"/>
+		<e:Group id="items" y="0" width="1080" mask="{maskRect}" x="0">
+			<ns1:PropNewItem id="item1" x="0" y="0" skinName="propNewItem"/>
+			<ns1:PropNewItem id="item2" x="10" y="0" skinName="propNewItem"/>
+			<ns1:PropNewItem id="item3" x="20" y="0" skinName="propNewItem"/>
+			<ns1:PropNewItem id="item4" x="30" y="0" skinName="propNewItem"/>
+			<ns1:PropNewItem id="item5" x="40" y="0" skinName="propNewItem"/>
+			<ns1:PropNewItem id="item6" x="50" y="0" skinName="propNewItem"/>
+			<ns1:PropNewItem id="item7" x="60" y="0" skinName="propNewItem"/>
+			<ns1:PropNewItem id="item8" x="70" y="0" skinName="propNewItem"/>
+			<ns1:PropNewItem id="item9" x="80" y="0" skinName="propNewItem"/>
+			<ns1:PropNewItem id="item10" x="90" y="0" skinName="propNewItem"/>
+		</e:Group>
+	</e:Group>
+	<e:Rect id="maskRect" width="980" height="350" y="0" horizontalCenter="0"/>
+</e:Skin>

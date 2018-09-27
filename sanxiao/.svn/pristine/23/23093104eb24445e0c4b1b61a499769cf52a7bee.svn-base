@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="beginUI" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:game="game.*" xmlns:ns1="*" height="1920">
+	<w:Config id="1657a463923"/>
+	<e:Image anchorOffsetX="0" anchorOffsetY="0" source="DownTitle_png" scaleX="1" scaleY="1" bottom="0" scale9Grid="12,14,3,4" width="1080" x="0" height="1920" visible="false"/>
+	<e:Rect id="BeginRect" width="1080" height="1920" left="0" top="0" fillColor="0xe8e8e8"/>
+	<e:Group id="datile_group" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" left="0" right="0" top="837" bottom="200">
+		<e:Scroller id="scroll1" scaleX="1" scaleY="1" enabled="true" anchorOffsetY="0" left="0" right="0" top="-842" bottom="-12">
+		<e:Group id="g1" anchorOffsetY="0" x="0" y="633.33" height="2006.82">
+			<e:Group id="UserImage" width="1080" height="615.15" anchorOffsetY="0" left="0" top="0">
+			<e:Image id="textureImg" height="618.31" anchorOffsetX="0" anchorOffsetY="0" source="userUp_png" scaleX="1" scaleY="1" width="1080" left="0" top="0" x="0" y="0"/>
+			<e:Group width="1080" height="125" y="496" anchorOffsetY="0" left="0">
+				<e:Rect width="1080" height="125" scaleX="1" scaleY="1" anchorOffsetY="0" alpha="0.5" left="0" top="0" visible="false"/>
+				<e:Group id="UserVoice" width="250" height="100" x="42.91" anchorOffsetX="0" anchorOffsetY="0" verticalCenter="0" visible="false">
+				<e:Image anchorOffsetX="0" anchorOffsetY="0" left="21" top="23" source="ui_view_vol_png" scaleX="1.5" scaleY="1.5" width="154.25" height="50.89"/>
+				<e:Label id="UserVoiceText" text="24&quot;" x="122.71" y="34.12" anchorOffsetX="0" width="113.39" anchorOffsetY="0" height="51.21" size="46" textAlign="right" verticalAlign="middle" textColor="0x045e70"/>
+				</e:Group>
+				<e:Group width="90" height="95" x="811" anchorOffsetX="0" anchorOffsetY="0" verticalCenter="1" visible="false">
+				<e:Image anchorOffsetX="0" anchorOffsetY="0" source="ui_tiaozhan_icon_guanqiashu_png" horizontalCenter="0" top="18"/>
+				<e:Label id="UserGmaeLabel" text="2534" size="26" horizontalCenter="1" bottom="10"/>
+				</e:Group>
+				<e:Group width="90" height="95" anchorOffsetX="0" anchorOffsetY="0" verticalCenter="1" x="891.22" visible="false">
+				<e:Image anchorOffsetX="0" anchorOffsetY="0" source="ui_battle_button_zan_1_png" horizontalCenter="0" top="0"/>
+				<e:Label id="UserLikeLabel" text="1.1W" textColor="0xff0000" size="26" y="59" horizontalCenter="2.5"/>
+				</e:Group>
+			</e:Group>
+			</e:Group>
+			<e:Group id="UserData" width="1080" height="142.42" anchorOffsetX="0" anchorOffsetY="0" y="620.32" left="0">
+				<e:Image x="64" y="11" source="ui_paihangbang_icon_2_bg_png"/>
+			<e:Image id="headImg" y="15" fillMode="scale" mask="{head_mask}" x="68" scaleX="1" scaleY="1" anchorOffsetX="0" width="112" anchorOffsetY="0" height="112" source="head001_png"/>
+				<e:Image id="head_mask" x="68" y="15" source="ui_paihangbang_icon_2_png"/>
+			<e:Label id="nameTex" text="关卡名称" y="21.41" anchorOffsetX="0" width="456" anchorOffsetY="0" height="42" size="45" x="200.3" scaleX="1" scaleY="1" textColor="0x435f89" verticalAlign="middle" textAlign="left"/>
+			<e:Label id="authorTex" text="作者的名字" y="72.14" anchorOffsetX="0" width="298" anchorOffsetY="0" height="38" size="28" x="200.3" scaleX="1" scaleY="1" textColor="0x405a75" verticalAlign="middle" textAlign="left"/>
+			<e:Group id="CheckpoinAdoptRateGroup" width="327.27" height="57.58" x="300.37" y="136" anchorOffsetX="0" anchorOffsetY="0" visible="false">
+				<e:Image id="CheckpoinAdoptRateImage" width="166.97" height="45.75" top="0" left="0" source="ui_chakan_tongguanlv_kuang_png" anchorOffsetX="0" anchorOffsetY="0" scale9Grid="19,12,5,2"/>
+				<e:Label id="CheckpoinAdoptRateText" text="通关率100%" anchorOffsetX="0" width="311.09" anchorOffsetY="0" height="29.88" size="26" scaleX="1" scaleY="1" verticalCenter="-5.789999999999999" horizontalCenter="0" textColor="0xb0cde1"/>
+			</e:Group>
+				<e:Image id="IsWin" x="848" y="79" source="ui_guanqia_icon_weitongguan_png" visible="false"/>
+			</e:Group>
+			<e:Group y="763.64" anchorOffsetY="0" width="1080" x="0">
+			<ns1:DetailView id="datile_view" skinName="begin_detailUi" y="-0.7" anchorOffsetY="0" anchorOffsetX="0" width="1000" x="40"/>
+			</e:Group>
+			<game:DimTabGroup id="tabBar" width="421.09" height="81.57" y="745" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" left="100" visible="false">
+			<e:Button label="详情" x="6" y="0" width="196" height="76" anchorOffsetY="0"/>
+			<e:Button label="排行榜" x="214.55" y="0" width="196" height="76"/>
+			</game:DimTabGroup>
+		</e:Group>
+		</e:Scroller>
+	</e:Group>
+	<e:Image id="LodingBack" scaleX="1" scaleY="1" left="0" top="0" source="LodingBack_png" visible="false"/>
+	<e:Group id="group1" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" height="150" left="0" right="0" bottom="-4">
+		<e:Group y="58.21" horizontalCenter="0">
+		<e:Image id="loadingBarBg" width="800" height="31" y="0" anchorOffsetX="0" anchorOffsetY="0" source="loading_bg_png" scale9Grid="24,15,29,1" x="0"/>
+		<e:Image id="loadingBar" width="10" height="31" y="0" anchorOffsetX="0" anchorOffsetY="0" source="loading_png" scale9Grid="16,9,4,2" x="0"/>
+		</e:Group>
+		<e:Button id="beginBtn" label="开始游戏" y="26" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="0">
+			<e:skinName>
+				<e:Skin states="up,down,disabled">
+				<e:Image width="100%" height="100%" source="ui_button_1_1_png" source.down="ui_button_1_1_png"/>
+				<e:Label id="labelDisplay" horizontalCenter="0" verticalCenter="0" size="50" bold="true" textColor="0xffffff"/>
+				</e:Skin>
+			</e:skinName>
+		</e:Button>
+		<e:Label id="numField" text="" y="18.26" anchorOffsetX="0" anchorOffsetY="0" height="54.24" size="39" textAlign="center" bold="true" textColor="0x268c07" left="0" right="0"/>
+	</e:Group>
+	<e:Group id="rank_group" height="890.91" scaleX="1" scaleY="1" anchorOffsetX="0" anchorOffsetY="0" y="837" left="0" right="0" horizontalCenter="0" visible="false">
+		<ns1:RankView id="rank_view" height="889.7" y="0" anchorOffsetX="0" anchorOffsetY="0" skinName="begin_rankUi" left="90" right="90"/>
+	</e:Group>
+</e:Skin>

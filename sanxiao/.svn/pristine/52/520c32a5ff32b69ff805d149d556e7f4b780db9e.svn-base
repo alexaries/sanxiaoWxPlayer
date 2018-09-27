@@ -1,0 +1,827 @@
+/**
+ * Created by ZhangHui on 2018/8/22.
+ * 棋盘提示 AI玩法
+ */
+class sAiData{
+    public first;//交换两个点的坐标
+    public second;
+    public level;// 优先级别
+    public myTarget;//我方目标块
+    public otherTarget;//敌方目标块
+    public hasMyInfect;//传染
+    public hasEnemyInfect;
+    public IsInfectMode;//是否是传染模式
+    public IsLinkEnd;  // 是否还可以连击
+    public score;//得分
+}
+class TG_Ai extends BaseClass{
+    private finalDatas=[];
+    public GetAiMoveData(){
+        let nFirstIndex=-1;
+        let nSecondIndex=-1;
+        let obj={"first":nFirstIndex, "second":nSecondIndex};
+        this.ClearMark();
+        this.GetAllExchangeData();
+        Log.getInstance().trace("=====================AI棋盘提示查出数据================================");
+        Log.getInstance().trace(this.finalDatas,0);
+        if(this.finalDatas.length==0){
+            return obj;
+        }else {
+             //目前都为简单
+            let index=Math.floor(Math.random()*(this.finalDatas.length/2));
+            nFirstIndex=this.finalDatas[index].first;
+            nSecondIndex=this.finalDatas[index].second;
+            obj.first=nFirstIndex;
+            obj.second=nSecondIndex;
+        }
+        this.DoMarkCache(nFirstIndex,nSecondIndex);
+        return obj;
+    }
+    public ClearMark(){
+        for(let temp of TG_Game.Items){
+            temp.SetMarkedHor(1);
+            temp.SetMarkedVel(1);
+            temp.MarkedCache=[];
+        }
+    }
+    /*获取所有可消除的点并排序*/
+    public GetAllExchangeData(){
+        this.finalDatas=[];
+        for(let index=0;index<TG_Game.Items.length;index++){
+            let item=TG_Game.getInstance().GetItemByIndex(index);
+            let topIndex=TG_Game.getInstance().GetTopItem(index);
+            let rightIndex=TG_Game.getInstance().GetRightItem(index);
+            let row1=0,col1=0,row2=0,col2=0;
+            if(topIndex>=0){
+                let top=TG_Game.getInstance().GetItemByIndex(topIndex);
+                row1=item.SitePos.Y;
+                col1=item.SitePos.X;
+                row2=top.SitePos.Y;
+                col2=top.SitePos.X;
+                if(this.IsCanExchange(row1,col1,row2,col2)){
+                    let temp=this.GetExchangeLevel(index,topIndex);
+                    this.finalDatas.push(temp);
+                }
+            }
+            if(rightIndex>=0){
+                let right=TG_Game.getInstance().GetItemByIndex(rightIndex);
+                row1=item.SitePos.Y;
+                col1=item.SitePos.X;
+                row2=right.SitePos.Y;
+                col2=right.SitePos.X;
+                if(this.IsCanExchange(row1,col1,row2,col2)){
+                    let temp=this.GetExchangeLevel(index,rightIndex);
+                    this.finalDatas.push(temp);
+                }
+            }
+        }
+        App.ArrayManager.ArrayDownItem(this.finalDatas,"score");
+    }
+    /*是否可以进行交换位置*/
+    public IsCanExchange(row1,col1,row2,col2,needNeighbor=true){
+        let item = TG_Game.getInstance().GetItemByPos(row1,col1);
+        let destItem =TG_Game.getInstance().GetItemByPos(row2,col2);
+        if (item == null||destItem == null||item==undefined||destItem==undefined){
+           return false;
+        }
+        if (needNeighbor && !TG_Game.getInstance().checkIsNeighbor(row1,col1,row2,col2)){
+           return false;
+        }
+        if (needNeighbor && !TG_Game.getInstance().CheckRailingCouldMove(item,destItem)){
+           return false;
+        }
+        if (!item.CheckCellCouldMove() || !destItem.CheckCellCouldMove()) {
+            return false;
+        }
+        if (item.IsItemEffect() && destItem.IsItemEffect()) return true;
+        if (item.IsEffectBlack() || destItem.IsEffectBlack()) return true;
+        this.swapItem(item.Index,destItem.Index);
+        let tempList=[];
+        /*检查横向*/
+        TG_Game.getInstance().getRowChain(item, tempList);
+        if (tempList.length >= 3){
+            this.swapItem(item.Index,destItem.Index);
+           return true;
+        }
+        tempList=[];
+        TG_Game.getInstance().getRowChain(destItem, tempList);
+        if (tempList.length >= 3){
+            this.swapItem(item.Index,destItem.Index);;
+            return true;
+        }
+        tempList=[];
+        /*检查纵向*/
+        TG_Game.getInstance().getColChain(item, tempList);
+        if (tempList.length>= 3){
+            this.swapItem(item.Index,destItem.Index);
+            return true;
+        }
+        tempList=[];
+        TG_Game.getInstance().getColChain(destItem, tempList);
+        if (tempList.length>= 3){
+            this.swapItem(item.Index,destItem.Index);
+            return true;
+        }
+        //是否可以形成鸟
+        if( this.checkBird(item) ||  this.checkBird(destItem)){
+            this.swapItem(item.Index,destItem.Index);
+            return true;
+        }
+        this.swapItem(item.Index,destItem.Index);
+        return false;
+    }
+    /*交换方块的位置*/
+    public swapItem(first,second){
+        TG_Game.getInstance().SwapItem1(first,second);
+    }
+    /*获取此次交换的级别*/
+    public GetExchangeLevel(first,second){
+        this.DoMarkCache(first,second);
+        let data:sAiData=new sAiData();
+        data.first=first;
+        data.second=second;
+        data.level=-1;
+        data.myTarget=false;
+        data.otherTarget=false;
+        data.IsInfectMode=false;
+        data.IsLinkEnd=false;
+        data.score=0;
+        this.swapItem(first,second);
+        if(TG_Game.getInstance().DoAddMark()){
+            let item1=TG_Game.getInstance().GetItemByIndex(first);
+            let item1MarkedHor=item1.GetMarkedHor();
+            let item1MarkedVel=item1.GetMarkedVel();
+            let item2=TG_Game.getInstance().GetItemByIndex(second);
+            let item2MarkedHor=item2.GetMarkedHor();
+            let item2MarkedVel=item2.GetMarkedVel();
+            //单三
+            if((item1MarkedHor==3&&item1MarkedVel<3)||(item1MarkedVel==3&&item1MarkedHor<3)||
+                (item2MarkedHor==3&&item2MarkedVel<3)||(item2MarkedVel==3&&item2MarkedHor<3))
+            {
+                data.level=1;
+            }
+            //双三
+            if (((item1MarkedHor == 3 && item1MarkedVel < 3) || (item1MarkedVel == 3 && item1MarkedHor < 3)) &&
+                ((item2MarkedHor == 3 && item2MarkedVel < 3) || (item2MarkedVel == 3 && item2MarkedHor < 3)))
+            {
+                data.level = 2;
+            }
+            //四连
+            if ((item1MarkedHor == 4 && item1MarkedVel < 3) || (item1MarkedVel == 4 && item1MarkedHor < 3) ||
+                (item2MarkedHor == 4 && item2MarkedVel < 3) ||(item2MarkedVel == 4 && item2MarkedHor < 3))
+            {
+                data.level = 3;
+            }
+            //鸟
+            if (this.checkBird(item1) ||this.checkBird(item2))
+            {
+                data.level = 4;
+            }
+            //炸弹
+            if ((item1.MarkedHor >= 3 && item1.MarkedVel >= 3) || (item2.MarkedHor >= 3 && item2.MarkedVel >= 3))
+            {
+                data.level = 5;
+            }
+            //五连
+            if (item1MarkedVel >= 5 || item1MarkedHor >= 5 || item2MarkedHor >= 5 || item2MarkedVel >= 5)
+            {
+                data.level = 6;
+            }
+            //三带鸟 四带三 炸弹带三
+            if(data.level==1||data.level==2){
+                for(let item of item1.MarkedCache){
+                    let temp=TG_Game.getInstance().GetItemByIndex(item);
+                    if(temp.IsEffectBird()){
+                        data.level=7;
+                    }
+                    if (temp.IsEffectHor()||temp.IsEffectVel()){
+                        data.level=8;
+                    }
+                    if(temp.IsEffectGold()){
+                        data.level=9;
+                    }
+                }
+                if(data.level==2){
+                    for(let item of item2.MarkedCache){
+                        let temp=TG_Game.getInstance().GetItemByIndex(item);
+                        if(temp.IsEffectBird()){
+                            if(data.level<7){
+                                data.level=7;
+                            }
+                        }
+                        if (temp.IsEffectHor()||temp.IsEffectVel()){
+                            if(data.level<8){
+                                data.level=8;
+                            }
+                        }
+                        if(temp.IsEffectGold()){
+                            if(data.level<9){
+                                data.level=9;
+                            }
+                        }
+                    }
+                }
+            }
+            //双鸟
+            if (item1.IsEffectBird()&&item2.IsEffectBird())
+            {
+                data.level = 10;
+            }
+            //鸟和四连
+            if (item2.IsEffectBird() && (item1.IsEffectVel() || item1.IsEffectHor()) ||
+                item1.IsEffectBird() && (item2.IsEffectHor() || item2.IsEffectVel()))
+            {
+                data.level = 11;
+            }
+            //鸟和炸弹
+            if (item1.IsEffectBird() && item2.IsEffectGold() || item2.IsEffectBird() && item1.IsEffectGold())
+            {
+                data.level = 12;
+            }
+            //双四连
+            if ((item1.IsEffectVel() || item1.IsEffectHor()) && (item2.IsEffectVel() || item2.IsEffectHor()))
+            {
+                data.level = 13;
+            }
+            //黑洞和普通块
+            if (item1.IsEffectBlack() && item2.IsItemNormal() || item1.IsItemNormal() && item2.IsEffectBlack())
+            {
+                data.level = 14;
+            }
+            //双炸弹
+            if (item1.IsEffectGold() && item2.IsEffectGold())
+            {
+                data.level = 15;
+            }
+            //炸弹和条消
+            if ((item1.IsEffectGold() && (item2.IsEffectHor() || item2.IsEffectVel()))||
+                (item2.IsEffectGold() && (item1.IsEffectHor() || item1.IsEffectVel())))
+            {
+                data.level = 15;
+            }
+            //黑洞和鸟
+            if (item1.IsEffectBlack() && item2.IsEffectBird() || item1.IsEffectBird() && item2.IsEffectBlack())
+            {
+                data.level = 16;
+            }
+            //黑洞和四连或黑洞和炸弹
+            if (item1.IsEffectBlack() && item2.IsEffectGold() || item1.IsEffectGold() && item2.IsEffectBlack() ||
+                item1.IsEffectBlack() && (item2.IsEffectHor() || item2.IsEffectVel()) ||
+                (item1.IsEffectHor() || item1.IsEffectVel()) && item2.IsEffectBlack())
+            {
+                data.level = 17;
+            }
+            //双黑洞
+            if (item1.IsEffectBlack() && item2.IsEffectBlack())
+            {
+                data.level = 18;
+            }
+            //计算任务目标
+            this.JudgeTarget(item1,item2,data);
+            //计算传染
+            this.JudgeInfect(item1, item2,data);
+        }
+        this.swapItem(first,second);
+        //计算权值
+        this.CalculateWeight(data);
+        this.ClearMark();
+        return data;
+    }
+    public ColNum=TG_Game.getInstance().ColNum;
+    public RowNum=TG_Game.getInstance().RowNum;
+    /*寻找消除缓存*/
+    public DoMarkCache(id1,id2){
+        let exsitExplode=false;
+        //判断双特效
+        if(TG_Game.Items[id1].IsItemEffect()&&TG_Game.Items[id2].IsItemEffect()){
+            return;
+        }
+        this.swapItem(id1,id2);
+        for(let temp of TG_Game.Items){
+            temp.MarkedCache=[];
+        }
+        if(TG_Game.getInstance().DoAddMark()){ //打完标签
+            //黑洞
+            for(let row=this.ColNum-1;row>=0;row--){
+                for(let col=0;col<this.RowNum;col++){
+                    let item= TG_Game.getInstance().GetItemByPos(row,col);
+                    if(item.GetMarkedHor()>=5||item.GetMarkedVel()>=5&&item.CheckMatchSpecial()){
+                        exsitExplode = this.FindBlack(item) || exsitExplode;
+                    }
+                }
+            }
+            //炸弹
+            for(let row=this.ColNum-1;row>=0;row--){
+                for(let col=0;col<this.RowNum;col++){
+                    let item= TG_Game.getInstance().GetItemByPos(row,col);
+                    if(item.GetMarkedHor()>=3&&item.GetMarkedVel()>=3&&item.CheckMatchSpecial()){
+                        exsitExplode =this.FindGold(item)|| exsitExplode;
+                    }
+                }
+            }
+            //纵向四连
+            for(let row =this.ColNum-1;row>=0;row--){
+                for(let col=0;col<this.RowNum;col++){
+                    let item= TG_Game.getInstance().GetItemByPos(row,col);
+                    if(item.GetMarkedVel()>3&&item.CheckMatchSpecial()){
+                        exsitExplode = this.FindVelEffect(item) || exsitExplode;
+                    }
+                }
+            }
+            //横向四连
+            for(let row =this.ColNum-1;row>=0;row--){
+                for(let col=0;col<this.RowNum;col++){
+                    let item= TG_Game.getInstance().GetItemByPos(row,col);
+                    if(item.GetMarkedHor()>3&&item.CheckMatchSpecial()){
+                        exsitExplode = this.FindHorEffect(item) || exsitExplode;
+                    }
+                }
+            }
+            //风车 鸟
+            for(let row=this.ColNum-1;row>=0;row--){
+                for(let col=0;col<this.RowNum;col++){
+                    let item= TG_Game.getInstance().GetItemByPos(row,col);
+                    if(item.CheckMatchSpecial()&&item.GetMarkedHor()>=2&&item.GetMarkedVel()>=2
+                        &&this.checkBird(item)){
+                        exsitExplode = this.FindBirdEffect(item) || exsitExplode;
+                    }
+                }
+            }
+            // 纵向3连
+            let edVer=[];
+            for(let row =this.ColNum-1;row>=0;row--){
+                for(let col=0;col<this.RowNum;col++){
+                    edVer=[];
+                    let item= TG_Game.getInstance().GetItemByPos(row,col);
+                    let color=item.GetColorType();
+                    let index=TG_Game.getInstance().GetIndexByPos(row,col);
+                    edVer.push(item);
+                    if(item.GetMarkedVel()>=3&&TG_Game.getInstance().CheckAddMark(item)&&item.CheckMatchSpecial()){
+                        let topIndex=TG_Game.getInstance().GetTopItem(index);
+                        let topTopIndex=TG_Game.getInstance().GetTopItem(topIndex);
+                        if(topIndex<0||topTopIndex<0) continue;
+                        let topItem=TG_Game.getInstance().GetItemByIndex(topIndex);
+                        let topTopItem=TG_Game.getInstance().GetItemByIndex(topTopIndex);
+                        if(topItem.GetColorType()==color&&TG_Game.getInstance().CheckAddMark(topItem)){
+                            edVer.push(topItem);
+                        }
+                        if(topTopItem.GetColorType()==color&&TG_Game.getInstance().CheckAddMark(topTopItem)){
+                            edVer.push(topTopItem);
+                        }
+                        if (edVer.length < 3) continue;
+                        exsitExplode=true;
+                        for(let temp of edVer){
+                            temp.MarkedAlready=true;
+                        }
+                        for(let temp of edVer){
+                            for(let self of edVer){
+                                self.MarkedCache.push(TG_Game.getInstance().GetIndexByPos(temp.SitePos.Y,temp.SitePos.X));
+                            }
+                        }
+                    }
+                }
+            }
+            //横向3连
+            let edHor=[];
+            for(let row =this.ColNum-1;row>=0;row--){
+                for(let col=0;col<this.RowNum;col++){
+                    edHor=[];
+                    let item= TG_Game.getInstance().GetItemByPos(row,col);
+                    let color=item.GetColorType();
+                    let index=TG_Game.getInstance().GetIndexByPos(row,col);
+                    edHor.push(item);
+                    if(item.GetMarkedHor()>=3&&TG_Game.getInstance().CheckAddMark(item)&&item.CheckMatchSpecial()){
+                        let rightIndex=TG_Game.getInstance().GetRightItem(index);
+                        let rightRightIndex=TG_Game.getInstance().GetRightItem(rightIndex);
+                        if(rightIndex<0||rightRightIndex<0) continue;
+                        let rightItem=TG_Game.getInstance().GetItemByIndex(rightIndex);
+                        let rightRightItem=TG_Game.getInstance().GetItemByIndex(rightRightIndex);
+                        if(rightItem.GetColorType()==color&&TG_Game.getInstance().CheckAddMark(rightItem)){
+                            edHor.push(rightItem);
+                        }
+                        if(rightRightItem.GetColorType()==color&&TG_Game.getInstance().CheckAddMark(rightRightItem)){
+                            edHor.push(rightRightItem);
+                        }
+                        if (edHor.length < 3) continue;
+                        exsitExplode=true;
+                        for(let temp of edHor){
+                            temp.MarkedAlready=true;
+                        }
+                        for(let temp of edVer){
+                            for(let self of edVer){
+                                self.MarkedCache.push(TG_Game.getInstance().GetIndexByPos(temp.SitePos.Y,temp.SitePos.X));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        this.swapItem(id1,id2);
+        for(let temp of TG_Game.Items){
+            temp.SetMoveItem(false);
+            temp.SetMarkedHor(1);
+            temp.SetMarkedVel(1);
+            temp.MarkedAlready = false;
+            temp.MarkedForExplodingCallfunc = false;
+            temp.SetExploding(false);
+        }
+    }
+    /*合成黑洞*/
+    public FindBlack(item){
+        let index=TG_Game.getInstance().GetIndexByPos(item.SitePos.Y,item.SitePos.X);
+        let color=item.GetColorType();
+        let toFindSpecial=[item];
+        //向上找
+        let nIndex=index;
+        for(let i=0;i<4;i++){
+            nIndex=TG_Game.getInstance().GetTopItem(nIndex);
+            if(nIndex==-1) break;
+            let temp=TG_Game.getInstance().GetItemByIndex(nIndex);
+            if(temp.GetColorType()==color&&TG_Game.getInstance().CheckAddMark(temp)){
+                toFindSpecial.push(temp);
+            }else {
+                break;
+            }
+        }
+        if(toFindSpecial.length<4){
+            toFindSpecial=[];
+            toFindSpecial.push(item);
+            nIndex=index;
+            //向右找
+            for(let i=0;i<4;i++){
+                nIndex=TG_Game.getInstance().GetRightItem(nIndex);
+                if(nIndex==-1) break;
+                let temp=TG_Game.getInstance().GetItemByIndex(nIndex);
+                if(temp.GetColorType()==color&&TG_Game.getInstance().CheckAddMark(temp)){
+                    toFindSpecial.push(temp);
+                }else {
+                    break;
+                }
+            }
+        }
+        if(toFindSpecial.length<5){
+            toFindSpecial=[];
+            return false;
+        }
+        for(let temp of toFindSpecial){
+            temp.MarkedAlready=true;
+        }
+        for(let temp of toFindSpecial){
+            for(let self of toFindSpecial){
+                self.MarkedCache.push(TG_Game.getInstance().GetIndexByPos(temp.SitePos.Y,temp.SitePos.X));
+            }
+        }
+        toFindSpecial=[];
+        return true;
+    }
+    /*炸弹*/
+    private FindGold(item){
+        let index=TG_Game.getInstance().GetIndexByPos(item.SitePos.Y,item.SitePos.X);
+        let color=item.GetColorType();
+        let bombItems=[item];
+        //向左找
+        let  nIndex=index;
+        for(let i=0;i<2;i++){
+            nIndex=TG_Game.getInstance().GetLeftItem(nIndex);
+            if(nIndex==-1) break;
+            let temp=TG_Game.getInstance().GetItemByIndex(nIndex);
+            if(temp.GetColorType()==color&&TG_Game.getInstance().CheckAddMark(temp)){
+                bombItems.push(temp);
+            }else {
+                break;
+            }
+        }
+        //向右找
+        if(bombItems.length<3){
+            nIndex=index;
+            while (bombItems.length<3){
+                nIndex=TG_Game.getInstance().GetRightItem(nIndex);
+                if(nIndex==-1) break;
+                let temp=TG_Game.getInstance().GetItemByIndex(nIndex);
+                if(temp.GetColorType()==color&&TG_Game.getInstance().CheckAddMark(temp)){
+                    bombItems.push(temp);
+                }else {
+                    break;
+                }
+            }
+        }
+        //向上找
+        nIndex=index;
+        for(let i=0;i<2;i++){
+            nIndex=TG_Game.getInstance().GetTopItem(nIndex);
+            if(nIndex==-1) break;
+            let temp=TG_Game.getInstance().GetItemByIndex(nIndex);
+            if(temp.GetColorType()==color&&TG_Game.getInstance().CheckAddMark(temp)){
+                bombItems.push(temp);
+            }else {
+                break;
+            }
+        }
+        //向下找
+
+        if(bombItems.length<5){
+            nIndex=index;
+            while (bombItems.length<5){
+                nIndex=TG_Game.getInstance().GetBottomItem(nIndex);
+                if(nIndex==-1) break;
+                let temp=TG_Game.getInstance().GetItemByIndex(nIndex);
+                if(temp.GetColorType()==color&&TG_Game.getInstance().CheckAddMark(temp)){
+                    bombItems.push(temp);
+                }else {
+                    break;
+                }
+            }
+        }
+        if(bombItems.length<5){
+            bombItems=[];
+            return false;
+        }
+        for(let temp of bombItems){
+            temp.MarkedAlready=true;
+        }
+        for(let temp of bombItems){
+            for(let self of bombItems){
+                self.MarkedCache.push(TG_Game.getInstance().GetIndexByPos(temp.SitePos.Y,temp.SitePos.X));
+            }
+        }
+        bombItems=[];
+        return true;
+    }
+    /*寻找纵向*/
+    private FindVelEffect(item){
+        let index=TG_Game.getInstance().GetIndexByPos(item.SitePos.Y,item.SitePos.X);
+        let color=item.GetColorType();
+        let toFindSpecial=[item];
+        let nIndex=index;
+        //向上找
+        for(let i=0;i<3;i++){
+            nIndex=TG_Game.getInstance().GetTopItem(nIndex);
+            if(nIndex==-1) break;
+            let temp=TG_Game.getInstance().GetItemByIndex(nIndex);
+            if(temp.GetColorType()==color&&TG_Game.getInstance().CheckAddMark(temp)){
+                toFindSpecial.push(temp);
+            }else {
+                break;
+            }
+        }
+        //向下找
+        nIndex=index;
+        for(let i=0;i<3;i++){
+            nIndex=TG_Game.getInstance().GetBottomItem(nIndex);
+            if(nIndex==-1) break;
+            let temp=TG_Game.getInstance().GetItemByIndex(nIndex);
+            if(temp.GetColorType()==color&&TG_Game.getInstance().CheckAddMark(temp)){
+                toFindSpecial.push(temp);
+            }else {
+                break;
+            }
+        }
+        if(toFindSpecial.length<4){
+            toFindSpecial=[];
+            return false;
+        }
+        for(let temp of toFindSpecial){
+            temp.MarkedAlready=true;
+        }
+        for(let temp of toFindSpecial){
+            for(let self of toFindSpecial){
+                self.MarkedCache.push(TG_Game.getInstance().GetIndexByPos(temp.SitePos.Y,temp.SitePos.X));
+            }
+        }
+        toFindSpecial=[];
+        return true;
+    }
+    /*寻找横向*/
+    private FindHorEffect(item){
+        let index=TG_Game.getInstance().GetIndexByPos(item.SitePos.Y,item.SitePos.X);
+        let color=item.GetColorType();
+        let toFindSpecial=[item];
+        let nIndex=index;
+        //向左找
+        for(let i=0;i<3;i++){
+            nIndex=TG_Game.getInstance().GetLeftItem(nIndex);
+            if(nIndex==-1) break;
+            let temp=TG_Game.getInstance().GetItemByIndex(nIndex);
+            if(temp.GetColorType()==color&&TG_Game.getInstance().CheckAddMark(temp)){
+                toFindSpecial.push(temp);
+            }else {
+                break;
+            }
+        }
+        //向右找
+        nIndex=index;
+        for(let i=0;i<3;i++){
+            nIndex=TG_Game.getInstance().GetRightItem(nIndex);
+            if(nIndex==-1) break;
+            let temp=TG_Game.getInstance().GetItemByIndex(nIndex);
+            if(temp.GetColorType()==color&&TG_Game.getInstance().CheckAddMark(temp)){
+                toFindSpecial.push(temp);
+            }else {
+                break;
+            }
+        }
+        if(toFindSpecial.length<4){
+            toFindSpecial=[];
+            return false;
+        }
+        for(let temp of toFindSpecial){
+            temp.MarkedAlready=true;
+        }
+        for(let temp of toFindSpecial){
+            for(let self of toFindSpecial){
+                self.MarkedCache.push(TG_Game.getInstance().GetIndexByPos(temp.SitePos.Y,temp.SitePos.X));
+            }
+        }
+        toFindSpecial=[];
+        return true;
+    }
+    /*风车*/
+    private FindBirdEffect(item){
+        let index=TG_Game.getInstance().GetIndexByPos(item.SitePos.Y,item.SitePos.X);
+        let color=item.GetColorType();
+        let toFindSpecial=[item];
+        //右
+        let nIndex=TG_Game.getInstance().GetRightItem(index);
+        if(nIndex!=-1){
+            let temp=TG_Game.getInstance().GetItemByIndex(nIndex);
+            if(temp.GetMarkedHor()>=2&&temp.GetMarkedVel()>=2&&TG_Game.getInstance().CheckAddMark(temp)&&temp.GetColorType()==color){
+                toFindSpecial.push(temp);
+            }
+        }
+        //上
+        nIndex=TG_Game.getInstance().GetTopItem(index);
+        if(nIndex!=-1){
+            let temp=TG_Game.getInstance().GetItemByIndex(nIndex);
+            if(temp.GetMarkedHor()>=2&&temp.GetMarkedVel()>=2&&TG_Game.getInstance().CheckAddMark(temp)&&temp.GetColorType()==color){
+                toFindSpecial.push(temp);
+            }
+        }
+        nIndex=TG_Game.getInstance().GetTopRightItem(index);
+        if(nIndex!=-1){
+            let temp=TG_Game.getInstance().GetItemByIndex(nIndex);
+            if(temp.GetMarkedHor()>=2&&temp.GetMarkedVel()>=2&&TG_Game.getInstance().CheckAddMark(temp)&&temp.GetColorType()==color){
+                toFindSpecial.push(temp);
+            }
+        }
+        //上上
+        nIndex=TG_Game.getInstance().GetTopItem(TG_Game.getInstance().GetTopItem(index));
+        if(nIndex!=-1){
+            let temp=TG_Game.getInstance().GetItemByIndex(nIndex);
+            if(TG_Game.getInstance().CheckAddMark(temp)&&temp.GetColorType()==color){
+                toFindSpecial.push(temp);
+            }
+        }
+        //上上右
+        if(toFindSpecial.length<5){
+            nIndex=TG_Game.getInstance().GetRightItem(nIndex);
+            if(nIndex!=-1){
+                let temp=TG_Game.getInstance().GetItemByIndex(nIndex);
+                if(TG_Game.getInstance().CheckAddMark(temp)&&temp.GetColorType()==color){
+                    toFindSpecial.push(temp);
+                }
+            }
+        }
+        //右右
+        if(toFindSpecial.length<5){
+            nIndex=TG_Game.getInstance().GetRightItem(TG_Game.getInstance().GetRightItem(index));
+            if(nIndex!=-1){
+                let temp=TG_Game.getInstance().GetItemByIndex(nIndex);
+                if(TG_Game.getInstance().CheckAddMark(temp)&&temp.GetColorType()==color){
+                    toFindSpecial.push(temp);
+                }
+            }
+        }
+        //右右上
+        if(toFindSpecial.length<5){
+            nIndex=TG_Game.getInstance().GetTopItem(nIndex);
+            if(nIndex!=-1){
+                let temp=TG_Game.getInstance().GetItemByIndex(nIndex);
+                if(TG_Game.getInstance().CheckAddMark(temp)&&temp.GetColorType()==color){
+                    toFindSpecial.push(temp);
+                }
+            }
+        }
+        //左
+        if(toFindSpecial.length<5){
+            nIndex=TG_Game.getInstance().GetLeftItem(index);
+            if(nIndex!=-1){
+                let temp=TG_Game.getInstance().GetItemByIndex(nIndex);
+                if(TG_Game.getInstance().CheckAddMark(temp)&&temp.GetColorType()==color){
+                    toFindSpecial.push(temp);
+                }
+            }
+        }
+        //左上
+        if(toFindSpecial.length<5){
+            nIndex=TG_Game.getInstance().GetTopItem(TG_Game.getInstance().GetLeftItem(index));
+            if(nIndex!=-1){
+                let temp=TG_Game.getInstance().GetItemByIndex(nIndex);
+                if(TG_Game.getInstance().CheckAddMark(temp)&&temp.GetColorType()==color){
+                    toFindSpecial.push(temp);
+                }
+            }
+        }
+        //下
+        if(toFindSpecial.length<5){
+            nIndex=TG_Game.getInstance().GetBottomItem(index);
+            if(nIndex!=-1){
+                let temp=TG_Game.getInstance().GetItemByIndex(nIndex);
+                if(TG_Game.getInstance().CheckAddMark(temp)&&temp.GetColorType()==color){
+                    toFindSpecial.push(temp);
+                }
+            }
+        }
+        //下右
+        if(toFindSpecial.length<5){
+            nIndex=TG_Game.getInstance().GetBottomRightItem(index);
+            if(nIndex!=-1){
+                let temp=TG_Game.getInstance().GetItemByIndex(nIndex);
+                if(TG_Game.getInstance().CheckAddMark(temp)&&temp.GetColorType()==color){
+                    toFindSpecial.push(temp);
+                }
+            }
+        }
+        //找到4个字方块，再判断周边有无相连
+        if(toFindSpecial.length<4){
+            return false;
+        }
+        for(let temp of toFindSpecial){
+            temp.MarkedAlready=true;
+        }
+        for(let temp of toFindSpecial){
+            for(let self of toFindSpecial){
+                self.MarkedCache.push(TG_Game.getInstance().GetIndexByPos(temp.SitePos.Y,temp.SitePos.X));
+            }
+        }
+        toFindSpecial=[];
+        return true;
+    }
+    /*是否可以形成鸟/风车*/
+    public checkBird(item){
+        return TG_Game.getInstance().CheckBird(item);
+    }
+    /*判断target*/
+    public JudgeTarget(item1,item2,data){
+        data.myTarget=false;
+        data.otherTarget=false;
+        //双特效或黑洞和普通块
+        if (item1.IsItemEffect() && item2.IsItemEffect() || item1.IsEffectBlack() || item2.IsEffectBlack()){
+            for(let target of TG_Stage.Targets1){
+                if(target.Target==item1.BlockId||target.Target==item2.BlockId&&target.Num>0){
+                    data.myTarget=true;
+                    break;
+                }
+            }
+            return;
+        }
+        //其他
+        for(let target of TG_Stage.Targets1){
+            for(let item of item1.MarkedCache){
+                if(target.Target==TG_Game.getInstance().GetItemByIndex(item).BlockId&&target.Num>0){
+                    data.myTarget=true;
+                    break;
+                }
+            }
+            for(let item of item2.MarkedCache){
+                if(target.Target==TG_Game.getInstance().GetItemByIndex(item).BlockId&&target.Num>0){
+                    data.myTarget=true;
+                    break;
+                }
+            }
+        }
+    }
+    /*判断target*/
+    public JudgeInfect(item1,item2,data){
+
+    }
+    /*计算权值*/
+    public CalculateWeight(data){
+        let entry=TG_AIConfigEntry.getInstance().GetAiConfigEntry(data.level);
+        if(entry!=null){
+            if(data.IsInfectMode){
+                //传染模式
+                let hasInfectScore = data.IsLinkEnd ? entry.hasInfectEnd : entry.hasInfect;
+                let noInfectScore = data.IsLinkEnd ? entry.noInfectEnd : entry.noInfect;
+                data.score = data.hasMyInfect ? hasInfectScore : noInfectScore;
+                if (!data.hasMyInfect && data.hasEnemyInfect)
+                {
+                    data.score = 0 - data.score;
+                }
+            }else {
+                data.score = entry.level;
+            }
+            if (data.myTarget)
+            {
+                data.score += entry.mygoal;
+            }
+            if (data.otherTarget)
+            {
+                data.score += entry.enemygoal;
+            }
+        }
+    }
+
+
+
+
+}
